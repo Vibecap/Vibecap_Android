@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/home"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="홈"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/vibe"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_music_video_24"
+        android:title="바이브"
+        app:showAsAction="always"
+        />
+
+    <item
+    android:id="@+id/album"
+    android:enabled="true"
+    android:icon="@drawable/ic_baseline_photo_album_24"
+    android:title="앨범"
+    app:showAsAction="always"
+    />
+
+
+
+</menu>
