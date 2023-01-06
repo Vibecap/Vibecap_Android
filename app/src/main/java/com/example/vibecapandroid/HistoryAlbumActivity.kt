@@ -36,8 +36,6 @@ class HistoryAlbumActivity : AppCompatActivity() {
         items.add(HistoryAlbumimageClass(R.drawable.ic_launcher_background))
 
 
-
-
         return items
     }
 }
