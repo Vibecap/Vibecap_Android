@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.VibecapAndroid"
         tools:targetApi="31" >
-        <activity
+        <activitygit
             android:name=".HistoryAlbumActivity"
             android:exported="false" >
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-        </activity>
+        </activitygit>
         <activity
             android:name=".MainActivity"
             android:exported="true" >
