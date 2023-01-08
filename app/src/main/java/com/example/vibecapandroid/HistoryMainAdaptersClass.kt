@@ -1,22 +1,26 @@
 package com.example.vibecapandroid
 
+import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
-class HistoryAlbumadaptersClass(var context: Context, var arrayList: ArrayList<HistoryAlbumimageClass>):
-    RecyclerView.Adapter<HistoryAlbumadaptersClass.ItemHolder>() {
+class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<HistoryMainImageClass>):
+    RecyclerView.Adapter<HistoryMainAdaptersClass.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.activity_history_albumgrid,parent,false)
+        val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.fragment_history_maingrid,parent,false)
+        Log.d(TAG,"OnAdapterCreated")
         return ItemHolder(itemHolder)
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        var historyAlbumImage:HistoryAlbumimageClass = arrayList.get(position)
-        holder.images.setImageResource(historyAlbumImage.image!!)
+        var historyMainImage:HistoryMainImageClass = arrayList.get(position)
+        holder.images.setImageResource(historyMainImage.image!!)
 
     }
 
@@ -29,7 +33,7 @@ class HistoryAlbumadaptersClass(var context: Context, var arrayList: ArrayList<H
     }
 }
 
-class HistoryAlbumimageClass {
+class HistoryMainImageClass {
 
     var image :Int ? = 0
 

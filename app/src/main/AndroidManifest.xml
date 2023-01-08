@@ -62,7 +62,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".HistoryAlbumActivity"
+            android:name=".HistoryMainFragment"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
