@@ -1,5 +1,8 @@
 package com.example.vibecapandroid
 
+import android.annotation.SuppressLint
+import android.content.Intent
+import android.widget.Button
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
@@ -12,6 +15,7 @@ import com.lukedeighton.wheelview.WheelView
 import com.lukedeighton.wheelview.adapter.WheelAdapter
 
 class MainActivity : AppCompatActivity() {
+    @SuppressLint("MissingInflatedId")
     private var wheelView: WheelView? = null
     private val colors = arrayOf("#fd5308", "#fd5308", "#fd5308", "#fd5308", "#fd5308", "#fd5308","#fd5308","#fd5308","#fd5308","#fd5308","#fd5308","#fd5308")
     var size = 12
@@ -42,5 +46,16 @@ class MainActivity : AppCompatActivity() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
+        val btn_history_album = findViewById<Button>(R.id.btn_history_album)
+        btn_history_album.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, HistoryAlbumActivity::class.java)
+            startActivity(intent)
+        })
+
+        val btn_home_album = findViewById<Button>(R.id.btn_home_album)
+        btn_home_album.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, HomeAlbumActivity::class.java)
+            startActivity(intent)
+        })
     }
 }

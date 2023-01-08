@@ -31,9 +31,11 @@ class HistoryAlbumActivity : AppCompatActivity() {
     private fun setDataInList(): ArrayList<HistoryAlbumimageClass>{
         var items: ArrayList<HistoryAlbumimageClass> = ArrayList()
 
-        items.add(HistoryAlbumimageClass(R.drawable.ic_launcher_background))
-        items.add(HistoryAlbumimageClass(R.drawable.ic_launcher_background))
-        items.add(HistoryAlbumimageClass(R.drawable.ic_launcher_background))
+        //이곳에 다음과 같이 계속 추가하면 됨
+
+        //items.add(HistoryAlbumimageClass(R.drawable.image_ic_activity_history_album_list1))
+        //items.add(HistoryAlbumimageClass(R.drawable.image_ic_activity_history_album_list2))
+        //items.add(HistoryAlbumimageClass(R.drawable.image_ic_activity_history_album_list3))
 
 
         return items

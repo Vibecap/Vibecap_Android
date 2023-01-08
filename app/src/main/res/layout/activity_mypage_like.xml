@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".HistoryAlbumActivity">
+    tools:context=".MypageLikeActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:text="찍은 사진들"
+            android:text="좋아요 한 게시물"
             android:textColor="@color/black"
             android:textSize="18dp"
             android:textStyle="bold"
