@@ -62,8 +62,8 @@
         android:id="@+id/btn_history_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="84dp"
         android:text="history_album"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -72,8 +72,8 @@
         android:id="@+id/btn_home_album"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="248dp"
+        android:layout_marginBottom="4dp"
         android:text="home_album"
         app:layout_constraintBottom_toTopOf="@+id/btn_history_album"
         app:layout_constraintEnd_toEndOf="parent" />
