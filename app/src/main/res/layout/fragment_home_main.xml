@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/wheel_main"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+
+    >
+
+
+    <com.lukedeighton.wheelview.WheelView
+        android:id="@+id/wheelview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:wheelDrawable="@drawable/ic_wheel_main"
+        app:repeatItems="true"
+        app:selectionAngle="90.0"
+        app:selectionDrawable="@drawable/ic_btn_home_vibe_dial_selected"
+        app:wheelColor="#1A000000"
+        app:wheelItemRadius="5dp"
+        app:wheelPadding="50dp"
+        app:wheelRadius="100dp"
+        app:wheelToItemDistance="130dp">
+        <!--    wheelDrawable
+                wheelColor
+                emptyItemDrawable
+                emptyItemColor
+                selectionDrawable
+                selectionColor
+                selectionPadding
+                selectionAngle
+                repeatItems
+                wheelRadius
+                wheelItemRadius
+                rotatableWheelDrawable
+                wheelOffsetX
+                wheelOffsetY
+                wheelItemCount
+                wheelItemAngle
+                wheelToItemDistance
+                wheelPosition
+                wheelPadding
+                wheelItemTransformer
+                selectionTransformer-->
+    </com.lukedeighton.wheelview.WheelView>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="108dp"
+        android:text="당신의 현재 느낌을 선택해주세요"
+        android:textColor="@color/white"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/wheelview"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="음악로고"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/wheelview"
+        app:layout_constraintEnd_toEndOf="@+id/wheelview"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@id/wheelview"
+        app:layout_constraintTop_toTopOf="@+id/wheelview"
+        app:layout_constraintVertical_bias="0.49" />
+
+    <Button
+        android:id="@+id/fragment_home_main_alarm"
+        android:layout_width="24dp"
+        android:layout_height="22dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/ic_fragment_home_main_alarm"
+        android:backgroundTint="@color/white"
+        android:backgroundTintMode="add"
+        android:drawableTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/fragment_home_main_mypage"
+        android:layout_width="20dp"
+        android:layout_height="21dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/fragment_home_main_alarm"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

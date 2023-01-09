@@ -6,16 +6,16 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-class HistoryAlbumActivity : AppCompatActivity() {
+class MypageLikeActivity : AppCompatActivity() {
 
     private var recyclerView: RecyclerView? = null
     private var gridLayoutManager: GridLayoutManager? = null
-    private var arrayList:ArrayList<HistoryAlbumimageClass> ? = null
-    private var historyAlbumAdapters:HistoryAlbumadaptersClass ? = null
+    private var arrayList:ArrayList<MypageLikeimageClass> ? = null
+    private var mypageLikeAdapters:MypageLikeadaptersClass ? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_history_album)
+        setContentView(R.layout.activity_mypage_like)
 
         recyclerView = findViewById(R.id.recyclerview)
         gridLayoutManager = GridLayoutManager(applicationContext,3,
@@ -24,16 +24,18 @@ class HistoryAlbumActivity : AppCompatActivity() {
         recyclerView?.setHasFixedSize(true)
         arrayList = ArrayList()
         arrayList = setDataInList()
-        historyAlbumAdapters = HistoryAlbumadaptersClass(applicationContext,arrayList!!)
-        recyclerView?.adapter = historyAlbumAdapters
+        mypageLikeAdapters = MypageLikeadaptersClass(applicationContext,arrayList!!)
+        recyclerView?.adapter = mypageLikeAdapters
     }
 
-    private fun setDataInList(): ArrayList<HistoryAlbumimageClass>{
-        var items: ArrayList<HistoryAlbumimageClass> = ArrayList()
+    private fun setDataInList(): ArrayList<MypageLikeimageClass>{
+        var items: ArrayList<MypageLikeimageClass> = ArrayList()
 
-        items.add(HistoryAlbumimageClass(R.drawable.ic_launcher_background))
-        items.add(HistoryAlbumimageClass(R.drawable.ic_launcher_background))
-        items.add(HistoryAlbumimageClass(R.drawable.ic_launcher_background))
+        items.add(MypageLikeimageClass(R.drawable.image_ic_activity_history_album_list1))
+        items.add(MypageLikeimageClass(R.drawable.image_ic_activity_history_album_list2))
+        items.add(MypageLikeimageClass(R.drawable.image_ic_activity_history_album_list3))
+
+
 
 
         return items
