@@ -7,43 +7,26 @@
     tools:context=".MainActivity">
 
 
-    <com.lukedeighton.wheelview.WheelView
-        android:id="@+id/wheelview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+    <FrameLayout
+        android:id="@+id/container_fragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        app:repeatItems="true"
-        app:selectionAngle="90.0"
-        app:wheelColor="@android:color/darker_gray"
-        app:wheelItemRadius="10dp"
-        app:wheelRadius="130dp">
-
-
-    </com.lukedeighton.wheelview.WheelView>
+        app:layout_constraintBottom_toTopOf="@id/bottom_nav"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigationview"
-        android:layout_width="match_parent"
+        android:id="@+id/bottom_nav"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:itemBackground="@color/white"
+        app:itemIconTint="@color/black"
+        app:itemBackground="@color/transparent"
         app:menu="@menu/bottom_menu"
         />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="당신의 현재 느낌을 선택해주세요"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigationview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/wheelview"
-        app:layout_constraintVertical_bias="0.25" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

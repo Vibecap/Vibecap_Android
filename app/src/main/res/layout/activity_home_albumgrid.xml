@@ -12,19 +12,19 @@
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         >
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="wrap_content"
+            android:layout_width="138dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="0dp"
             android:layout_marginRight="0dp"
             android:layout_marginBottom="0dp"
-            android:src="@drawable/ic_launcher_background"/>
+            android:src="@drawable/image_ic_activity_history_album_list1" />
     </RelativeLayout>
 
 

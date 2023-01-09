@@ -7,16 +7,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 
-class HistoryAlbumadaptersClass(var context: Context, var arrayList: ArrayList<HistoryAlbumimageClass>):
-    RecyclerView.Adapter<HistoryAlbumadaptersClass.ItemHolder>() {
+class MypageWritedadaptersClass(var context: Context, var arrayList: ArrayList<MypageWritedimageClass>):
+    RecyclerView.Adapter<MypageWritedadaptersClass.ItemHolder>() {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.activity_history_albumgrid,parent,false)
+        val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.activity_mypage_writedgrid,parent,false)
         return ItemHolder(itemHolder)
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        var historyAlbumImage:HistoryAlbumimageClass = arrayList.get(position)
-        holder.images.setImageResource(historyAlbumImage.image!!)
+        var mypageWritedImage: MypageWritedimageClass = arrayList.get(position)
+        holder.images.setImageResource(mypageWritedImage.image!!)
 
     }
 
@@ -29,7 +30,7 @@ class HistoryAlbumadaptersClass(var context: Context, var arrayList: ArrayList<H
     }
 }
 
-class HistoryAlbumimageClass {
+class MypageWritedimageClass {
 
     var image :Int ? = 0
 
