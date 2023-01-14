@@ -1,8 +1,19 @@
 package com.example.vibecapandroid
 
 
+
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
+
+import android.content.ContentValues.TAG
+import android.content.Context
+
+import android.util.Log
+import android.widget.Toast
+
 import com.example.vibecapandroid.databinding.ActivityMainBinding
 
 /*
@@ -15,13 +26,33 @@ import com.example.vibecapandroid.databinding.ActivityMainBinding
     -즉,layout의 아이콘과 실제 drawable에 존재하는 xml파일이 실제로 1대1 대응이라 생각하시면 됩니다.
     5.파일 이름이 수정되었을겁니다. 혹시 이게 뭐지 싶은부분은 바로 말씀주세요 ㅎㅎ
      */
+
+/*
+        1.먼저 login 여부를 boolean으로 check 한다 main에서 체크하며 sharedref를 사용함->기본값은 false이다.
+        2.false라면 Login Activity로 이동한다.
+        //하단 부분을 API 사용해야할듯함
+        3.회원가입 Activity로 이동후에 회원가입이 완료되면 login 여부 true로 체크 한 다음에 Main으로 이동 or
+        3.Login Activity에서 로그인을 하면 login 여부값을 true로 만든다.
+        4.Main에서는 뒤로가기 클릭시 앱 탈출
+*/
+
 class MainActivity : AppCompatActivity() {
+
     private val viewBinding: ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.Theme_VibecapAndroid)
+        // 이 부분은 splash 로
+
+        var isLoggedIn=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).getBoolean("isLoggedIn",false)
+        if(!isLoggedIn){
+            val intent = Intent(this,LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         setContentView(viewBinding.root)
 
         supportFragmentManager
@@ -49,6 +80,10 @@ class MainActivity : AppCompatActivity() {
                             .beginTransaction()
                             .replace(viewBinding.containerFragment.id , HistoryMainFragment())
                             .commitAllowingStateLoss()
+                        // 이 부분 수정필요
+                        val editor=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).edit()
+                        editor.remove("isLoggedIn")
+                        editor.apply()
                     }
                 }
                 true
@@ -56,8 +91,36 @@ class MainActivity : AppCompatActivity() {
 
             selectedItemId=R.id.home_menu
         }
+
+
+
     }
 
+   /* override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG,"Destroy")
+        val editor=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).edit()
+        editor.clear()
+        editor.commit()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG,"Restart")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d(TAG,"Stop")
+        val editor=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).edit()
+        editor.clear()
+        editor.commit()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d(TAG,"Start")
+    }*/
     /**
      * Called when an item in the navigation menu is selected.
      *
