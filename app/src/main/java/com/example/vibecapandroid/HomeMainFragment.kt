@@ -19,7 +19,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.example.vibecapandroid.databinding.FragmentHomeMainBinding
+
 
 class HomeMainFragment : Fragment() {
     private var wheelView: WheelView? = null
@@ -38,7 +40,7 @@ class HomeMainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewBinding=FragmentHomeMainBinding.inflate(layoutInflater)
+        viewBinding= FragmentHomeMainBinding.inflate(layoutInflater)
 
         val layout: ConstraintLayout = viewBinding.wheelMain as ConstraintLayout
         wheelView =  viewBinding.wheelview as WheelView
@@ -128,7 +130,11 @@ class HomeMainFragment : Fragment() {
         이부부은 Fragment->Activity이기 떄문에 또 처리가 필요함
 
          */
+
+        
+
         return viewBinding!!.root
 
     }
 }
+
