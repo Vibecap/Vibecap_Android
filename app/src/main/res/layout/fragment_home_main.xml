@@ -20,11 +20,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:wheelDrawable="@drawable/ic_wheel_main"
         app:repeatItems="true"
         app:selectionAngle="90.0"
         app:selectionDrawable="@drawable/ic_btn_home_vibe_dial_selected"
         app:wheelColor="#1A000000"
+        app:wheelDrawable="@drawable/ic_wheel_main"
         app:wheelItemRadius="5dp"
         app:wheelPadding="50dp"
         app:wheelRadius="100dp"
@@ -79,7 +79,7 @@
         app:layout_constraintStart_toStartOf="@id/wheelview"
         app:layout_constraintTop_toTopOf="@+id/wheelview"
         app:layout_constraintVertical_bias="0.49" />
-
+<!--
     <Button
         android:id="@+id/fragment_home_main_alarm"
         android:layout_width="24dp"
@@ -90,20 +90,24 @@
         android:backgroundTintMode="add"
         android:drawableTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.914"
+        app:layout_constraintHorizontal_bias="0.881"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/fragment_home_main_mypage"
-        android:layout_width="20dp"
-        android:layout_height="21dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="24dp"
+        android:layout_height="22dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/ic_activity_main_mypage"
+        android:backgroundTint="@color/white"
         android:text="Button"
+        app:layout_constraintBottom_toBottomOf="@+id/fragment_home_main_alarm"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/fragment_home_main_alarm"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/fragment_home_main_alarm"
+        app:layout_constraintVertical_bias="1.0" />
 
-
+-->
 </androidx.constraintlayout.widget.ConstraintLayout>
