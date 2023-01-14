@@ -1,6 +1,7 @@
 package com.example.vibecapandroid
 
 import android.Manifest
+import android.Manifest.permission_group.STORAGE
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
@@ -17,8 +18,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import com.example.vibecapandroid.databinding.ActivityHomeCameraBinding
 import com.example.vibecapandroid.databinding.ActivityMainBinding
 import java.io.FileOutputStream
@@ -33,6 +39,9 @@ class HomeCameraActivity: AppCompatActivity() {
         Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val CAMERA_CODE = 98
     val STORAGE_CODE = 99
+
+    val binding: ActivityHomeCameraBinding = ActivityHomeCameraBinding.inflate(layoutInflater)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,11 +63,7 @@ class HomeCameraActivity: AppCompatActivity() {
     }
 
     override fun onPause() {
-
-
         super.onPause()
-
-
     }
 
 
@@ -110,8 +115,6 @@ class HomeCameraActivity: AppCompatActivity() {
             startActivityForResult(itt, CAMERA_CODE)
         }
     }
-
-
 
 
 
