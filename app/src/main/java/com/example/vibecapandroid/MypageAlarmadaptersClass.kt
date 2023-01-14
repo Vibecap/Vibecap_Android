@@ -37,9 +37,3 @@ class MypageAlarmadaptersClass(var alarmList: ArrayList<MypageAlarmClass>):
 }
 
 class MypageAlarmClass (val image: Int, val title: String, val id: String, val text:String)
-
-/* var image :Int ? = 0
-
- cstructor(image: Int?) {
-     this.image = image
- }*/
