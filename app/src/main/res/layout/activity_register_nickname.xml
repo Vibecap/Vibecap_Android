@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+  <TextView
+      android:id="@+id/activity_register_nickname_subtitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="132dp"
+      android:text="닉네임을 입력해주세요"
+      android:textColor="@color/black"
+      android:textSize="22sp"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.497"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/activity_register_nickname_title" />
+
+  <EditText
+      android:id="@+id/activity_register_nickname_set"
+      android:layout_width="300dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="24dp"
+      android:backgroundTint="@color/black"
+      android:text="닉네임"
+      android:textColor="@color/grey"
+      android:textSize="15dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.504"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/activity_register_nickname_subtitle" />
+
+  <TextView
+      android:id="@+id/activity_register_nickname_8_12"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="사용 가능한 닉네임입니다."
+      android:textColor="@color/black"
+      android:textSize="12dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.225"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/activity_register_nickname_set" />
+
+  <TextView
+      android:id="@+id/activity_register_nickname_title"
+      android:layout_width="129dp"
+      android:layout_height="25dp"
+      android:layout_marginTop="24dp"
+      android:gravity="center"
+      android:textStyle="bold"
+      android:text="회원가입"
+      android:textColor="@color/black"
+      android:textSize="15dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <ImageButton
+      android:id="@+id/activity_register_nickname_back"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      android:layout_marginEnd="44dp"
+      android:backgroundTint="@color/transparent"
+      android:src="@drawable/ic_activity_common_album_back"
+      app:layout_constraintEnd_toStartOf="@+id/activity_register_nickname_title"
+      app:layout_constraintHorizontal_bias="0.28"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+  <Button
+      android:id="@+id/activity_register_nickname_next"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@color/transparent"
+      android:text="다음"
+      android:textColor="@color/grey"
+      android:textSize="21dp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.95"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.976" />
+
+  <CheckBox
+      android:id="@+id/activity_register_nickname_checkBoxall"
+      android:layout_width="89dp"
+      android:layout_height="46dp"
+      android:layout_marginTop="108dp"
+      android:text=" 전체선택"
+      android:textSize="14dp"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.13"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/activity_register_nickname_8_12" />
+
+  <CheckBox
+      android:id="@+id/activity_register_nickname_checkBoxuse"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="2dp"
+      android:backgroundTint="@color/black"
+      android:text="(필수) Vibecap 이용 약관"
+      android:textColor="@color/black"
+      android:textSize="11dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.16"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/activity_register_nickname_checkBoxall" />
+
+  <CheckBox
+      android:id="@+id/activity_register_nickname_checkBoxrother"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:backgroundTint="@color/black"
+      android:text="(선택) 타사 정보 제공 동의"
+      android:textSize="11dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.162"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/activity_register_nickname_checkBoxprivate" />
+
+  <CheckBox
+      android:id="@+id/activity_register_nickname_checkBoxprivate"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:backgroundTint="@color/black"
+      android:text="(필수) 개인정보 수집 및 사용 동의"
+      android:textSize="11dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.187"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/activity_register_nickname_checkBoxuse" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

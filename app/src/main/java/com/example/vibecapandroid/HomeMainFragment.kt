@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.example.vibecapandroid.databinding.FragmentHomeMainBinding
 
+
 class HomeMainFragment : Fragment() {
     private var wheelView: WheelView? = null
     private lateinit var viewBinding: FragmentHomeMainBinding
@@ -39,7 +40,7 @@ class HomeMainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewBinding=FragmentHomeMainBinding.inflate(layoutInflater)
+        viewBinding= FragmentHomeMainBinding.inflate(layoutInflater)
 
         val layout: ConstraintLayout = viewBinding.wheelMain as ConstraintLayout
         wheelView =  viewBinding.wheelview as WheelView
