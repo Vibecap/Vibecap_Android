@@ -1,9 +1,7 @@
 package com.example.vibecapandroid
 
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.vibecapandroid.databinding.FragmentHistoryMainBinding
 
 class HistoryMainFragment : Fragment() {
     //private lateinit var viewBinding: FragmentHistoryMainBinding
