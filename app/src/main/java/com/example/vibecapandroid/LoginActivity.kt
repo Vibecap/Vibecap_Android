@@ -12,10 +12,6 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayoutStates.TAG
-import com.example.vibecapandroid.ApiClass
-import com.example.vibecapandroid.databinding.ActivityRegisterEmailBinding
-import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class LoginActivity : AppCompatActivity() {
@@ -37,19 +33,6 @@ class LoginActivity : AppCompatActivity() {
         btn_login.setOnClickListener(View.OnClickListener {
             val idStr=id.text.toString()
             val pwStr=password.text.toString()
-           /* service.login(idStr,pwStr).enqueue(object :Callback<String>{
-
-                override fun onResponse(call: Call<String>, response: Response<String>) {
-                    val result =response.body()
-                    Log.e("로그인","${result}")
-                }
-
-                override fun onFailure(call: Call<String>, t: Throwable) {
-                    Log.e("로그인","${t.localizedMessage}")
-
-                }
-
-            })*/
 
             var editor=getSharedPreferences("sharedprefs",Context.MODE_PRIVATE).edit()
             editor.putBoolean("isLoggedIn",true)
@@ -64,8 +47,6 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
-
-        //이 부분까지임
 
 
 

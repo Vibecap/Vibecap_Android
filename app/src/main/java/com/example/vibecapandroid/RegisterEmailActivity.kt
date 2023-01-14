@@ -1,11 +1,11 @@
 package com.example.vibecapandroid
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.example.vibecapandroid.coms.CheckEmailResponse
+import com.example.vibecapandroid.coms.LoginApiInterface
 import com.example.vibecapandroid.databinding.ActivityRegisterEmailBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -29,26 +29,36 @@ class RegisterEmailActivity:AppCompatActivity() {
 
         //이 부분부터 Retrofit 실습하는것
         val retrofit= Retrofit.Builder()
-            .baseUrl("https://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/app/sign-api/email/")
+            .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-        val apiService=retrofit.create(ApiClass::class.java)
-        apiService.getEmailSameCheck(viewBinding.activityRegisterEmailSet.toString()).enqueue(object: Callback<Response> {
-            override fun onResponse(call: Call<Response>, response: retrofit2.Response<Response>) {
+        //base url 설정
+
+        val apiService=retrofit.create(LoginApiInterface::class.java)
+        apiService.getEmailSameCheck(viewBinding.activityRegisterEmailSet.text.toString()).enqueue(object: Callback<CheckEmailResponse> {
+            override fun onResponse(call: Call<CheckEmailResponse>, response: retrofit2.Response<CheckEmailResponse>) {
                 if (response.isSuccessful) {
                     val responseData = response.body()
                     if (responseData != null) {
                         Log.d(
                             "Retrofit",
-                            "Response\nCode: ${responseData.code} Message:${responseData.meesage}"
+                            "Response\n" +
+                                    "isSuccess:${responseData.is_success} " +
+                                    "Code: ${responseData.code} " +
+                                    "Message:${responseData.message} " +
+                                    "Result:${responseData.result}"
                         )
                     }
-                } else {
-                    Log.d("Retrofit", "Resoponse not successful ${response.code()}")
+                    else{
+                        Log.d("Retrofit","Null data")
+                    }
+                }
+                else {
+                    Log.d("Retrofit", "Response not successful ${response.code()}")
                 }
             }
-            override fun onFailure(call: Call<Response>, t: Throwable) {
-                Log.e("Retrofir","Error",t)
+            override fun onFailure(call: Call<CheckEmailResponse>, t: Throwable) {
+                Log.e("Retrofit","Error",t)
             }
 
         })
