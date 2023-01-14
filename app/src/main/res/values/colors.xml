@@ -10,4 +10,5 @@
     <color name="back_txt">#AAACB0</color>
     <color name="purple_button">#CBAEDA</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="red">#FFDD0000</color>
 </resources>

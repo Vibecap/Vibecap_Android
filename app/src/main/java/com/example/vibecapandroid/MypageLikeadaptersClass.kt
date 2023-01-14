@@ -11,7 +11,8 @@ class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<Myp
     RecyclerView.Adapter<MypageLikeadaptersClass.ItemHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.activity_mypage_likegrid,parent,false)
+        val itemHolder = LayoutInflater.from(parent.context)
+            .inflate(R.layout.activity_mypage_likegrid, parent, false)
         return ItemHolder(itemHolder)
     }
 
@@ -19,16 +20,21 @@ class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<Myp
         var mypageLikeImage: MypageLikeimageClass = arrayList.get(position)
         holder.images.setImageResource(mypageLikeImage.image!!)
 
+
     }
 
     override fun getItemCount(): Int {
         return arrayList.size
     }
 
-    class ItemHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+    class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var images = itemView.findViewById<ImageView>(R.id.image)
     }
+
+
 }
+
+
 
 class MypageLikeimageClass {
 
