@@ -12,6 +12,7 @@
         android:layout_height="100dp">
 
         <ImageView
+            android:id="@+id/activity_mypage_writed_back"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="16dp"

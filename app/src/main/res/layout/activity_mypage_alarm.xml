@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MypageLikeActivity">
+    tools:context=".MypageAlarmActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="100dp">
 
         <ImageView
-            android:id="@+id/activity_mypage_like_back"
+            android:id="@+id/activity_mypage_alarm_back"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_marginStart="16dp"
@@ -20,17 +20,6 @@
             app:layout_constraintBottom_toBottomOf="@+id/textView14"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView14">
-
-        </ImageView>
-
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
-            android:layout_marginRight="5dp"
-            android:src="@drawable/ic_activity_history_album_latest"
-            app:layout_constraintBottom_toBottomOf="@+id/textView2"
-            app:layout_constraintEnd_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toTopOf="@+id/textView2">
 
         </ImageView>
 
@@ -42,7 +31,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="16dp"
-            android:text="좋아요 한 게시물"
+            android:text="활동 내역"
             android:textColor="@color/black"
             android:textSize="18dp"
             android:textStyle="bold"
@@ -50,17 +39,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="최신순"
-            android:textSize="12dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginRight="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -70,7 +48,7 @@
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+            android:id="@+id/activity_mypage_alarm_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
