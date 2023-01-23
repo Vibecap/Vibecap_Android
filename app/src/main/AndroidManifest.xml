@@ -67,6 +67,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".HistoryPostActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".MypageAlarmActivity"
             android:exported="false">
             <meta-data
@@ -96,6 +103,13 @@
         </activity>
         <activity
             android:name=".VibeDetailActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".VibeMainActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -151,22 +165,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".HomeCamera2Activity"
+            android:name=".HomeCapturedActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-           android:name=".HomeCapturedActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-
         <activity
             android:name=".HomeCameraActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/SplashTheme" >
             <intent-filter>

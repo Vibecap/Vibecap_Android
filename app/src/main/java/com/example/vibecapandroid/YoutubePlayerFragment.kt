@@ -29,6 +29,7 @@ class YoutubePlayerFragment : Fragment(){
 
     companion object {
         fun newInstance() = YoutubePlayerFragment()
+
         //private const val VIDEO_ID = "m2SZ6RV_J7I"
     }
 }

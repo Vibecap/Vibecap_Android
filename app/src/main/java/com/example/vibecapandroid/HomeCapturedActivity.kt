@@ -61,8 +61,8 @@ class HomeCapturedActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         //base url 설정
-        val apiService = retrofit.create(VibeApiInterface::class.java)
-        apiService.VibeCapture(
+        val apiService = retrofit.create(HomeApiInterface::class.java)
+        apiService.HomeCapture(
             jwt,
             "multipart/form-data",
             2, extra_info("화창한","아침","신나는"), // 계절 시간 날씨 기분 -> api 통해서 가져와야함
