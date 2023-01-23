@@ -35,9 +35,9 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
-        android:text="이메일"
+        android:hint="이메일"
         android:backgroundTint="@color/black"
-        android:textColor="@color/grey"
+        android:textColor="@color/black"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
@@ -45,14 +45,15 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_login_subtitle" />
 
     <EditText
+        android:inputType="textPassword"
         android:id="@+id/activity_login_password"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
         android:textSize="15dp"
-        android:text="비밀번호"
+        android:hint="비밀번호"
         android:backgroundTint="@color/black"
-        android:textColor="@color/grey"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,11 +63,11 @@
         android:id="@+id/activity_login_password_againtype"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="비밀번호를 한 번 더 입력해주세요."
+        android:text=""
         android:textColor="@color/black"
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.261"
+        app:layout_constraintHorizontal_bias="0.192"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_login_password" />
 
@@ -74,24 +75,14 @@
         android:id="@+id/activity_login_email_8_12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="8~12자"
+        android:gravity="right"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="12dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.169"
+        app:layout_constraintHorizontal_bias="0.192"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_login_email" />
-
-    <ImageView
-        android:id="@+id/activity_register_password_visible2"
-        android:layout_width="19dp"
-        android:layout_height="19dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/ic_activity_register_password_visible"
-        app:layout_constraintEnd_toEndOf="@id/activity_login_password"
-        app:layout_constraintHorizontal_bias="0.971"
-        app:layout_constraintStart_toStartOf="@id/activity_login_password"
-        app:layout_constraintTop_toTopOf="@id/activity_login_password" />
 
     <Button
         android:id="@+id/activity_login_loginbtn"
@@ -171,8 +162,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="4dp"
         android:background="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+        app:layout_constraintEnd_toStartOf="@+id/activity_login_or"
+        app:layout_constraintTop_toTopOf="@+id/activity_login_or" />
 
     <View
         android:layout_width="125dp"
@@ -180,11 +171,11 @@
         android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:background="@color/black"
-        app:layout_constraintStart_toEndOf="@+id/textView4"
-        app:layout_constraintTop_toTopOf="@+id/textView4" />
+        app:layout_constraintStart_toEndOf="@+id/activity_login_or"
+        app:layout_constraintTop_toTopOf="@+id/activity_login_or" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/activity_login_or"
         android:layout_width="26dp"
         android:layout_height="23dp"
         android:layout_marginTop="32dp"

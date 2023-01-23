@@ -1,26 +1,22 @@
 package com.example.vibecapandroid
 
-import androidx.appcompat.app.AppCompatActivity
-import com.lukedeighton.wheelview.WheelView
-import android.os.Bundle
-import androidx.constraintlayout.widget.ConstraintLayout
-import android.widget.TextView
+import android.annotation.SuppressLint
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
-import com.lukedeighton.wheelview.adapter.WheelAdapter
-import android.graphics.drawable.Drawable
-import com.lukedeighton.wheelview.WheelView.OnWheelItemClickListener
-import android.widget.Toast
-import android.annotation.SuppressLint
-import android.content.Intent
-import android.graphics.Color
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.viewbinding.ViewBinding
 import com.example.vibecapandroid.databinding.FragmentHomeMainBinding
+import com.lukedeighton.wheelview.WheelView
+import com.lukedeighton.wheelview.WheelView.OnWheelItemClickListener
+import com.lukedeighton.wheelview.adapter.WheelAdapter
 
 
 class HomeMainFragment : Fragment() {
@@ -62,23 +58,24 @@ class HomeMainFragment : Fragment() {
                 return size
             }
         }
-        /*wheelView!!.onWheelItemClickListener =
+
+        wheelView!!.onWheelItemClickListener =
             OnWheelItemClickListener { parent, position, isSelected ->
-                Toast.makeText(
-                    this@HomeMainFragment,
-                    "you clicked$position",
-                    Toast.LENGTH_SHORT
-                ).show()
+                when(position){
+                    0->{
+                        Log.d("Tag","Clicked")
+                    }
+                }
+                //the position in the adapter and whether it is closest to the selection angle
+
             }
 
-           이거 makeText부분이 인식이 안됨 왜 안대는지는 모름
-           근데 이거 모임? 왜9필요함
-         */
         wheelView!!.setOnWheelItemSelectedListener { parent, itemDrawable, position ->
             when (position) {
                 0 -> {
                     layout.setBackgroundResource(R.raw.bg_img_pogen)
                     textView.text = "포근한"
+
                 }
                 1 -> {
                     layout.setBackgroundResource(R.raw.bg_img_gonghe)
