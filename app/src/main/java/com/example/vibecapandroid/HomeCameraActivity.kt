@@ -1,32 +1,23 @@
 package com.example.vibecapandroid
 
 import android.Manifest
-import android.Manifest.permission_group.STORAGE
+
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Camera
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
-import com.example.vibecapandroid.databinding.ActivityHomeCameraBinding
-import com.example.vibecapandroid.databinding.ActivityMainBinding
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 
@@ -40,7 +31,6 @@ class HomeCameraActivity: AppCompatActivity() {
     val CAMERA_CODE = 98
     val STORAGE_CODE = 99
 
-    val binding: ActivityHomeCameraBinding = ActivityHomeCameraBinding.inflate(layoutInflater)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,12 +51,6 @@ class HomeCameraActivity: AppCompatActivity() {
         }
 
     }
-
-    override fun onPause() {
-        super.onPause()
-    }
-
-
 
 
     // 카메라 권한, 저장소 권한
@@ -111,7 +95,7 @@ class HomeCameraActivity: AppCompatActivity() {
     fun CallCamera(){
         if(checkPermission(CAMERA, CAMERA_CODE) && checkPermission(STORAGE, STORAGE_CODE)){
             val itt = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            
+
             startActivityForResult(itt, CAMERA_CODE)
         }
     }
@@ -128,11 +112,13 @@ class HomeCameraActivity: AppCompatActivity() {
             when(requestCode){
                 CAMERA_CODE -> {
                     if(data?.extras?.get("data") != null) {
-                        Log.d("suhoon","여기냐?")
                         val img = data?.extras?.get("data") as Bitmap
-//                        val uri = saveFile(RandomFileName(), "image/jpg", img)
-                        imageView.setImageBitmap(img)
+                        val uri = saveFile(RandomFileName(), "image/jpeg", img) // 휴대폰 local db 에 저장
+//                        imageView.setImageURI(uri)
+
+                        val uriString = uri.toString()
                         val nextIntent = Intent(this, HomeCapturedActivity::class.java)
+                        nextIntent.putExtra("uri",uriString)
                         startActivity(nextIntent)
 
                     }
@@ -147,6 +133,9 @@ class HomeCameraActivity: AppCompatActivity() {
             }
         }
     }
+
+
+
 
     fun saveFile(filename:String, mimeType:String, bitmap: Bitmap): Uri? {
 
