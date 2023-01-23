@@ -2,6 +2,7 @@ package com.example.vibecapandroid
 
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -44,6 +45,7 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    @SuppressLint("WrongViewCast")
     lateinit var userToken:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
