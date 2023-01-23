@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.CAMERA"/> <!-- 카메라 사용권한 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- 카메라 사용권한 -->
     <uses-feature android:name="android.hardware.camera.any" />
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> <!--저장소 읽기 권한-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/><!--저장소 쓰기 권한-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 저장소 읽기 권한 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -20,10 +18,49 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VibecapAndroid"
-        tools:targetApi="31" >
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
+        <activity
+            android:name=".HistoryPostActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".PopupReportActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".PopupCommentActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".PopupActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".VibePostActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -31,7 +68,7 @@
         <activity
             android:name=".RegisterEmailActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" >
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -39,15 +76,15 @@
         <activity
             android:name=".RegisterNicknameActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" >
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".RegisterPasswordActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" >
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -68,7 +105,8 @@
         </activity>
         <activity
             android:name=".HistoryPostActivity"
-            android:exported="false">
+            android:exported="false"
+            tools:ignore="DuplicateActivity">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -108,58 +146,52 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
-            android:name=".VibeMainActivity"
+            android:name=".MypageWritedActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".MypageWritedActivity"
-            android:exported="false" >
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".MypageLikeActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".MypageScrapActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".HomeAlbumActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".MypageSetupActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".MypageProfileActivity"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".HistoryMainFragment"
-            android:exported="false" >
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -181,17 +213,17 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/SplashTheme" >
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
     </application>
-
 
 </manifest>
