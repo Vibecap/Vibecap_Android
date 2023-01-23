@@ -36,6 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_post"
         android:layout_width="153dp"
@@ -52,10 +53,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.631"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.795" />
-
+        app:layout_constraintVertical_bias="0.993" />
 
     <ImageButton
         android:id="@+id/bt_share"
@@ -77,7 +78,7 @@
         android:id="@+id/bt_replay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="44dp"
         android:layout_weight="0.5"
         android:backgroundTint="@android:color/transparent"
         android:contentDescription="TODO"
@@ -85,6 +86,7 @@
         android:src="@drawable/ic_home_replay"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.319"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
@@ -101,6 +103,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.559"
         app:layout_constraintStart_toEndOf="@+id/bt_replay" />
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_width="349dp"
+        android:layout_height="332dp"
+        tools:layout_editor_absoluteX="31dp"
+        tools:layout_editor_absoluteY="127dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,9 +18,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.Preview
-import androidx.camera.lifecycle.ProcessCameraProvider
+
 import androidx.core.app.ActivityCompat
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
@@ -40,7 +38,7 @@ class HomeCameraActivity: AppCompatActivity() {
     val CAMERA_CODE = 98
     val STORAGE_CODE = 99
 
-    val binding: ActivityHomeCameraBinding = ActivityHomeCameraBinding.inflate(layoutInflater)
+   // val binding: ActivityHomeCameraBinding = ActivityHomeCameraBinding.inflate(layoutInflater)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
