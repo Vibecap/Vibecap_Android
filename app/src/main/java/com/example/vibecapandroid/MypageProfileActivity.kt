@@ -4,8 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
+import com.example.vibecapandroid.coms.CheckMypageResponse
+import com.example.vibecapandroid.coms.MypageApiInterface
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MypageProfileActivity : AppCompatActivity() {
 
@@ -24,9 +29,11 @@ class MypageProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypage_profilelist)
 
-        val Adapter = MypageProfileadaptersClass(this,mypageList)
+
+
+        val Adater = MypageProfileadaptersClass(this,mypageList)
         val activity_mypage_profilelist = findViewById<ListView>(R.id.activity_mypage_profilelist)
-        activity_mypage_profilelist.adapter = Adapter
+        activity_mypage_profilelist.adapter = Adater
 
         activity_mypage_profilelist.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             if(position==0){
@@ -61,6 +68,88 @@ class MypageProfileActivity : AppCompatActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
         })
+/*
+        //웹 브라우저 창 열기
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        //어떤 주소로 들어갈지 입력
+        val apiService = retrofit.create(MypageApiInterface::class.java)
+
+        //입력한 주소중 하나로 연결 시도
+        apiService.getMypageCheck(3).enqueue(object :Callback<CheckMypageResponse> {
+            override fun onResponse(
+                call: Call<CheckMypageResponse>,
+                response: Response<CheckMypageResponse>
+            ) {
+
+                if (response.isSuccessful) {
+                    val responseData = response.body()
+
+                    if (responseData !== null) {
+                        Log.d(
+                            "Retrofit",
+                            "MypageResponse\n"+
+                                    "isSuccess:${responseData.is_success}" +
+                                    "Code:${responseData.code}"+
+                                    "Message:${responseData.message}"+
+                                    "Result:${responseData.result}"
+                        )
+
+                    }
+                    else{
+                        Log.d("Retrofit","Null data") }
+
+                } else {
+                    Log.w("Retrofit", "Response Not Successful${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<CheckMypageResponse>, t: Throwable) {
+                Log.e("Retrofit","Error",t)
+            }
+
+        })
+
+
+        apiService.patchProfileimgChange("VibecapImg").enqueue(object :Callback<CheckMypageResponse> {
+            override fun onResponse(
+                call: Call<CheckMypageResponse>,
+                response: Response<CheckMypageResponse>
+            ) {
+
+                if (response.isSuccessful) {
+                    val responseData = response.body()
+
+                    if (responseData !== null) {
+                        Log.d(
+                            "Retrofit",
+                            "MypageResponse\n"+
+                                    "isSuccess:${responseData.is_success}" +
+                                    "Code:${responseData.code}"+
+                                    "Message:${responseData.message}"+
+                                    "Result:${responseData.result}"
+                        )
+
+                    }
+                    else{
+                        Log.d("Retrofit","Null data") }
+
+                } else {
+                    Log.w("Retrofit", "Response Not Successful${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<CheckMypageResponse>, t: Throwable) {
+                Log.e("Retrofit","Error",t)
+            }
+
+        })
+
+*/
+
 
 
     }
