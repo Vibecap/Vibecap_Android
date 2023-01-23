@@ -32,6 +32,7 @@
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
+                android:theme="@style/Theme.AppCompat.DayNight.Dialog"
                 android:value="" />
         </activity>
         <activity
@@ -39,6 +40,7 @@
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
+                android:theme="@style/Theme.AppCompat.DayNight.Dialog"
                 android:value="" />
         </activity>
         <activity
@@ -46,6 +48,7 @@
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
+                android:theme="@style/Theme.AppCompat.DayNight.Dialog"
                 android:value="" />
         </activity>
         <activity
