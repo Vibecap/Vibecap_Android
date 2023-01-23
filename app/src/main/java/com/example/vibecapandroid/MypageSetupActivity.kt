@@ -6,11 +6,19 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.ListView
 import androidx.appcompat.app.AlertDialog
+import com.example.vibecapandroid.coms.CheckMypageResponse
+import com.example.vibecapandroid.coms.MypageApiInterface
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MypageSetupActivity : AppCompatActivity() {
 
@@ -60,6 +68,53 @@ class MypageSetupActivity : AppCompatActivity() {
 
         activity_mypage_setuplist2.onItemClickListener =
             AdapterView.OnItemClickListener { parent, view, position, id ->
+                if(position==0){
+                    val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
+                    //웹 브라우저 창 열기
+                    val retrofit = Retrofit.Builder()
+                        .baseUrl(" http://175.41.230.93:8080/app/my-page/setting/sync-gmail")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build()
+
+                    //어떤 주소로 들어갈지 입력
+                    val apiService = retrofit.create(MypageApiInterface::class.java)
+
+                    //입력한 주소중 하나로 연결 시도
+                    apiService.patchGoogleCheck("vibecap@google.com").enqueue(object : Callback<CheckMypageResponse> {
+                        override fun onResponse(
+                            call: Call<CheckMypageResponse>,
+                            response: Response<CheckMypageResponse>
+                        ) {
+
+                            if (response.isSuccessful) {
+                                val responseData = response.body()
+
+                                if (responseData !== null) {
+                                    Log.d(
+                                        "Retrofit",
+                                        "MypageResponse\n"+
+                                                "isSuccess:${responseData.is_success}" +
+                                                "Code:${responseData.code}"+
+                                                "Message:${responseData.message}"+
+                                                "Result:${responseData.result}"
+                                    )
+
+                                }
+                                else{
+                                    Log.d("Retrofit","Null data") }
+
+                            } else {
+                                Log.w("Retrofit", "Response Not Successful${response.code()}")
+                            }
+                        }
+
+                        override fun onFailure(call: Call<CheckMypageResponse>, t: Throwable) {
+                            Log.e("Retrofit","Error",t)
+                        }
+
+                    })
+
+                }
                 if (position == 1) {
                     val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
                     val builder = AlertDialog.Builder(this)
