@@ -2,6 +2,7 @@ package com.example.vibecapandroid
 
 
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -14,9 +15,16 @@ import android.content.Context
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
+import com.example.vibecapandroid.coms.MypageApiInterface
+import com.example.vibecapandroid.coms.CheckMypageResponse
 
 import com.example.vibecapandroid.databinding.ActivityMainBinding
 import java.util.SimpleTimeZone
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 /*
     1.JDK 설정은 11로 맨 상단에 있는 것으로 선택(안드로이드 스튜디오 오른쪽하단에 event log 보면 jdk 선택창이 뜰꺼임)
@@ -44,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    @SuppressLint("WrongViewCast")
     lateinit var userToken:String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -100,16 +109,6 @@ class MainActivity : AppCompatActivity() {
             selectedItemId=R.id.home_menu
         }
 
-        val mypage_alarm = findViewById<Button>(R.id.fragment_home_main_alarm)
-        mypage_alarm.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, MypageAlarmActivity::class.java)
-            startActivity(intent)
-        })
-        val mypage_profile = findViewById<Button>(R.id.fragment_home_main_mypage)
-        mypage_profile.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, MypageProfileActivity::class.java)
-            startActivity(intent)
-        })
 
 
     }
