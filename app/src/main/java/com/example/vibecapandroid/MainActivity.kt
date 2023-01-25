@@ -6,25 +6,11 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-
-import android.content.ContentValues.TAG
 import android.content.Context
-
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
-import com.example.vibecapandroid.coms.MypageApiInterface
-import com.example.vibecapandroid.coms.CheckMypageResponse
 
 import com.example.vibecapandroid.databinding.ActivityMainBinding
-import java.util.SimpleTimeZone
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+
 
 /*
     1.JDK 설정은 11로 맨 상단에 있는 것으로 선택(안드로이드 스튜디오 오른쪽하단에 event log 보면 jdk 선택창이 뜰꺼임)
@@ -45,6 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory
         3.Login Activity에서 로그인을 하면 login 여부값을 true로 만든다.
         4.Main에서는 뒤로가기 클릭시 앱 탈출
 */
+public lateinit var userToken:String
 
 class MainActivity : AppCompatActivity() {
 
@@ -53,7 +40,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     @SuppressLint("WrongViewCast")
-    lateinit var userToken:String
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -71,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("Token","$userToken")
         }
         setContentView(viewBinding.root)
-
+1
         supportFragmentManager
             .beginTransaction()
             .replace(viewBinding.containerFragment.id , HomeMainFragment())//activty main의 컨테이너 id반환,맨 처음은 HomeMainFragment로 지정
@@ -108,6 +95,8 @@ class MainActivity : AppCompatActivity() {
 
             selectedItemId=R.id.home_menu
         }
+
+
 
 
 
