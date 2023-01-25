@@ -1,32 +1,57 @@
 package com.example.vibecapandroid.coms
 
+import com.example.vibecapandroid.coms.ApiKey.Companion.API_KEY
 import okhttp3.MultipartBody
 import retrofit2.Call
-import retrofit2.http.Header
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
 
 interface HomeApiInterface {
     @Multipart
     @POST("app/vibe/capture")
     fun HomeCapture(
         @Header("X-AUTH-TOKEN") jwt: String,
-        @Header("Content-Type") multipart: String,
         @Part("member_id") member_id : Long,
-        @Part("extra_info") extra_info : extra_info,
+        @Part("extra_info") extra_info : String,
         @Part image_file : MultipartBody.Part
     ): Call<CaptureResponse>
 
-    @Multipart
-    @POST("/app/vibe/capture-from-album")
-    fun VibeCapture_from_album(
+    @GET("getVilageFcst?serviceKey=$API_KEY")
+    fun getWeather(
+        @Query("dataType") dataType: String,
+        @Query("numOfRows") numOfRows : Int,
+        @Query("pageNo") pageNo : Int,
+        @Query("base_date") baseDate : Int,
+        @Query("base_time") baseTime: Int,
+        @Query("nx") nx: String,
+        @Query("ny") ny: String
+    ): Call<WEATHER>
+
+    @POST("app/vibe/capture-without-image")
+    fun postWithoutImage(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Body JsonBody : withoutimagedata
+
     ): Call<CaptureResponse>
+
 }
 
-data class extra_info(
+data class withoutimagedata(
+    val member_id: Long,
+    val extra_info: String
 
-    val weather : String,
-    val time : String,
-    val feeling : String
 )
+
+
+
+
+//
+//data class extra_info(
+//
+//    val weather : String,
+//    val time : String,
+//    val feeling : String
+//)
+
+
+
+
