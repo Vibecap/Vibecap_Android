@@ -60,7 +60,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:padding="13dp"
-            android:text="#해시태그 검색"
+            android:hint="#해시태그 검색"
             android:textColor="@color/back_txt"
             android:textStyle="bold" />
 

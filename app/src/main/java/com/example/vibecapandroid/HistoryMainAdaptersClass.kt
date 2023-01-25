@@ -1,8 +1,9 @@
 package com.example.vibecapandroid
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,8 +20,8 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        var historyMainImage:HistoryMainImageClass = arrayList.get(position)
-        holder.images.setImageResource(historyMainImage.image!!)
+        var historyMainImage:HistoryMainImageClass = arrayList[position]
+        holder.images.setImageBitmap((historyMainImage.image))
 
     }
 
@@ -29,15 +30,17 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
     }
 
     class ItemHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        var images = itemView.findViewById<ImageView>(R.id.image)
+        var images: ImageView = itemView.findViewById<ImageView>(R.id.image)
     }
 }
 
+
 class HistoryMainImageClass {
 
-    var image :Int ? = 0
+    var image :Bitmap
 
-    constructor(image: Int?) {
+    constructor(image: Bitmap) {
         this.image = image
     }
+
 }
