@@ -1,6 +1,7 @@
 package com.example.vibecapandroid
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
@@ -10,6 +11,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -17,6 +20,7 @@ import com.example.vibecapandroid.databinding.FragmentHomeMainBinding
 import com.lukedeighton.wheelview.WheelView
 import com.lukedeighton.wheelview.WheelView.OnWheelItemClickListener
 import com.lukedeighton.wheelview.adapter.WheelAdapter
+
 
 
 class HomeMainFragment : Fragment() {
@@ -30,18 +34,32 @@ class HomeMainFragment : Fragment() {
 
     //size 설정
     var size = 7
-    @SuppressLint("ResourceType")
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewBinding= FragmentHomeMainBinding.inflate(layoutInflater)
+        viewBinding = FragmentHomeMainBinding.inflate(layoutInflater)
+        val view = inflater.inflate(R.layout.fragment_home_main, container, false)
+
+        val search: ImageButton = view.findViewById(R.id.main_alarm)
+        search.setOnClickListener {
+            val intent = Intent(context, MypageAlarmActivity::class.java)
+            startActivity(intent)
+        }
+
+        val addpost: ImageButton = view.findViewById(R.id.main_profile)
+        addpost.setOnClickListener {
+            val intent = Intent(context, MypageProfileActivity::class.java)
+            startActivity(intent)
+        }
+
 
         val layout: ConstraintLayout = viewBinding.wheelMain as ConstraintLayout
-        wheelView =  viewBinding.wheelview as WheelView
+        wheelView = viewBinding.wheelview as WheelView
         wheelView!!.setWheelItemCount(size)
-        val textView =  viewBinding.textView2 as TextView
+        val textView = viewBinding.textView2 as TextView
         val shapeDrawables = arrayOfNulls<ShapeDrawable>(size)
         val colors = arrayOfNulls<String>(size)
         for (i in 0 until size) {
@@ -61,9 +79,9 @@ class HomeMainFragment : Fragment() {
 
         wheelView!!.onWheelItemClickListener =
             OnWheelItemClickListener { parent, position, isSelected ->
-                when(position){
-                    0->{
-                        Log.d("Tag","Clicked")
+                when (position) {
+                    0 -> {
+                        Log.d("Tag", "Clicked")
                     }
                 }
                 //the position in the adapter and whether it is closest to the selection angle
@@ -103,34 +121,7 @@ class HomeMainFragment : Fragment() {
                 }
             }
         }
-
-        /*    wheelView.setOnWheelAngleChangeListener(new WheelView.OnWheelAngleChangeListener() {
-            @Override
-            public void onWheelAngleChange(float angle) {
-                Toast.makeTextHomeMainFragment.this,"you change"+angle,Toast.LENGTH_SHORT).show();
-            }
-        });
-*/
-        /*
-        val btn_history_album = viewBinding.btnHistoryAlbum
-        btn_history_album.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, HistoryMainFragment::class.java)
-            startActivity(intent)
-        })
-
-        val btn_home_album = viewBinding.btnHomeAlbum
-        btn_home_album.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, HomeAlbumActivity::class.java)
-            startActivity(intent)
-        })
-
-        이부부은 Fragment->Activity이기 떄문에 또 처리가 필요함
-
-         */
-
-        
-
-        return viewBinding!!.root
+        return view
 
     }
 }

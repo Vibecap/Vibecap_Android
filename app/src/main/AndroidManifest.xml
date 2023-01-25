@@ -3,14 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!--날씨 API 관련-->
 
     <uses-permission android:name="android.permission.CAMERA"/> <!-- 카메라 사용권한 -->
     <uses-feature android:name="android.hardware.camera.any" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> <!--저장소 읽기 권한-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/><!--저장소 쓰기 권한-->
-
 
     <application
         android:usesCleartextTraffic="true"
@@ -174,14 +172,14 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeCameraActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".HomeCameraActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/SplashTheme" >
             <intent-filter>

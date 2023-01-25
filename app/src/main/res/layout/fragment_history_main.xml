@@ -12,10 +12,11 @@
         android:layout_height="100dp">
 
         <ImageView
+            android:id="@+id/backwardhistoeymain"
             android:layout_width="20dp"
             android:layout_height="19dp"
             android:layout_marginStart="16dp"
-            android:src="@drawable/ic_activity_common_album_back"
+
             app:layout_constraintBottom_toBottomOf="@+id/textView14"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textView14">
