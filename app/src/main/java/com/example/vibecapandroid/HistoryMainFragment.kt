@@ -1,5 +1,5 @@
-package com.example.vibecapandroid
 
+package com.example.vibecapandroid
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -36,7 +36,7 @@ class HistoryMainFragment : Fragment() {
     val apiService=retrofit.create(HistoryApiInterface::class.java)
 
     private var Token:String= userToken
-    private val memberId:Long= 3
+    private val memberId:Long=6
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,7 +51,7 @@ class HistoryMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view?.findViewById(R.id.history_main_recyclerview)
         gridLayoutManager = GridLayoutManager(requireContext(),3,
-            LinearLayoutManager.VERTICAL,false)
+            LinearLayoutManager.HORIZONTAL,false)
         recyclerView?.layoutManager = gridLayoutManager
         recyclerView?.setHasFixedSize(true)
         recyclerView?.adapter = historyMainAdapters
@@ -60,7 +60,7 @@ class HistoryMainFragment : Fragment() {
         val imageBytes = decode(encodedString, NO_WRAP)
         return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
     }
-    private fun setDataInList(){
+    fun setDataInList(){
         apiService.getHistoryAll(Token, memberId)
             .enqueue(object : Callback<HistoryAllResponse> {
                 override fun onResponse(call: Call<HistoryAllResponse>, response: Response<HistoryAllResponse>) {
@@ -76,11 +76,6 @@ class HistoryMainFragment : Fragment() {
                                             "Message:${responseData.message} \n" +
                                             "Result:${responseData.result.album}")
                                 arrayList?.add(HistoryMainImageClass(stringToBitmap(responseData.result.album[0].vibe_image)))
-                                Log.d("check","check")
-                                //Log.d("testimage","${getBase64encode(R.drawable.image_ic_activity_history_album_list1.toString())}")
-                                /*testbackimage=view!!.findViewById(R.id.backwardhistoeymain)
-                                testbackimage!!.setImageBitmap(stringToBitmap(responseData.result.album[0].vibe_image))
-                                Log.d("bitmapiamge","${stringToBitmap(responseData.result.album[0].vibe_image)}")*/
                                 Log.d("ArrayList is success 통신구문","${arrayList}")
                                 historyMainAdapters?.notifyDataSetChanged()
                             }
