@@ -1,5 +1,5 @@
-package com.example.vibecapandroid
 
+package com.example.vibecapandroid
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -51,7 +51,7 @@ class HistoryMainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view?.findViewById(R.id.history_main_recyclerview)
         gridLayoutManager = GridLayoutManager(requireContext(),3,
-            LinearLayoutManager.VERTICAL,false)
+            LinearLayoutManager.HORIZONTAL,false)
         recyclerView?.layoutManager = gridLayoutManager
         recyclerView?.setHasFixedSize(true)
         recyclerView?.adapter = historyMainAdapters
@@ -66,22 +66,22 @@ class HistoryMainFragment : Fragment() {
                 override fun onResponse(call: Call<HistoryAllResponse>, response: Response<HistoryAllResponse>) {
                     val responseData=response.body()
                     if(response.isSuccessful){
-                            if (responseData != null) {
-                                if(responseData.is_success) {
-                                    Log.d(
+                        if (responseData != null) {
+                            if(responseData.is_success) {
+                                Log.d(
                                     "getHistoryAllResponse",
                                     "getHistoryAllResponse\n"+
                                             "isSuccess:${responseData.is_success}\n " +
                                             "Code: ${responseData.code} \n" +
                                             "Message:${responseData.message} \n" +
                                             "Result:${responseData.result.album}")
-                                    arrayList?.add(HistoryMainImageClass(stringToBitmap(responseData.result.album[0].vibe_image)))
-                                    Log.d("ArrayList is success 통신구문","${arrayList}")
-                                    historyMainAdapters?.notifyDataSetChanged()
-                                }
+                                arrayList?.add(HistoryMainImageClass(stringToBitmap(responseData.result.album[0].vibe_image)))
+                                Log.d("ArrayList is success 통신구문","${arrayList}")
+                                historyMainAdapters?.notifyDataSetChanged()
                             }
-                            else
-                            { Log.d("getHistory","getHistoryAll Response Null data") }
+                        }
+                        else
+                        { Log.d("getHistory","getHistoryAll Response Null data") }
                     }
                     else{ Log.d("getHistory","getHistoryAll Response Response Not Success") }
                 }

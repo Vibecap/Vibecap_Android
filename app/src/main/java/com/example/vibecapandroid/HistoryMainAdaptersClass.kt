@@ -20,14 +20,14 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         var historyMainImage:HistoryMainImageClass = arrayList.get(position)
-        holder.images.setImageBitmap((historyMainImage.image!!))
+        holder.images?.setImageBitmap((historyMainImage.image!!))
     }
 
     override fun getItemCount(): Int {
         return arrayList.size
     }
     class ItemHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        var images: ImageView = itemView.findViewById<ImageView>(R.id.image)
+        var images: ImageView? = itemView.findViewById<ImageView>(R.id.image)
     }
 }
 class HistoryMainImageClass {

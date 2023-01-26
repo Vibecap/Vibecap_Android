@@ -23,5 +23,5 @@ data class HistoryAllResult(
 
 data class HistoryImageData(
     val vibe_id:Long,
-    val vibe_image:String
+    val vibe_image: String
 )

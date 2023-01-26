@@ -1,6 +1,7 @@
 package com.example.vibecapandroid
 
 import android.Manifest
+import android.Manifest.permission_group.STORAGE
 
 import android.app.Activity
 import android.content.ContentValues
@@ -21,13 +22,14 @@ import androidx.core.content.ContextCompat
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 
+var imageuri:Uri? = null
+
 class HomeCameraActivity: AppCompatActivity() {
 
 
     // storage 권한 처리에 필요한 변수
     val CAMERA = arrayOf(Manifest.permission.CAMERA)
-    val STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    val STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val CAMERA_CODE = 98
     val STORAGE_CODE = 99
 
@@ -59,21 +61,22 @@ class HomeCameraActivity: AppCompatActivity() {
                                             permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        when(requestCode){
+        when (requestCode) {
             CAMERA_CODE -> {
-                for (grant in grantResults){
-                    if(grant != PackageManager.PERMISSION_GRANTED){
+                for (grant in grantResults) {
+                    if (grant != PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(this, "카메라 권한을 승인해 주세요", Toast.LENGTH_LONG).show()
                     }
                 }
             }
             STORAGE_CODE -> {
-                for(grant in grantResults){
-                    if(grant != PackageManager.PERMISSION_GRANTED){
+                for (grant in grantResults) {
+                    if (grant != PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(this, "저장소 권한을 승인해 주세요", Toast.LENGTH_LONG).show()
                     }
                 }
             }
+
         }
     }
 
@@ -93,9 +96,8 @@ class HomeCameraActivity: AppCompatActivity() {
 
     // 카메라 촬영 - 권한 처리
     fun CallCamera(){
-        if(checkPermission(CAMERA, CAMERA_CODE) && checkPermission(STORAGE, STORAGE_CODE)){
+        if(checkPermission(CAMERA, CAMERA_CODE) && checkPermission(STORAGE, STORAGE_CODE) ){
             val itt = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-
             startActivityForResult(itt, CAMERA_CODE)
         }
     }
@@ -114,8 +116,7 @@ class HomeCameraActivity: AppCompatActivity() {
                     if(data?.extras?.get("data") != null) {
                         val img = data?.extras?.get("data") as Bitmap
                         val uri = saveFile(RandomFileName(), "image/jpeg", img) // 휴대폰 local db 에 저장
-//                        imageView.setImageURI(uri)
-
+                        imageuri = uri
                         val uriString = uri.toString()
                         val nextIntent = Intent(this, HomeCapturedActivity::class.java)
                         nextIntent.putExtra("uri",uriString)
@@ -127,6 +128,11 @@ class HomeCameraActivity: AppCompatActivity() {
                 STORAGE_CODE -> {
                     val uri = data?.data
                     imageView.setImageURI(uri)
+                    imageuri = uri
+                    val uriString = uri.toString()
+                    val nextIntent = Intent(this, HomeCapturedActivity::class.java)
+                    nextIntent.putExtra("uri",uriString)
+                    startActivity(nextIntent)
 
 
                 }
@@ -183,6 +189,8 @@ class HomeCameraActivity: AppCompatActivity() {
             startActivityForResult(itt, STORAGE_CODE)
         }
     }
+
+
 
 
 }
