@@ -15,32 +15,24 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
     RecyclerView.Adapter<HistoryMainAdaptersClass.ItemHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.fragment_history_maingrid,parent,false)
-        Log.d(TAG,"OnAdapterCreated")
         return ItemHolder(itemHolder)
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        var historyMainImage:HistoryMainImageClass = arrayList[position]
-        holder.images.setImageBitmap((historyMainImage.image))
-
+        var historyMainImage:HistoryMainImageClass = arrayList.get(position)
+        holder.images.setImageBitmap((historyMainImage.image!!))
     }
 
     override fun getItemCount(): Int {
         return arrayList.size
     }
-
     class ItemHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var images: ImageView = itemView.findViewById<ImageView>(R.id.image)
     }
 }
-
-
 class HistoryMainImageClass {
-
     var image :Bitmap
-
     constructor(image: Bitmap) {
         this.image = image
     }
-
 }
