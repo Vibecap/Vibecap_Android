@@ -73,7 +73,7 @@ class HomeCapturedActivity : AppCompatActivity() {
         var image: MultipartBody.Part = MultipartBody.Part.createFormData("image_file", file.name, requestBody)
         Log.d("파일",image.toString())
         //jwt 가져오기
-        var jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzMmhvb25AbmF2ZXIuY29tIiwiYXVkIjoidmliZWNhcERlZmF1bHRTZXJ2ZXIiLCJpYXQiOjE2NzQ2NDA3MTcsImV4cCI6MTY3NDY0NDMxNywicm9sZSI6IlJPTEVfTUVNQkVSIn0.L-mkbsO_525PanKkRG3O8BKfRD9KSe_JdFhhS06FKco"
+        var jwt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzMmhvb25AbmF2ZXIuY29tIiwiYXVkIjoidmliZWNhcERlZmF1bHRTZXJ2ZXIiLCJpYXQiOjE2NzQ2NTMyNDQsImV4cCI6MTY3OTgzNzI0NCwicm9sZSI6IlJPTEVfTUVNQkVSIn0.zebkIjMpIz2I_AMW17gfSVU-Cs1VMklRalupe_jgEVI"
         //Gson create
         var gson: Gson = GsonBuilder()
             .setLenient()
