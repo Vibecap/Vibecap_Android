@@ -6,58 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".VibeDetailActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout_top"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/imageButton_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginTop="5dp"
-            android:backgroundTint="@android:color/transparent"
-            app:srcCompat="@drawable/ic_activity_common_album_back" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/tv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="80dp"
-            android:layout_weight="3"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
             android:text="#설레는"
-            android:textAlignment="center"
-            android:textSize="15dp"
             android:textColor="@color/black"
+            android:textSize="15dp"
             android:textStyle="bold" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout3"
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/scrollView_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_top">
+        android:layout_weight="1"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar_top"
+        tools:ignore="MissingConstraints">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
             <GridLayout
                 android:id="@+id/GridLayout_center"
-                android:layout_width="wrap_content"
-                android:layout_height="705dp"
-                android:columnCount="2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:columnCount="2"
+                app:layout_constraintEnd_toEndOf="@+id/toolBar_top"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints">
@@ -69,7 +57,7 @@
                     android:layout_row="0"
                     android:layout_column="0"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_activity_vibe_main_posttest" />
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView2"
@@ -78,7 +66,7 @@
                     android:layout_row="0"
                     android:layout_column="1"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_activity_vibe_main_posttest" />
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView3"
@@ -87,7 +75,7 @@
                     android:layout_row="1"
                     android:layout_column="0"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_activity_vibe_main_posttest" />
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView4"
@@ -96,7 +84,7 @@
                     android:layout_row="1"
                     android:layout_column="1"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_activity_vibe_main_posttest" />
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView5"
@@ -105,7 +93,7 @@
                     android:layout_row="2"
                     android:layout_column="0"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_activity_vibe_main_posttest" />
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView6"
@@ -114,7 +102,7 @@
                     android:layout_row="2"
                     android:layout_column="1"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_activity_vibe_main_posttest" />
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView7"
@@ -123,7 +111,7 @@
                     android:layout_row="3"
                     android:layout_column="0"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_activity_vibe_main_posttest" />
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView8"
@@ -132,32 +120,47 @@
                     android:layout_row="3"
                     android:layout_column="1"
                     android:layout_margin="10dp"
-                    app:srcCompat="@drawable/ic_activity_vibe_main_posttest" />
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView9"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_row="4"
+                    android:layout_column="0"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_row="4"
+                    android:layout_column="1"
+                    android:layout_margin="10dp"
+                    android:src="@drawable/ic_activity_vibe_main_posttest" />
 
             </GridLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/GridLayout_center">
 
-        </ScrollView>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btn_addpost"
+                    android:layout_width="52dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/ic_activity_vibe_main_postaddbtn" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        tools:ignore="MissingConstraints">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_addpost"
-            android:layout_width="52dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/ic_activity_vibe_main_postaddbtn" />
-
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
