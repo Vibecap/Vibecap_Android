@@ -3,9 +3,9 @@ package com.example.vibecapandroid
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-class PopupCommentActivity : AppCompatActivity() {
+class VibePopupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_popup_comment)
+        setContentView(R.layout.activity_popup)
     }
 }
