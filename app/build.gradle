@@ -42,7 +42,7 @@ dependencies {
     //유튜브
     implementation 'kr.co.prnd:youtube-player-view:1.4.1'
     //wheelview
-    implementation 'com.github.lukedeighton:wheelview:0.4.2'
+    //implementation 'com.github.lukedeighton:wheelview:0.4.2'
     implementation 'androidx.core:core-ktx:1.7.0'
     //Glide(리사이클러 뷰 이미지 띄우는거)
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -51,7 +51,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
-    //reacycler view
+    //recyclerview
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     //coroutine

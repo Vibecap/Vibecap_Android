@@ -13,14 +13,12 @@ import android.util.Base64
 import android.util.Log
 import com.example.vibecapandroid.coms.HistoryAllResponse
 import com.example.vibecapandroid.coms.HistoryApiInterface
-
 import com.example.vibecapandroid.databinding.ActivityMainBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.reflect.Member
 
 
 /*
@@ -42,6 +40,7 @@ import java.lang.reflect.Member
         3.Login Activity에서 로그인을 하면 login 여부값을 true로 만든다.
         4.Main에서는 뒤로가기 클릭시 앱 탈출
 */
+
 
 
 
@@ -75,7 +74,6 @@ class MainActivity : AppCompatActivity() {
                                         "Code: ${responseData.code} \n" +
                                         "Message:${responseData.message} \n" +
                                         "Result:${responseData.result.album}")
-
                             if(responseData.is_success) {
                                 if(responseData.result.album.isEmpty()) {
                                     Log.d("찍은 사진 없음","찍은 사진 없음")

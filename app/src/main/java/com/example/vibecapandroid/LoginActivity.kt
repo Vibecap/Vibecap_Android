@@ -113,12 +113,12 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-       viewBinding.activityLoginEmail.addTextChangedListener(){
-           viewBinding.activityLoginEmail812.text=""
-       }
-       viewBinding.activityLoginPassword.addTextChangedListener(){
-           viewBinding.activityLoginPasswordAgaintype.text=""
-       }
+        viewBinding.activityLoginEmail.addTextChangedListener(){
+            viewBinding.activityLoginEmail812.text=""
+        }
+        viewBinding.activityLoginPassword.addTextChangedListener(){
+            viewBinding.activityLoginPasswordAgaintype.text=""
+        }
         viewBinding.activityLoginRegisterbtn.setOnClickListener() {
             val intent = Intent(this@LoginActivity, RegisterEmailActivity::class.java)
             startActivity(intent)
@@ -126,4 +126,3 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 }
-
