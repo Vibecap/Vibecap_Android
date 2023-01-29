@@ -27,9 +27,8 @@ import java.time.format.DateTimeFormatter
 
 
 class HomeCapturedActivity : AppCompatActivity() {
-
-    var video_id:String? = null
     var vibe_id : Long?= null
+    var video_id:String? = null
     var imagebitmap:Bitmap? = null
     var youtube_link: String? = null
 
@@ -71,10 +70,11 @@ class HomeCapturedActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(intent, youtube_link))
 
         }
-        //write post button
+        // post button
         viewBinding.btWrite.setOnClickListener{
             val nextIntent = Intent(this, HomePostActivity::class.java)
             nextIntent.putExtra("video_id",video_id)
+            nextIntent.putExtra("vibe_id",vibe_id)
             startActivity(nextIntent)
         }
         //download button

@@ -15,22 +15,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/imageButton_back"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginTop="12dp"
-            android:layout_weight="1"
             android:src="@drawable/ic_activity_history_post_close"
-            android:textAlignment="center" />
+            android:background="@color/transparent"
+            android:layout_marginLeft="30dp"
+
+            />
 
         <TextView
             android:id="@+id/tv_logo"
-            android:layout_width="wrap_content"
+            android:layout_width="416dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_weight="3"
             android:text="게시물 작성하기"
+            android:textSize="20dp"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textStyle="bold" />
@@ -44,6 +47,7 @@
             android:layout_weight="0.3"
             android:background="@drawable/ic_activity_history_post_complete"
             android:gravity="center"
+            android:textSize="17dp"
             android:text="완료"
             android:textColor="@color/white"
             android:textStyle="bold" />
@@ -53,18 +57,18 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayout7"
+        android:id="@+id/linearLayout_title_and_youtube"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout_top">
 
         <EditText
-            android:id="@+id/textView_title"
+            android:id="@+id/edit_text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:hint="제목을 입력해보세요"
+            android:hint="제목을 입력해 주세요"
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -80,29 +84,29 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout9"
+        android:id="@+id/linearLayoutpostbody"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout_title_and_youtube">
 
 
-        <TextView
+        <EditText
+            android:id="@+id/edit_text_postbody"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_margin="20dp"
-            android:hint="글을 작성해보세요."
-            >
-        </TextView>
+            android:hint="글을 작성해 주세요"
+            />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout10"
+        android:id="@+id/linearLayouttag"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayoutpostbody">
 
 
         <LinearLayout
@@ -122,16 +126,7 @@
                 android:text="#신나는"
                 android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/textView_tag2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="#B1B1B1"
-                android:text="#설레는"
-                android:textColor="@color/white" />
+
         </LinearLayout>
 
     </LinearLayout>
