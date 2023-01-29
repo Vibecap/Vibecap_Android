@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchActivity">
+    tools:context=".VibeSearchActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout_top"
@@ -60,7 +60,7 @@
             android:ems="10"
             android:inputType="textPersonName"
             android:padding="13dp"
-            android:hint="#해시태그 검색"
+            android:text="#해시태그 검색"
             android:textColor="@color/back_txt"
             android:textStyle="bold" />
 

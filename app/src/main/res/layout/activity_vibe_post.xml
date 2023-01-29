@@ -6,46 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".VibePostActivity">
 
-    <LinearLayout
-        android:id="@+id/linearLayout_top"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageButton
-            android:id="@+id/imageButton_back"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:backgroundTint="@android:color/transparent"
-            app:srcCompat="@drawable/ic_activity_common_album_back" />
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolBar_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="MissingConstraints">
 
         <TextView
             android:id="@+id/tv_logo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="80dp"
-            android:layout_weight="3"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center"
             android:text="게시물"
-            android:gravity="center"
-            android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:textStyle="bold" />
-    </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <LinearLayout
         android:id="@+id/linearLayout6"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout_top"
+        app:layout_constraintTop_toBottomOf="@+id/toolBar_top"
         tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.AppCompatImageButton
@@ -54,22 +40,22 @@
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"
             android:backgroundTint="@color/transparent"
-            app:srcCompat="@drawable/ic_activity_vibe_post_profile" />
+            android:src="@drawable/ic_activity_vibe_post_profile" />
 
         <TextView
             android:id="@+id/textView_username"
-            android:layout_width="303dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="user_writer"
+            android:text=""
             android:textColor="@color/black" />
 
-        <ImageButton
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/article_popup"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:backgroundTint="@color/transparent"
-            app:srcCompat="@drawable/ic_activity_mypage_post_menu" />
+            android:src="@drawable/ic_activity_mypage_post_menu" />
 
     </LinearLayout>
 
@@ -85,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="크리스마스 캐롤 모음"
+            android:text=""
             android:textColor="@color/black"
             android:textStyle="bold" />
 
@@ -111,7 +97,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/transparent"
-            app:srcCompat="@drawable/ic_activity_vibe_post_heart" />
+            android:src="@drawable/ic_activity_vibe_post_heart" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageButton_comment"
@@ -121,7 +107,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/transparent"
-            app:srcCompat="@drawable/ic_activity_vibe_post_chat" />
+            android:src="@drawable/ic_activity_vibe_post_chat" />
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageButton_save"
@@ -131,7 +117,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/transparent"
-            app:srcCompat="@drawable/ic_activity_vibe_post_save" />
+            android:src="@drawable/ic_activity_vibe_post_save" />
     </LinearLayout>
 
     <LinearLayout
@@ -146,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="🎄🎉 크리스마스 "
+            android:text=""
             android:textColor="@color/black" />
 
         <LinearLayout
@@ -187,164 +173,4 @@
             android:textColor="#B1B1B1" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout9"
-        tools:ignore="MissingConstraints">A
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/imageView_userprofile"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="@color/transparent"
-                app:srcCompat="@drawable/ic_activity_vibe_post_profile" />
-
-            <TextView
-                android:id="@+id/textView_name1"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="user123"
-                android:textColor="@color/black" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/imageButton_popup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/transparent"
-                app:srcCompat="@drawable/ic_activity_mypage_post_menu" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView27"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="40dp"
-            android:text="노래가.좋네요. 우리.임영웅이가.불러주면.얼마나좋을까요~~
-잘 듣고. 갑니다~~"
-            android:textColor="@color/black"
-            android:textSize="11dp" />
-
-        <TextView
-            android:id="@+id/textView_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="10dp"
-            android:text="2022. 12. 26. 15:10"
-            android:textSize="11dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout10"
-        tools:ignore="MissingConstraints">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal">
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/imageView20"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:backgroundTint="@color/transparent"
-                app:srcCompat="@drawable/ic_activity_vibe_post_profile" />
-
-            <TextView
-                android:id="@+id/textView30"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="user4453"
-                android:textColor="@color/black" />
-
-            <androidx.appcompat.widget.AppCompatImageButton
-                android:id="@+id/imageButton1_popup"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/transparent"
-                app:srcCompat="@drawable/ic_activity_mypage_post_menu" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView00"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="40dp"
-            android:text="노래 분위기가 너무 좋아요 ^^ 다음에도 추천해주세요."
-            android:textColor="@color/black"
-            android:textSize="11dp" />
-
-        <TextView
-            android:id="@+id/textView40"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="10dp"
-            android:text="2022. 12. 26. 15:32"
-            android:textSize="11dp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout11"
-            tools:layout_editor_absoluteX="-2dp">
-
-            <EditText
-                android:id="@+id/et_txt"
-                android:layout_width="320dp"
-                android:layout_height="40dp"
-                android:layout_margin="5dp"
-                android:layout_marginLeft="10dp"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:paddingLeft="10dp"
-                android:text="댓글을 작성하세요"
-                android:textColor="@color/back_txt"
-                android:textSize="11dp"
-                android:textStyle="bold" />
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/bt_complete"
-                android:layout_width="75dp"
-                android:layout_height="36dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="20dp"
-                android:backgroundTint="@color/transparent"
-                android:gravity="center"
-                android:text="등록"
-                android:textColor="#B1B1B1"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
