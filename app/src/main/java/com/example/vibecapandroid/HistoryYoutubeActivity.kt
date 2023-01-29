@@ -23,7 +23,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         setContentView(viewBinding.root)
         Youtubeplay()
 
-        viewBinding.btPost.setOnClickListener(){
+        viewBinding.btWrite.setOnClickListener(){
             val intent = Intent(this, HistoryPostActivity::class.java)
             startActivity(intent)
         }
@@ -54,7 +54,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         bundle.putString("VIDEO_ID", getYouTubeId(videoID!!))
         YoutubePlayerFragment.arguments = bundle
         supportFragmentManager.beginTransaction()
-            .replace(R.id.you_tube_player_view_history, YoutubePlayerFragment)
+            .replace(R.id.history_youtube_you_tube_player_view, YoutubePlayerFragment)
             .commitNow()
 
     }
