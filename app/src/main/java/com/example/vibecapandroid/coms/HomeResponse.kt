@@ -11,7 +11,8 @@ data class CaptureResponse(
 
 data class Result(
     val youtube_link : String,
-    val video_id : String
+    val video_id : String,
+    val vibe_id : Long
 )
 
 data class WEATHER (
@@ -36,5 +37,12 @@ data class ITEM(
     val baseData : Int,
     val baseTime : Int,
     val category : String
+)
+
+data class DeleteResponse(
+    val is_success : Boolean,
+    val code : Int,
+    val message : String,
+    val result : String
 )
 
