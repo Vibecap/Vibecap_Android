@@ -17,6 +17,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.vibecapandroid.WheelView.WheelView
@@ -59,11 +60,13 @@ class HomeMainFragment : Fragment() {
             startActivity(intent)
         }
 
+
         val vibrator = requireContext().getSystemService(VIBRATOR_SERVICE) as Vibrator
         val layout: ConstraintLayout = viewBinding.wheelMain
         wheelView = viewBinding.wheelview
         wheelView!!.setWheelItemCount(size)
         val textView = viewBinding.fragmentHomeMainFeeling
+
         val shapeDrawables = arrayOfNulls<ShapeDrawable>(size)
         val colors = arrayOfNulls<String>(size)
         for (i in 0 until size) {

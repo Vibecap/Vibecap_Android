@@ -7,6 +7,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.util.Log
 import com.example.vibecapandroid.coms.HistoryAllResponse
 import com.example.vibecapandroid.coms.HistoryApiInterface
@@ -41,9 +44,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 
-
 public lateinit var userToken:String
-public var arrayList:ArrayList<HistoryMainImageClass>?=null
+public var arrayList:ArrayList<com.example.vibecapandroid.coms.HistoryMainImageClass>?=null
 public var MEMBER_ID:Long=0
 
 val retrofit: Retrofit = Retrofit.Builder()
@@ -66,20 +68,18 @@ class MainActivity : AppCompatActivity() {
                     if(response.isSuccessful){
                         if (responseData != null) {
                             Log.d(
-                                "getLoginAllResponse",
+                                "getHistoryAllResponse",
                                 "getHistoryAllResponse\n"+
                                         "isSuccess:${responseData.is_success}\n " +
                                         "Code: ${responseData.code} \n" +
-                                        "Message:${responseData.message} \n"
-                                        //"Result:${responseData.result.album}")
-                            )
-
+                                        "Message:${responseData.message} \n" +
+                                        "Result:${responseData.result.album}")
                             if(responseData.is_success) {
                                 if(responseData.result.album.isEmpty()) {
                                     Log.d("찍은 사진 없음","찍은 사진 없음")
                                 }
                                 else{
-                                    //arrayList?.add(HistoryMainImageClass((responseData.result.album[0].vibe_image),responseData.result.album[0].vibe_id))
+                                    arrayList!!.addAll(responseData.result.album.toMutableList())
                                     Log.d("ArrayList is success 통신구문","${arrayList}")
                                 }
                             }

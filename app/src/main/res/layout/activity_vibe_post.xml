@@ -33,9 +33,10 @@
             android:layout_marginRight="80dp"
             android:layout_weight="3"
             android:text="게시물"
+            android:gravity="center"
             android:textAlignment="center"
-            android:textSize="15dp"
             android:textColor="@color/black"
+            android:textSize="20dp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -57,7 +58,7 @@
 
         <TextView
             android:id="@+id/textView_username"
-            android:layout_width="300dp"
+            android:layout_width="303dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="user_writer"
@@ -192,7 +193,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout9"
-        tools:ignore="MissingConstraints">
+        tools:ignore="MissingConstraints">A
 
         <LinearLayout
             android:layout_width="match_parent"
