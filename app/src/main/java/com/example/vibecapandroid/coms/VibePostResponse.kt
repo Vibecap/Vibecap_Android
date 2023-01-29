@@ -6,21 +6,19 @@ import java.sql.Timestamp
 
 // 게시물 전체 조회
 data class PostAllResponse(
-    val is_success:Boolean,
-    val code:Int,
-    val message:String,
-    val data: PostAllData,
+    @SerializedName("is_success") val is_success: Boolean,
+    @SerializedName("code")val code: Int,
+    @SerializedName("message") val message: String,
+    @SerializedName("result")val result: List<PostAllData>
 )
 data class PostAllData(
-    val post_id: Int,
-    val vibe_id: Int,
-    val img_id: Int,
-    val youtube_link:Char,
-    val member_id: Int
+    @SerializedName("post_id") val post_id: Int,
+    @SerializedName("member_id") val member_id: Blob,
+    @SerializedName("vibe_id") val vibe_id: Int,
+    @SerializedName("vibe_img") val vibe_img: String
 )
 
 // 게시물 개별 조회
-
 data class PostDetailResponse(
     @SerializedName("is_success") val is_success: Boolean,
     @SerializedName("code")val code: Int,

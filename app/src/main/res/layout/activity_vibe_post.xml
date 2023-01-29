@@ -148,7 +148,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="#B1B1B1"
-                android:text="#신나는"
+                android:text=""
                 android:textColor="@color/white" />
 
             <TextView
@@ -159,7 +159,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="#B1B1B1"
-                android:text="#설레는"
+                android:text=""
                 android:textColor="@color/white" />
         </LinearLayout>
 
