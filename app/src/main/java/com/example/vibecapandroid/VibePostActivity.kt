@@ -1,30 +1,50 @@
 package com.example.vibecapandroid
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import com.example.vibecapandroid.coms.PostDetailResponse
+import com.example.vibecapandroid.coms.VibePostApiInterface
+import com.example.vibecapandroid.databinding.ActivityVibePostBinding
+import retrofit2.*
+import retrofit2.converter.gson.GsonConverterFactory
 
 class VibePostActivity : AppCompatActivity() {
+    val viewBinding : ActivityVibePostBinding by lazy {
+        ActivityVibePostBinding.inflate(layoutInflater)
+    }
 
-    private var article_popup:ImageButton? = null
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_vibe_post)
+        setContentView(viewBinding.root)
 
 
+        // 툴바
+        val toolbar = findViewById<Toolbar>(R.id.toolBar_top)
+        setSupportActionBar(toolbar)
+        val ab = supportActionBar!!
+        ab.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        // API
+        requestToRestAPI()
+
+        // 댓글창 열기
+        viewBinding.imageButtonComment.setOnClickListener {
+            val intent = Intent(this, VibeCommentActivity::class.java)
+            startActivity(intent)
+        }
 
         // 게시글 popup
-        val article_popup = findViewById<ImageButton>(R.id.article_popup)
-        article_popup.setOnClickListener {
+        viewBinding.articlePopup.setOnClickListener {
             // Dialog만들기
             val mDialogView =
                 LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
@@ -43,7 +63,7 @@ class VibePostActivity : AppCompatActivity() {
             val declaration_table = mDialogView.findViewById<Button>(R.id.dialog_table_declaration)
             declaration_table.setOnClickListener {
 
-                var intent = Intent(this, PopupActivity::class.java)
+                var intent = Intent(this, VibePopupActivity::class.java)
                 startActivity(intent)
             }
 
@@ -61,33 +81,155 @@ class VibePostActivity : AppCompatActivity() {
                 // 게시물 공유 API
             }
         }
+    }
 
-        // 댓글 popup
-        val comment_popup = findViewById<ImageButton>(R.id.imageButton_popup)
-        comment_popup.setOnClickListener {
-            // Dialog만들기
-            val mDialogView = LayoutInflater.from(this).inflate(R.layout.activity_popup_comment, null)
-            val mBuilder = AlertDialog.Builder(this)
-                .setView(mDialogView)
-
-            val mAlertDialog = mBuilder.show()
-
-            val block_table = mDialogView.findViewById<Button>(R.id.block_table)
-            block_table.setOnClickListener {
-
-                Toast.makeText(this, "댓글 작성자를 차단했습니다.", Toast.LENGTH_SHORT).show()
-                // 차단 API
+    // 툴바
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id = item.itemId
+        when (id) {
+            android.R.id.home -> {
+                finish()
+                return true
             }
-
-            val declaration_table = mDialogView.findViewById<Button>(R.id.declaration_table)
-            declaration_table.setOnClickListener {
-
-                Toast.makeText(this, "댓글을 신고했습니다.", Toast.LENGTH_SHORT).show()
-                // 신고 API
-            }
-
-
+            else -> {}
         }
 
+        return super.onOptionsItemSelected(item)
     }
+
+    // api
+    object RetrofitObject {
+        private fun getRetrofit(): Retrofit {
+            return Retrofit.Builder()
+                .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+        }
+
+        fun getApiService():VibePostApiInterface{
+            return getRetrofit().create(VibePostApiInterface::class.java)
+        }
+    }
+
+    private fun requestToRestAPI(){
+        RetrofitObject.getApiService().postDetailCheck(7).enqueue(object : Callback<PostDetailResponse>{
+            // api 호출 성공시
+            override fun onResponse(call: Call<PostDetailResponse>, response: Response<PostDetailResponse>) {
+                Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT).show()
+                setTitleText(response.code(), response.body())
+                setNicknameText(response.code(), response.body())
+                setPostText(response.code(), response.body())
+                //Log.d("response text","${response}")
+                val responseData = response.body()
+                Log.d(
+                    "postCapture",
+                    "postCapture\n"+
+                            "isSuccess:${responseData?.is_success}\n " +
+                            "Code: ${responseData?.code} \n" +
+                            "Message:${responseData?.message} \n" )
+            }
+
+            // api 호출 실패시
+            override fun onFailure(call: Call<PostDetailResponse>, t: Throwable) {
+                Log.e("retrofit onFailure", "${t.message.toString()}")
+                Toast.makeText(applicationContext, "fail", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // post id 설정
+    // member id 설정
+    // title 설정
+    private fun setTitleText(resCode:Int, body: PostDetailResponse?){
+        // title text 지정
+        viewBinding.textViewTitle.text = when(resCode){
+            200 -> {
+                if(body == null){
+                    "api body가 비어있습니다."
+                }else{
+                    if(body.result[0].title == ""){
+                        "api호출은 성공했으나 데이터가 없습니다."
+                    }else{
+                        body.result[0].title
+                    }
+                }
+            }
+            400 -> {
+                "API 키가 만료됬거나 쿼리 파라미터가 잘못 됬습니다."
+            }
+            401 -> {
+                "인증 정보가 정확하지 않습니다."
+            }
+            500 -> {
+                "API 서버에 문제가 발생하였습니다."
+            }
+            else -> {
+                "기타 문제발생..."
+            }
+        }
+    }
+    // posttxt 설정
+    private fun setPostText(resCode: Int,body: PostDetailResponse?){
+        viewBinding.textViewPosttxt.text = when(resCode){
+            200 -> {
+                if(body == null){
+                    "api body가 비어있습니다."
+                }else{
+                    if(body.result[0].body.toString()== "[]"){
+                        "api호출은 성공했으나 데이터가 없습니다."
+                    }else{
+                        body.result[0].body.toString()
+                    }
+                }
+            }
+            400 -> {
+                "API 키가 만료됬거나 쿼리 파라미터가 잘못 됬습니다."
+            }
+            401 -> {
+                "인증 정보가 정확하지 않습니다."
+            }
+            500 -> {
+                "API 서버에 문제가 발생하였습니다."
+            }
+            else -> {
+                "기타 문제발생..."
+            }
+        }
+    }
+    // vibe
+    // nickname 설정
+    private fun setNicknameText(resCode: Int, body: PostDetailResponse?) {
+        viewBinding.textViewUsername.text = when(resCode){
+            200 -> {
+                if(body == null){
+                    "api body가 비어있습니다."
+                }else{
+                    if(body.result[0].nickname== ""){
+                        "api호출은 성공했으나 데이터가 없습니다."
+                    }else{
+                        body.result[0].nickname
+                    }
+                }
+            }
+            400 -> {
+                "API 키가 만료됬거나 쿼리 파라미터가 잘못 됬습니다."
+            }
+            401 -> {
+                "인증 정보가 정확하지 않습니다."
+            }
+            500 -> {
+                "API 서버에 문제가 발생하였습니다."
+            }
+            else -> {
+                "기타 문제발생..."
+            }
+        }
+    }
+    // profileImg 설정 - 미완
+    private fun setProfileImg(resCode: Int, body: PostDetailResponse?){
+        viewBinding.imageViewProfile
+    }
+
 }
+
+

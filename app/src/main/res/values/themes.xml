@@ -13,6 +13,8 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item><!--상단바 없애기-->
+        <item name="colorControlNormal">@color/black</item> <!--홈/뒤로가기 버튼의 색상-->
+
     </style>
     
     <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">

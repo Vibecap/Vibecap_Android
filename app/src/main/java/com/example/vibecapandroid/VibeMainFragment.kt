@@ -9,13 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.example.vibecapandroid.databinding.FragmentVibeMainBinding
 
 class VibeMainFragment : Fragment() {
     private lateinit var viewBinding: FragmentVibeMainBinding
-
-
+    private var viewPager: ViewPager2? = null
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -23,17 +26,21 @@ class VibeMainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
 
-
-
     ): View? {
-        viewBinding=FragmentVibeMainBinding.inflate(layoutInflater)
+        viewBinding = FragmentVibeMainBinding.inflate(layoutInflater)
         val view = inflater.inflate(R.layout.fragment_vibe_main, container, false)
-        //return viewBinding.root
-        //R.id 방식 하실꺼면 바로 윗줄 꺼 쓰시면 됩니다~!~!. return값으로요
+
+        //  post 테스트 용************
+        val testPost :ImageView = view.findViewById(R.id.imageButton_1)
+        testPost.setOnClickListener{
+            val intent = Intent(context, VibePostActivity::class.java)
+            startActivity(intent)
+        }
+        //**********
 
         val search :ImageButton = view.findViewById(R.id.imageButton_search)
         search.setOnClickListener {
-            val intent = Intent(context, SearchActivity::class.java)
+            val intent = Intent(context, VibeSearchActivity::class.java)
             startActivity(intent)
         }
 
@@ -43,7 +50,35 @@ class VibeMainFragment : Fragment() {
             startActivity(intent)
         }
 
+        val mypage_alarm2: ImageButton = view.findViewById(R.id.imageButton_alarm)
+        mypage_alarm2.setOnClickListener {
+            val intent = Intent(context, MypageAlarmActivity::class.java)
+            startActivity(intent)
+        }
+
+        val mypage_profile2:ImageButton = view.findViewById(R.id.imageButton_profile)
+        mypage_profile2.setOnClickListener {
+            val intent = Intent(context, MypageProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        val addview :Button = view.findViewById(R.id.btn_addview)
+        addview.setOnClickListener{
+            val intent = Intent(context, VibeDetailActivity::class.java)
+            startActivity(intent)
+        }
+
         return view
+
     }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        val pagerAdapter = VibeWeeklyAdapter(requireActivity())
+
+        viewPager?.adapter = pagerAdapter
+
+    }
+
 
 }
