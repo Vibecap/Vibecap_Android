@@ -117,9 +117,12 @@ class VibePostActivity : AppCompatActivity() {
             override fun onResponse(call: Call<PostDetailResponse>, response: Response<PostDetailResponse>) {
                 Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT).show()
                 setTitleText(response.code(), response.body())
+                setVibeIdImage(response.code(), response.body())
+                setNumber(response.code(),response.body())
+                setTagName(response.code(),response.body())
                 setNicknameText(response.code(), response.body())
                 setPostText(response.code(), response.body())
-                //Log.d("response text","${response}")
+                setProfileImg(response.code(),response.body())
                 val responseData = response.body()
                 Log.d(
                     "postCapture",
@@ -196,7 +199,38 @@ class VibePostActivity : AppCompatActivity() {
             }
         }
     }
-    // vibe
+    // vibe id, vibe image 설정
+    private fun setVibeIdImage(resCode: Int, body: PostDetailResponse?){
+
+    }
+    // like_number, scrap_number, comment_number 설정
+    private fun setNumber(resCode: Int, body: PostDetailResponse?){
+        val like_number = body!!.result[0].like_number
+        val scrap_number = body!!.result[0].scrap_number
+        val comment_number = body!!.result[0].comment_number
+    }
+    // tag name 설정
+    private fun setTagName(resCode: Int, body: PostDetailResponse?){
+        viewBinding.textViewTag1.text = when(resCode){
+            200 -> {
+                if(body == null){
+                    "데이터가 없습니다."
+                }else{
+                    if (body.result[0].tag_name == ""){
+                        "api 호출은 성공했으나 데이터가 없습니다."
+                    }else{
+                        body.result[0].tag_name
+                    }
+                }
+            }
+            3012 -> {
+                "게시물이 존재하지 않습니다."
+            }
+            else -> {
+                "기타 문제 발생"
+            }
+        }
+    }
     // nickname 설정
     private fun setNicknameText(resCode: Int, body: PostDetailResponse?) {
         viewBinding.textViewUsername.text = when(resCode){

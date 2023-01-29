@@ -15,6 +15,7 @@ class VibeSearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
 
+        // 툴바
         val toolbar = findViewById<Toolbar>(R.id.toolBar_top)
         setSupportActionBar(toolbar)
         val ab = supportActionBar!!

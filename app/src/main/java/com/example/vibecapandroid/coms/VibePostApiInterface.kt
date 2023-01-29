@@ -7,12 +7,13 @@ import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 // 게시물 전체 조회
 interface VibePostAllInterface{
     @GET("app/posts")
     fun postAllCheck(
-
+        @Query("tagName") tagName:String
     ): Call<PostAllResponse>
 }
 
