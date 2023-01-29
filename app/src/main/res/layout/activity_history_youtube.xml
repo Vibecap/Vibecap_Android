@@ -8,7 +8,7 @@
 
 
     <FrameLayout
-        android:id="@+id/you_tube_player_view_home_captuerd"
+        android:id="@+id/you_tube_player_view_history"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"

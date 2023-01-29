@@ -74,10 +74,12 @@ class LoginActivity : AppCompatActivity() {
                                     ).edit()
                                     editor.putBoolean("isLoggedIn", true)
                                     editor.putString("Token", responseData.result.token)
+                                    editor.putLong("Member_Id",responseData.result.member_id.toLong())
                                     editor.apply()
                                     val intent =
                                         Intent(this@LoginActivity, MainActivity::class.java)
                                     startActivity(intent)
+
                                     finish()
                                 } else {
                                     if (responseData.code == 3201) {

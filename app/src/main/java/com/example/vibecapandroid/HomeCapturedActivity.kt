@@ -112,7 +112,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                                 bundle.putString("VIDEO_ID", video_id)
                                 YoutubePlayerFragment.arguments = bundle
                                 supportFragmentManager.beginTransaction()
-                                    .replace(R.id.you_tube_player_view, YoutubePlayerFragment)
+                                    .replace(R.id.you_tube_player_view_home_captuerd, YoutubePlayerFragment)
                                     .commitNow()
                             }
 

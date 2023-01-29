@@ -39,13 +39,10 @@
     <com.lukedeighton.wheelview.WheelView
         android:id="@+id/wheelview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_height="match_parent"
+        android:layout_marginTop="68dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499"
         app:repeatItems="true"
         app:selectionAngle="90.0"
         app:selectionDrawable="@drawable/ic_btn_home_vibe_dial_selected"
@@ -79,7 +76,7 @@
     </com.lukedeighton.wheelview.WheelView>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/fragment_home_main_Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="108dp"
@@ -94,7 +91,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/fragment_home_main_MusicLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="음악로고"

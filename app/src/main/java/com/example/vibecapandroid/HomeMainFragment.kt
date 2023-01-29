@@ -11,8 +11,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -35,31 +33,26 @@ class HomeMainFragment : Fragment() {
     //size 설정
     var size = 7
 
+    @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         viewBinding = FragmentHomeMainBinding.inflate(layoutInflater)
-        val view = inflater.inflate(R.layout.fragment_home_main, container, false)
 
-        val search: ImageButton = view.findViewById(R.id.main_alarm)
-        search.setOnClickListener {
+        viewBinding.mainAlarm.setOnClickListener{
             val intent = Intent(context, MypageAlarmActivity::class.java)
             startActivity(intent)
         }
-
-        val addpost: ImageButton = view.findViewById(R.id.main_profile)
-        addpost.setOnClickListener {
+        viewBinding.mainProfile.setOnClickListener{
             val intent = Intent(context, MypageProfileActivity::class.java)
             startActivity(intent)
         }
-
-
         val layout: ConstraintLayout = viewBinding.wheelMain as ConstraintLayout
         wheelView = viewBinding.wheelview as WheelView
         wheelView!!.setWheelItemCount(size)
-        val textView = viewBinding.textView2 as TextView
+        val textView = viewBinding.fragmentHomeMainMusicLogo as TextView
         val shapeDrawables = arrayOfNulls<ShapeDrawable>(size)
         val colors = arrayOfNulls<String>(size)
         for (i in 0 until size) {
@@ -121,7 +114,8 @@ class HomeMainFragment : Fragment() {
                 }
             }
         }
-        return view
+        return viewBinding.root!!
+        /* return view*/
 
     }
 }
