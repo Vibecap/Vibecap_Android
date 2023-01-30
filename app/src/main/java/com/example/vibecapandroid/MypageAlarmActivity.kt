@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.vibecapandroid.MypageAlarmClass
@@ -61,6 +63,11 @@ class MypageAlarmActivity : AppCompatActivity() {
         activity_mypage_alarm_recyclerview.setHasFixedSize(true)
 
         activity_mypage_alarm_recyclerview.adapter = MypageAlarmadaptersClass(alarmList)
+
+        activity_mypage_alarm_recyclerview.addItemDecoration(
+            DividerItemDecoration(this,DividerItemDecoration.VERTICAL)
+        )
+
     }
 
     }

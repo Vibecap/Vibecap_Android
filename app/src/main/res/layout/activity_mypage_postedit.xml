@@ -23,7 +23,7 @@
             tools:layout_editor_absoluteY="0dp">
 
             <ImageButton
-                android:id="@+id/imageButton_back"
+                android:id="@+id/activity_history_post_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
