@@ -29,7 +29,7 @@ class MypageWritedadaptersClass(var context: Context, var arrayList: ArrayList<C
         }
 
         holder.itemView.setOnClickListener {
-            val intent= Intent(holder.itemView.context,MypageProfileActivity::class.java)
+            val intent= Intent(holder.itemView.context,VibePostActivity::class.java)
             ContextCompat.startActivity(holder.itemView.context,intent,null)
             Log.d("position","${position}")
         }

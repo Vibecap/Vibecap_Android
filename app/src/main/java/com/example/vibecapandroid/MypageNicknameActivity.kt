@@ -51,7 +51,7 @@ class MypageNicknameActivity : AppCompatActivity() {
         val apiService = retrofit.create(MypageApiInterface::class.java)
 
         mypage_next.setOnClickListener(View.OnClickListener {
-            apiService.patchNicknameChange(userToken, patchNickNameInput(1,"aaaa")).enqueue(object :
+            apiService.patchNicknameChange(userToken, patchNickNameInput(MEMBER_ID,findViewById<EditText>(R.id.activity_mypage_nickname_edit).text.toString())).enqueue(object :
                 Callback<ChangeNicknameResponse> {
                 override fun onResponse(
                     call: Call<ChangeNicknameResponse>,
@@ -98,6 +98,7 @@ class MypageNicknameActivity : AppCompatActivity() {
 
         Log.d("userToken","$userToken")
         //입력한 주소중 하나로 연결 시도
+
 
 
 
