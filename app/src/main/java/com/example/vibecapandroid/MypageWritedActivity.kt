@@ -2,28 +2,35 @@ package com.example.vibecapandroid
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.vibecapandroid.coms.CheckMypageResponse
-import com.example.vibecapandroid.coms.MypageApiInterface
+import com.bumptech.glide.Glide
+import com.example.vibecapandroid.coms.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Multipart
 
 class MypageWritedActivity : AppCompatActivity() {
 
     private var recyclerView: RecyclerView? = null
     private var gridLayoutManager: GridLayoutManager? = null
-    private var arrayList:ArrayList<MypageWritedimageClass> ? = null
+    //arrayList 선언
+    private var arrayList:ArrayList<CheckMypageWritedResponseResult> ? = null
     private var mypageWritedAdapters:MypageWritedadaptersClass ? = null
+
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,8 +42,8 @@ class MypageWritedActivity : AppCompatActivity() {
             LinearLayoutManager.VERTICAL,false)
         recyclerView?.layoutManager = gridLayoutManager
         recyclerView?.setHasFixedSize(true)
+        //arrayList 초기화
         arrayList = ArrayList()
-        arrayList = setDataInList()
         mypageWritedAdapters = MypageWritedadaptersClass(applicationContext,arrayList!!)
         recyclerView?.adapter = mypageWritedAdapters
 
@@ -49,7 +56,7 @@ class MypageWritedActivity : AppCompatActivity() {
 
         //웹 브라우저 창 열기
         val retrofit = Retrofit.Builder()
-            .baseUrl("http://175.41.230.93:8080/app/my-page/posts")
+            .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
@@ -57,17 +64,19 @@ class MypageWritedActivity : AppCompatActivity() {
         val apiService = retrofit.create(MypageApiInterface::class.java)
 
         //입력한 주소중 하나로 연결 시도
-        apiService.getWritedCheck(1).enqueue(object :
-            Callback<CheckMypageResponse> {
+        apiService.getWritedCheck(userToken, MEMBER_ID).enqueue(object :
+            Callback<CheckMypageWritedResponse> {
+            @SuppressLint("ResourceType")
             override fun onResponse(
-                call: Call<CheckMypageResponse>,
-                response: Response<CheckMypageResponse>
+                call: Call<CheckMypageWritedResponse>,
+                response: Response<CheckMypageWritedResponse>
             ) {
 
                 if (response.isSuccessful) {
                     val responseData = response.body()
 
                     if (responseData !== null) {
+
                         Log.d(
                             "Retrofit",
                             "MypageResponse\n"+
@@ -76,7 +85,32 @@ class MypageWritedActivity : AppCompatActivity() {
                                     "Message:${responseData.message}"+
                                     "Result:${responseData.result}"
                         )
+                        if(responseData.is_success){
+                            Log.d("responseData","${responseData.result}")
+                            if(responseData.result.isEmpty()){
+                                Log.d("게시된 사진 없음","게시된 사진 없음")
+                            }
+                            else{
 
+                                //if(responseData.result[i].isEmpty())
+                                //arrayList?.add(MypageWritedimageClass((responseData.result[0].vibe_image)))
+                                arrayList!!.addAll(responseData.result.toMutableList())
+                                Log.d("ArrayList is success","${arrayList}")
+                                mypageWritedAdapters!!.notifyDataSetChanged()
+                            }
+                        }
+
+                        //var writed_image = findViewById<ImageView>(R.layout.activity_mypage_writedgrid)
+                        //writed_image!!.setImageBitmap(stringToBitmap(responseData.result.vibe_image))
+
+                        //arrayList?.add(MypageWritedimageClass(stringToBitmap(responseData.result[0].vibe_image)))
+                        //arrayList 추가
+                        //arrayList?.add(MypageWritedimageClass((responseData.result[0].vibe_image)))
+
+
+
+
+                        //mypageWritedAdapters!!.notifyDataSetChanged()
                     }
                     else{
                         Log.d("Retrofit","Null data") }
@@ -86,7 +120,7 @@ class MypageWritedActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<CheckMypageResponse>, t: Throwable) {
+            override fun onFailure(call: Call<CheckMypageWritedResponse>, t: Throwable) {
                 Log.e("Retrofit","Error",t)
             }
 
@@ -94,28 +128,4 @@ class MypageWritedActivity : AppCompatActivity() {
 
     }
 
-    private fun setDataInList(): ArrayList<MypageWritedimageClass>{
-        var items: ArrayList<MypageWritedimageClass> = ArrayList()
-
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list1))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list2))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list3))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list1))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list2))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list3))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list1))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list2))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list3))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list1))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list2))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list3))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list1))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list2))
-        items.add(MypageWritedimageClass(R.drawable.image_ic_activity_history_album_list3))
-
-
-
-
-        return items
-    }
 }
