@@ -4,13 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
-import com.example.vibecapandroid.coms.CheckMypageResponse
-import com.example.vibecapandroid.coms.MypageApiInterface
 import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
 
 class MypageProfileActivity : AppCompatActivity() {
 
@@ -38,7 +34,7 @@ class MypageProfileActivity : AppCompatActivity() {
         activity_mypage_profilelist.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
             if(position==0){
                 val selectItem = parent.getItemAtPosition(position) as MypageProfileClass
-                val intent = Intent(this,MypageAlarmActivity::class.java)
+                val intent = Intent(this, MypageAlarmActivity::class.java)
                 intent.putExtra("활동내역",mypageList[position].profile_textview)
                 startActivity(intent)}
             else if(position==1){

@@ -8,7 +8,7 @@
 
 
     <FrameLayout
-        android:id="@+id/you_tube_player_view"
+        android:id="@+id/home_captured_you_tube_player_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
@@ -25,19 +25,19 @@
         android:id="@+id/bt_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="24dp"
         android:layout_weight="0.5"
         android:backgroundTint="@android:color/transparent"
         android:contentDescription="TODO"
         android:minHeight="48dp"
         android:src="@drawable/ic_home_captured_home"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.086"
+        app:layout_constraintHorizontal_bias="0.05"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/bt_post"
+        android:id="@+id/bt_youtube"
         android:layout_width="153dp"
         android:layout_height="48dp"
         android:layout_marginStart="30dp"
@@ -47,7 +47,7 @@
         android:layout_weight="0.3"
         android:background="@drawable/ic_activity_history_post_complete"
         android:gravity="center"
-        android:text="포스트 작성하기"
+        android:text="재생 바로가기"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -66,31 +66,48 @@
         android:minHeight="48dp"
         android:src="@drawable/ic_home_share"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bt_replay"
-        app:layout_constraintHorizontal_bias="0.384"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.924" />
+        app:layout_constraintVertical_bias="0.9" />
 
     <ImageButton
-        android:id="@+id/bt_replay"
+        android:id="@+id/bt_download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
         android:layout_weight="0.5"
         android:backgroundTint="@android:color/transparent"
         android:contentDescription="TODO"
         android:minHeight="48dp"
-        android:src="@drawable/ic_home_replay"
+        android:src="@drawable/ic_home_download_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9"/>
+
+    <ImageButton
+        android:id="@+id/bt_write"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:backgroundTint="@android:color/transparent"
+        android:contentDescription="TODO"
+        android:minHeight="48dp"
+        android:src="@drawable/ic_home_write_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.65"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.9" />
 
     <ImageButton
         android:id="@+id/bt_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="56dp"
         android:layout_weight="0.5"
         android:backgroundTint="@android:color/transparent"
         android:contentDescription="TODO"
@@ -98,17 +115,10 @@
         android:src="@drawable/ic_home_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.559"
-        app:layout_constraintStart_toEndOf="@+id/bt_replay" />
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.90"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="0.90" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

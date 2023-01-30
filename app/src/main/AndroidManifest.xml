@@ -9,6 +9,10 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 저장소 읽기 권한 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+<!--진동 권한-->
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,6 +25,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".HistoryYoutubeActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".VibeCommentActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".HistoryPostActivity"
             android:exported="false">
             <meta-data
@@ -28,7 +46,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".PopupReportActivity"
+            android:name=".VibePopupReportActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -36,7 +54,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".PopupCommentActivity"
+            android:name=".VibePopupCommentActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -44,7 +62,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".PopupActivity"
+            android:name=".VibePopupActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -133,8 +151,9 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".SearchActivity"
-            android:exported="false">
+            android:name=".VibeSearchActivity"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -217,6 +236,14 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".HomePostActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

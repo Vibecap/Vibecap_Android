@@ -6,25 +6,20 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
-
-import android.content.ContentValues.TAG
 import android.content.Context
-
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.util.Log
-import android.widget.ImageView
-import android.widget.Toast
-import com.example.vibecapandroid.coms.MypageApiInterface
-import com.example.vibecapandroid.coms.CheckMypageResponse
-
+import com.example.vibecapandroid.coms.HistoryAllResponse
+import com.example.vibecapandroid.coms.HistoryApiInterface
 import com.example.vibecapandroid.databinding.ActivityMainBinding
-import java.util.SimpleTimeZone
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
 
 /*
     1.JDK 설정은 11로 맨 상단에 있는 것으로 선택(안드로이드 스튜디오 오른쪽하단에 event log 보면 jdk 선택창이 뜰꺼임)
@@ -46,19 +41,65 @@ import retrofit2.converter.gson.GsonConverterFactory
         4.Main에서는 뒤로가기 클릭시 앱 탈출
 */
 
-class MainActivity : AppCompatActivity() {
 
+
+
+public lateinit var userToken:String
+public var arrayList:ArrayList<com.example.vibecapandroid.coms.HistoryMainImageClass>?=null
+public var MEMBER_ID:Long=0
+
+val retrofit: Retrofit = Retrofit.Builder()
+    .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
+    .addConverterFactory(GsonConverterFactory.create())
+    .build()
+
+class MainActivity : AppCompatActivity() {
+    val apiService=retrofit.create(HistoryApiInterface::class.java)
     private val viewBinding: ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
     }
-
     @SuppressLint("WrongViewCast")
-    lateinit var userToken:String
+    fun setDataInList(){
+        arrayList = ArrayList()
+        apiService.getHistoryAll(userToken, MEMBER_ID)
+            .enqueue(object : Callback<HistoryAllResponse> {
+                override fun onResponse(call: Call<HistoryAllResponse>, response: Response<HistoryAllResponse>) {
+                    val responseData=response.body()
+                    /*
+                    if(response.isSuccessful){
+
+                        if (responseData.result.album.isEmpty() != null) {
+                            Log.d(
+                                "getHistoryAllResponse",
+                                "getHistoryAllResponse\n"+
+                                        "isSuccess:${responseData.is_success}\n " +
+                                        "Code: ${responseData.code} \n" +
+                                        "Message:${responseData.message} \n" +
+                                        "Result:${responseData.result.album}")
+                            if(responseData.is_success) {
+                                if(responseData.result.album.isEmpty()) {
+                                    Log.d("찍은 사진 없음","찍은 사진 없음")
+                                }
+                                else{
+                                    arrayList!!.addAll(responseData.result.album.toMutableList())
+                                    //Log.d("ArrayList is success 통신구문","${arrayList}")
+                                }
+                            }
+                        }
+                        else
+                        { Log.d("getHistory","getHistoryAll Response Null data") }
+                    }
+                    else{ Log.d("getHistory","getHistoryAll Response Response Not Success") }
+                */
+                }
+
+                override fun onFailure(call: Call<HistoryAllResponse>, t: Throwable) { Log.d("getHistory","${t.toString()}") }
+            })
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_VibecapAndroid)
-        // 이 부분은 splash 로
 
         var isLoggedIn=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).getBoolean("isLoggedIn",false)
         if(!isLoggedIn){
@@ -68,14 +109,18 @@ class MainActivity : AppCompatActivity() {
         }
         else{
             userToken=getSharedPreferences("sharedprefs",Context.MODE_PRIVATE).getString("Token","none")!!
+            MEMBER_ID=getSharedPreferences("sharedprefs",Context.MODE_PRIVATE).getLong("Member_Id",0)!!
             Log.d("Token","$userToken")
+            Log.d("Member_ID","${MEMBER_ID}")
+            setDataInList()
         }
-        setContentView(viewBinding.root)
 
+        setContentView(viewBinding.root)
         supportFragmentManager
             .beginTransaction()
             .replace(viewBinding.containerFragment.id , HomeMainFragment())//activty main의 컨테이너 id반환,맨 처음은 HomeMainFragment로 지정
             .commitAllowingStateLoss()
+
 
         viewBinding.bottomNav.run{
             setOnItemSelectedListener {
@@ -97,10 +142,6 @@ class MainActivity : AppCompatActivity() {
                             .beginTransaction()
                             .replace(viewBinding.containerFragment.id , HistoryMainFragment())
                             .commitAllowingStateLoss()
-                        // 이 부분 수정필요
-                        val editor=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).edit()
-                        editor.remove("isLoggedIn")
-                        editor.apply()
                     }
                 }
                 true
@@ -109,44 +150,6 @@ class MainActivity : AppCompatActivity() {
             selectedItemId=R.id.home_menu
         }
 
-
-
     }
-
-
-   /* override fun onDestroy() {
-        super.onDestroy()
-        Log.d(TAG,"Destroy")
-        val editor=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).edit()
-        editor.clear()
-        editor.commit()
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.d(TAG,"Restart")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d(TAG,"Stop")
-        val editor=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).edit()
-        editor.clear()
-        editor.commit()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.d(TAG,"Start")
-    }*/
-    /**
-     * Called when an item in the navigation menu is selected.
-     *
-     * @param item The selected item
-     * @return true to display the item as the selected item and false if the item should not be
-     * selected. Consider setting non-selectable items as disabled preemptively to make them
-     * appear non-interactive.
-     */
-
 
 }
