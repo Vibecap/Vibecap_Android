@@ -72,7 +72,9 @@ class HomeMainFragment : Fragment() {
             shapeDrawables[i]!!.paint.color = Color.parseColor(colors[i])
         }
 
-        wheelView!!.setWheelDrawableRotatable(false)
+        //wheelView!!.setWheelDrawableRotatable(true)
+
+
 
 
         //wheelView 초기화
@@ -96,6 +98,8 @@ class HomeMainFragment : Fragment() {
 //        }
 
 
+        wheelView!!.selectionAngle
+
 //        var drawable:Drawable = resources.getDrawable(R.drawable.ic_wheel_main)
 //        wheelView!!.setWheelDrawable(drawable)
 
@@ -118,6 +122,7 @@ class HomeMainFragment : Fragment() {
                     textView.visibility=VISIBLE
                     textView.text = "포근한"
                     feeling = textView.text as String
+
 
                 }
                 if(angler>=45){

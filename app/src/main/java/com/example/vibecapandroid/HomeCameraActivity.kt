@@ -1,6 +1,7 @@
 package com.example.vibecapandroid
 
 import android.Manifest
+import android.Manifest.permission_group.STORAGE
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
@@ -10,11 +11,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.content.ContextCompat
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
@@ -37,13 +40,12 @@ class HomeCameraActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_home_camera)
-
+        CallCamera()
         // 카메라
         //val camera = findViewById<Button>(R.id.camera)
         //camera.setOnClickListener {
         //CallCamera()
         //}
-        CallCamera()
 
 //        // 사진저장
 //        val picture = findViewById<Button>(R.id.gallery)
@@ -98,6 +100,7 @@ class HomeCameraActivity: AppCompatActivity() {
         if(checkPermission(CAMERA, CAMERA_CODE) && checkPermission(STORAGE, STORAGE_CODE) ){
             val itt = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             startActivityForResult(itt, CAMERA_CODE)
+
         }
     }
 
@@ -119,8 +122,11 @@ class HomeCameraActivity: AppCompatActivity() {
                         val nextIntent = Intent(this, HomeCapturedActivity::class.java)
                         nextIntent.putExtra("imagebitmap",img)
                         startActivity(nextIntent)
-
+                        finish()
                     }
+                 
+                    
+
                 }
 
                 STORAGE_CODE -> {
@@ -131,11 +137,18 @@ class HomeCameraActivity: AppCompatActivity() {
                     val nextIntent = Intent(this, HomeCapturedActivity::class.java)
                     //nextIntent.putExtra("uri",uriString)
                     startActivity(nextIntent)
-
-
                 }
+                
+                
             }
         }
+        
+        else{
+            Log.d("촬영취소","촬영취소")
+            finish()
+        }
+        
+        
     }
 
 
