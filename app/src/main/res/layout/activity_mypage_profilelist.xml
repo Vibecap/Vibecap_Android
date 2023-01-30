@@ -42,7 +42,7 @@
         app:srcCompat="@drawable/ic_activity_mypage_profile_close" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/activity_mypage_profilelist_profileimg"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginStart="32dp"
@@ -52,25 +52,25 @@
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/activity_mypage_profilelist_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="user122"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="@+id/imageView2" />
+        app:layout_constraintBottom_toTopOf="@+id/activity_mypage_profilelist_email"
+        app:layout_constraintStart_toEndOf="@+id/activity_mypage_profilelist_profileimg"
+        app:layout_constraintTop_toTopOf="@+id/activity_mypage_profilelist_profileimg" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/activity_mypage_profilelist_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:text="user12221122@gmail.com"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-        app:layout_constraintStart_toEndOf="@+id/imageView2" />
+        app:layout_constraintBottom_toBottomOf="@+id/activity_mypage_profilelist_profileimg"
+        app:layout_constraintStart_toEndOf="@+id/activity_mypage_profilelist_profileimg" />
 
     <TextView
         android:id="@+id/textView7"

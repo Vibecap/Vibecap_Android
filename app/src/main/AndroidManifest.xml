@@ -39,6 +39,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".HistoryEditActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".HistoryPostActivity"
             android:exported="false">
             <meta-data
@@ -165,7 +172,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".VibeMainFragment"
             android:exported="false">
@@ -258,8 +264,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
     </application>
-
 
 </manifest>

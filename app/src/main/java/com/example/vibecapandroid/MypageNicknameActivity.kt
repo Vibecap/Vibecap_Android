@@ -5,12 +5,22 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.vibecapandroid.coms.ChangeNicknameResponse
+import com.example.vibecapandroid.coms.CheckMypageResponse
+import com.example.vibecapandroid.coms.MypageApiInterface
+import com.example.vibecapandroid.coms.patchNickNameInput
 import com.example.vibecapandroid.databinding.ActivityMainBinding
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MypageNicknameActivity : AppCompatActivity() {
 
@@ -24,13 +34,72 @@ class MypageNicknameActivity : AppCompatActivity() {
         mypage_back.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, MypageSetupActivity::class.java)
             startActivity(intent)
+            finish()
         })
 
         val mypage_next = findViewById<Button>(R.id.activity_mypage_nickname_editdone)
+
+
+
+        //웹 브라우저 창 열기
+        val retrofit = Retrofit.Builder()
+            .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+
+        //어떤 주소로 들어갈지 입력
+        val apiService = retrofit.create(MypageApiInterface::class.java)
+
         mypage_next.setOnClickListener(View.OnClickListener {
+            apiService.patchNicknameChange(userToken, patchNickNameInput(MEMBER_ID,findViewById<EditText>(R.id.activity_mypage_nickname_edit).text.toString())).enqueue(object :
+                Callback<ChangeNicknameResponse> {
+                override fun onResponse(
+                    call: Call<ChangeNicknameResponse>,
+                    response: Response<ChangeNicknameResponse>
+                ) {
+
+                    if (response.isSuccessful) {
+                        val responseData = response.body()
+
+                        if (responseData !== null) {
+                            Log.d(
+                                "Retrofit",
+                                "MypageNicknameResponse\n"+
+                                        "isSuccess:${responseData.is_success}" +
+                                        "Code:${responseData.code}"+
+                                        "Message:${responseData.message}"+
+                                        "Result:${responseData.result.nickname}"
+
+                            )
+
+
+
+
+
+
+                        }
+                        else{
+                            Log.d("Retrofit","Null data") }
+
+                    } else {
+                        Log.w("Retrofit", "Response Not Successful${response.code()}")
+                    }
+                }
+
+                override fun onFailure(call: Call<ChangeNicknameResponse>, t: Throwable) {
+                    Log.e("Retrofit","Error",t)
+                }
+
+            })
+
             val intent = Intent(this, MypageSetupActivity::class.java)
             startActivity(intent)
         })
+
+        Log.d("userToken","$userToken")
+        //입력한 주소중 하나로 연결 시도
+
+
 
 
         with(binding){
@@ -66,6 +135,8 @@ class MypageNicknameActivity : AppCompatActivity() {
                         val button: Button = findViewById(R.id.activity_mypage_nickname_editdone)
                         button.setBackgroundColor(backgroundcolor)
                         button.setTextColor(textcolor)
+
+
 
 
                     }
