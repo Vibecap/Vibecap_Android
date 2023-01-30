@@ -111,8 +111,9 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         when(formatted2.toInt()){
             in 6..12 -> result = result + "아침"
-            in 12..17 -> result = result +"낮"
-            in 17 .. 20 -> result = result +"저녁"
+            in 12..14 -> result = result +"낮"
+            in 14..18 -> result = result + "오후"
+            in 18 .. 20 -> result = result +"저녁"
             in 20.. 24-> result = result +"밤"
             in 0..6 -> result = result +"새벽"
             else -> result = result +""

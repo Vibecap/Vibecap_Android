@@ -11,20 +11,18 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.vibecapandroid.WheelView.WheelView
 import com.example.vibecapandroid.WheelView.adapter.WheelAdapter
 import com.example.vibecapandroid.databinding.FragmentHomeMainBinding
 import java.lang.Math.abs
-
 
 
 public lateinit var feeling : String
@@ -75,15 +73,14 @@ class HomeMainFragment : Fragment() {
             shapeDrawables[i]!!.paint.color = Color.parseColor(colors[i])
         }
 
-        //wheelView!!.setWheelDrawableRotatable(true)
-
 
 
 
         //wheelView 초기화
         wheelView!!.adapter = object : WheelAdapter {
             override fun getDrawable(position: Int): Drawable {
-                return shapeDrawables[position]!!
+                var drawable:Drawable = resources.getDrawable(R.drawable.wheel_not_selected)
+                return drawable
             }
 
             override fun getCount(): Int {
@@ -99,11 +96,7 @@ class HomeMainFragment : Fragment() {
 //            }
 //            true
 //        }
-
-
-        wheelView!!.selectionAngle
-
-//        var drawable:Drawable = resources.getDrawable(R.drawable.ic_wheel_main)
+        //var drawable:Drawable = resources.getDrawable(R.drawable.wheel_main)
 //        wheelView!!.setWheelDrawable(drawable)
 
 
@@ -121,32 +114,36 @@ class HomeMainFragment : Fragment() {
                 var angler = abs(angle % 360)
                 //Log.d("angler", angler.toString())
                 if(angler>=0){
-                    layout.setBackgroundResource(R.raw.bg_img_pogen)
-                    textView.visibility=VISIBLE
-                    textView.text = "포근한"
-                    feeling = textView.text as String
-
-
-                }
-                if(angler>=45){
-                    layout.setBackgroundResource(R.raw.bg_img_gonghe)
-                    textView.visibility=VISIBLE
-                    textView.text = "공허한"
-                    feeling = textView.text as String
-
-                }
-                if(angler>=90){
-                    layout.setBackgroundResource(R.raw.bg_img_nangman)
-                    textView.visibility=VISIBLE
-                    textView.text = "낭만적인"
-                    feeling = textView.text as String
-                    //Log.d("angle", angle.toString())
-                }
-                if(angler>=135){
                     layout.setBackgroundResource(R.raw.bg_img_sinna)
                     textView.visibility=VISIBLE
                     textView.text = "신나는"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_sinna)
+
+
+                }
+                if(angler>=45){
+                    layout.setBackgroundResource(R.raw.bg_img_pogen)
+                    textView.visibility=VISIBLE
+                    textView.text = "포근한"
+                    feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_pogen)
+
+                }
+                if(angler>=90){
+                    layout.setBackgroundResource(R.raw.bg_img_sunsun)
+                    textView.visibility=VISIBLE
+                    textView.text = "선선한"
+                    feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_sunsun)
+                    //Log.d("angle", angle.toString())
+                }
+                if(angler>=135){
+                    layout.setBackgroundResource(R.raw.bg_img_nangman)
+                    textView.visibility=VISIBLE
+                    textView.text = "낭만적인"
+                    feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_nangman)
                     //Log.d("angle", angle.toString())
                 }
                 if(angler>=180){
@@ -154,6 +151,7 @@ class HomeMainFragment : Fragment() {
                     textView.visibility=VISIBLE
                     textView.text = "잔잔한"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_zanzan)
 
                 }
                 if(angler>=225){
@@ -161,18 +159,21 @@ class HomeMainFragment : Fragment() {
                     textView.visibility=VISIBLE
                     textView.text = "우울한"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_woowool)
                 }
                 if(angler>=270){
                     layout.setBackgroundResource(R.raw.bg_img_gonghe)
                     textView.visibility=VISIBLE
                     textView.text = "공허한"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_gonghe)
                 }
                 if(angler>=315){
-                    layout.setBackgroundResource(R.raw.bg_img_gonghe)
+                    layout.setBackgroundResource(R.raw.bg_img_simsim)
                     textView.visibility=VISIBLE
-                    textView.text = "공허한"
+                    textView.text = "심심한"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_simsim)
                 }
             }
 
