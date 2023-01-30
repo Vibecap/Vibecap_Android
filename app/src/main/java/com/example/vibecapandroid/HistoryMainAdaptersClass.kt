@@ -39,8 +39,8 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
 
         holder.itemView.setOnClickListener {
 
-           // val intent=Intent(holder.itemView.context,HomeCapturedActivity::class.java)
-         //   ContextCompat.startActivity(holder.itemView.context,intent,null)
+            // val intent=Intent(holder.itemView.context,HomeCapturedActivity::class.java)
+            //   ContextCompat.startActivity(holder.itemView.context,intent,null)
             Log.d("찍은 사진 position","${position}")
             apiService.getHistoryOne(userToken, arrayList.get(0).vibe_id)
                 .enqueue(object : Callback<HistoryOneResponse> {
@@ -61,7 +61,7 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
                                             "Result:${responseData.result.vibe_keywords}"
                                 )
                                 if(responseData.is_success) {
-                                  //arrayList?.add(HistoryMainImageClass((responseData.result.album[0].vibe_image)))
+                                    //arrayList?.add(HistoryMainImageClass((responseData.result.album[0].vibe_image)))
                                     val intent = Intent(it.context, HistoryYoutubeActivity::class.java)
                                     intent.putExtra("video_id",responseData.result.youtube_link)
                                     it.context.startActivity(intent)
