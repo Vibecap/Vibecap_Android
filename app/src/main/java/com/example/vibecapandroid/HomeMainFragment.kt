@@ -119,54 +119,54 @@ class HomeMainFragment : Fragment() {
                 if(angler>=0){
                     layout.setBackgroundResource(R.raw.bg_img_pogen)
                     textView.visibility=VISIBLE
-                    //textView.text = "포근한"
+                    textView.text = "포근한"
                     feeling = textView.text as String
 
                 }
                 if(angler>=45){
                     layout.setBackgroundResource(R.raw.bg_img_gonghe)
                     textView.visibility=VISIBLE
-                   // textView.text = "공허한"
+                    textView.text = "공허한"
                     feeling = textView.text as String
 
                 }
                 if(angler>=90){
                     layout.setBackgroundResource(R.raw.bg_img_nangman)
                     textView.visibility=VISIBLE
-                   // textView.text = "낭만적인"
+                    textView.text = "낭만적인"
                     feeling = textView.text as String
                     //Log.d("angle", angle.toString())
                 }
                 if(angler>=135){
                     layout.setBackgroundResource(R.raw.bg_img_sinna)
                     textView.visibility=VISIBLE
-                   // textView.text = "신나는"
+                    textView.text = "신나는"
                     feeling = textView.text as String
                     //Log.d("angle", angle.toString())
                 }
                 if(angler>=180){
                     layout.setBackgroundResource(R.raw.bg_img_zanzan)
                     textView.visibility=VISIBLE
-                   // textView.text = "잔잔한"
+                    textView.text = "잔잔한"
                     feeling = textView.text as String
 
                 }
                 if(angler>=225){
                     layout.setBackgroundResource(R.raw.bg_img_woowool)
                     textView.visibility=VISIBLE
-                   // textView.text = "우울한"
+                    textView.text = "우울한"
                     feeling = textView.text as String
                 }
                 if(angler>=270){
                     layout.setBackgroundResource(R.raw.bg_img_gonghe)
                     textView.visibility=VISIBLE
-                  //  textView.text = "공허한"
+                    textView.text = "공허한"
                     feeling = textView.text as String
                 }
                 if(angler>=315){
                     layout.setBackgroundResource(R.raw.bg_img_gonghe)
                     textView.visibility=VISIBLE
-                   // textView.text = "공허한"
+                    textView.text = "공허한"
                     feeling = textView.text as String
                 }
             }
@@ -184,8 +184,6 @@ class HomeMainFragment : Fragment() {
                 }
             }
         }
-
-        wheelView!!.setSelectionColor(1)
         return viewBinding.root!!
         /* return view*/
 

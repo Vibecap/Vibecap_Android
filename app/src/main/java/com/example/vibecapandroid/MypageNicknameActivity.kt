@@ -31,7 +31,7 @@ class MypageNicknameActivity : AppCompatActivity() {
             val intent = Intent(this, MypageSetupActivity::class.java)
             startActivity(intent)
         })
-
+        findViewById<EditText>(R.id.activity_mypage_nickname_edit).text.toString()
 
         with(binding){
             val editText =findViewById<EditText>(R.id.activity_mypage_nickname_edit)

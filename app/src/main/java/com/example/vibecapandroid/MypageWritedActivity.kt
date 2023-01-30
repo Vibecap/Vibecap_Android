@@ -63,7 +63,6 @@ class MypageWritedActivity : AppCompatActivity() {
                 call: Call<CheckMypageResponse>,
                 response: Response<CheckMypageResponse>
             ) {
-
                 if (response.isSuccessful) {
                     val responseData = response.body()
 
@@ -76,7 +75,6 @@ class MypageWritedActivity : AppCompatActivity() {
                                     "Message:${responseData.message}"+
                                     "Result:${responseData.result}"
                         )
-
                     }
                     else{
                         Log.d("Retrofit","Null data") }

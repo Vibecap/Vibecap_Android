@@ -17,10 +17,10 @@
         android:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/main_profile"
-        app:layout_constraintHorizontal_bias="0.972"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.022"
+        app:layout_constraintVertical_bias="0.02"
         app:srcCompat="@drawable/ic_activity_vibe_main_alarm" />
 
     <ImageButton
@@ -28,11 +28,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.023"
+        app:layout_constraintVertical_bias="0.021"
         app:srcCompat="@drawable/ic_activity_vibe_main_profile" />
 
     <com.example.vibecapandroid.WheelView.WheelView
@@ -44,9 +45,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:repeatItems="true"
         app:selectionAngle="90.0"
-        app:wheelDrawable="@drawable/ssssss"
-        app:selectionDrawable="@drawable/dialbutton"
-
+        app:wheelDrawable="@drawable/ic_wheel_main"
+        app:selectionDrawable="@drawable/ic_wheel_selection_button"
         app:wheelColor="#1A000000"
         app:wheelItemRadius="5dp"
         app:wheelPadding="50dp"
