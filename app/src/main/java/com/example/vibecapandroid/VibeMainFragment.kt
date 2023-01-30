@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -80,16 +81,41 @@ class VibeMainFragment : Fragment() {
         }
 
         tagDetailView()
-        requestToRestAPI()
+        //requestToRestAPI()
         return view
 
     }
 
     //태그별 이동
+    @SuppressLint("ResourceAsColor")
     private fun tagDetailView() {
        viewBinding.tvTag1.setOnClickListener{
-
+            viewBinding.tvTag1.setTextColor(ContextCompat.getColor(this.requireContext(),R.color.black))
        }
+        viewBinding.tvTag2.setOnClickListener{
+            viewBinding.tvTag2.setTextColor(R.color.black)
+        }
+        viewBinding.tvTag3.setOnClickListener {
+            viewBinding.tvTag3.setTextColor(resources.getColor(R.color.black))
+        }
+        viewBinding.tvTag4.setOnClickListener {
+            viewBinding.tvTag4.setTextColor(resources.getColor(R.color.black))
+        }
+        viewBinding.tvTag5.setOnClickListener {
+            viewBinding.tvTag5.setTextColor(resources.getColor(R.color.black))
+        }
+        viewBinding.tvTag6.setOnClickListener {
+            viewBinding.tvTag6.setTextColor(resources.getColor(R.color.black))
+        }
+        viewBinding.tvTag7.setOnClickListener {
+            viewBinding.tvTag7.setTextColor(resources.getColor(R.color.black))
+        }
+        viewBinding.tvTag8.setOnClickListener {
+            viewBinding.tvTag8.setTextColor(resources.getColor(R.color.black))
+        }
+        viewBinding.tvTag9.setOnClickListener {
+            viewBinding.tvTag9.setTextColor(resources.getColor(R.color.black))
+        }
     }
 
     // api

@@ -24,7 +24,7 @@ class VibeDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // 게시물 작성 열기
-        viewBinding.btnAddpost.setOnClickListener {
+        viewBinding.btnAddpostdetail.setOnClickListener {
             val intent = Intent(this, HistoryPostActivity::class.java)
             startActivity(intent)
         }
