@@ -31,8 +31,6 @@ class HomeCameraActivity: AppCompatActivity() {
     val CAMERA_CODE = 98
     val STORAGE_CODE = 99
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
