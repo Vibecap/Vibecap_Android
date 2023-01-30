@@ -89,9 +89,9 @@ class VibeMainFragment : Fragment() {
     //태그별 이동
     @SuppressLint("ResourceAsColor")
     private fun tagDetailView() {
-       viewBinding.tvTag1.setOnClickListener{
+        viewBinding.tvTag1.setOnClickListener{
             viewBinding.tvTag1.setTextColor(ContextCompat.getColor(this.requireContext(),R.color.black))
-       }
+        }
         viewBinding.tvTag2.setOnClickListener{
             viewBinding.tvTag2.setTextColor(R.color.black)
         }

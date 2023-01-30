@@ -32,15 +32,15 @@ class VibeDetailActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            when (id) {
-                android.R.id.home -> {
-                    finish()
-                    return true
-                }
-                else -> {}
+        val id = item.itemId
+        when (id) {
+            android.R.id.home -> {
+                finish()
+                return true
             }
-        
+            else -> {}
+        }
+
         return super.onOptionsItemSelected(item)
     }
 }
