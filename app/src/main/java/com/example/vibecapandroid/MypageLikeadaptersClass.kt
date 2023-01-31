@@ -1,13 +1,18 @@
 package com.example.vibecapandroid
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.vibecapandroid.coms.CheckMypageLikeResponseResult
 
-class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<MypageLikeimageClass>):
+class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<CheckMypageLikeResponseResult>):
     RecyclerView.Adapter<MypageLikeadaptersClass.ItemHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
@@ -16,12 +21,23 @@ class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<Myp
         return ItemHolder(itemHolder)
     }
 
-    override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        var mypageLikeImage: MypageLikeimageClass = arrayList.get(position)
-        holder.images.setImageResource(mypageLikeImage.image!!)
+
+
+
+    override fun onBindViewHolder(holder: MypageLikeadaptersClass.ItemHolder, position: Int) {
+        var mypageLikeImage: CheckMypageLikeResponseResult = arrayList.get(position)
+        holder.apply {
+            Glide.with(context).load(mypageLikeImage.vibe_image).into(images)
+        }
+        holder.itemView.setOnClickListener {
+            val intent= Intent(holder.itemView.context,MypageProfileActivity::class.java)
+            ContextCompat.startActivity(holder.itemView.context,intent,null)
+            Log.d("position","${position}")
+        }
 
 
     }
+
 
     override fun getItemCount(): Int {
         return arrayList.size
@@ -29,18 +45,23 @@ class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<Myp
 
     class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var images = itemView.findViewById<ImageView>(R.id.image)
+        init {
+            itemView.setOnClickListener {
+                Log.d("Click", "Click")
+            }
+        }
     }
 
 
 }
 
-
+/*
 
 class MypageLikeimageClass {
 
-    var image :Int ? = 0
+    var image : String
 
-    constructor(image: Int?) {
+    constructor(image: String) {
         this.image = image
     }
-}
+}*/
