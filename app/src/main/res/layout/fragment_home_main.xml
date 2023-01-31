@@ -39,8 +39,6 @@
         android:id="@+id/wheelview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:repeatItems="true"
@@ -119,7 +117,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fragment_home_main_Title"
-        app:layout_constraintVertical_bias="0.28" />
+        app:layout_constraintVertical_bias="0.315" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

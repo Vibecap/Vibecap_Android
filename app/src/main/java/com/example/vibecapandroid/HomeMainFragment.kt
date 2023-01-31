@@ -30,16 +30,8 @@ public lateinit var feeling : String
 class HomeMainFragment : Fragment() {
     private var wheelView: WheelView? = null
     private lateinit var viewBinding: FragmentHomeMainBinding
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    //private val binding get() = viewBinding!!
-    //위에 코드는 아마 다른 프래그먼트에서 다시 돌아왓을떄 해당 프래그먼트를 다시 살릴지 여부를 결정하는 코드인듯
-
     //size 설정
     var size = 8
-
-
 
     @SuppressLint("ResourceType")
     override fun onCreateView(

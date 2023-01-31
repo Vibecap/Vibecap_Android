@@ -38,16 +38,15 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bt_youtube"
-        android:layout_width="153dp"
-        android:layout_height="48dp"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
         android:layout_weight="0.3"
-        android:background="@drawable/ic_activity_history_post_complete"
+        android:background="@drawable/ic_home_youtube_app_play"
         android:gravity="center"
-        android:text="재생 바로가기"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -119,6 +118,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.90" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="400dp"
+        android:scaleY="1.5"
+        android:scaleX="1.5"
+        android:indeterminateDrawable="@drawable/ic_progress_icon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
