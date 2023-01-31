@@ -2,7 +2,7 @@ package com.example.vibecapandroid.coms
 
 import com.google.gson.annotations.SerializedName
 import java.sql.Blob
-import java.sql.Timestamp
+import java.time.LocalDateTime
 
 // 게시물 전체 조회
 data class PostAllResponse(
@@ -23,21 +23,23 @@ data class PostDetailResponse(
     @SerializedName("is_success") val is_success: Boolean,
     @SerializedName("code")val code: Int,
     @SerializedName("message") val message: String,
-    @SerializedName("result")val result: List<PostDetailData>
+    @SerializedName("result")val result: PostDetailData
 )
 data class PostDetailData(
-    @SerializedName("post_id") val post_id: Int,
-    @SerializedName("member_id") val member_id: Int,
+    @SerializedName("post_id") val postId: Long,
+    @SerializedName("member_id") val memberId: Long,
     @SerializedName("title") val title: String,
     @SerializedName("body") val body : String,
-    @SerializedName("vibe_id") val vibe_id: Int,
-    @SerializedName("vibe_image") val vibe_image: String,
-    @SerializedName("like_number") val like_number: Int,
-    @SerializedName("scrap_number") val scrap_number: Int,
-    @SerializedName("comment_number") val comment_number: Int,
-    @SerializedName("tag_name") val tag_name: String,
-    @SerializedName("profileImg") val profileImg: String,
-    @SerializedName("nickname") val nickname : String
+    @SerializedName("vibe_id") val vibeId: Long,
+    @SerializedName("vibe_image") val vibeImg: String,
+    @SerializedName("youtube_link") val youtubeLink: String,
+    @SerializedName("like_number") val likeNumber: Long,
+    @SerializedName("scrap_number") val scrapNumber: Long,
+    @SerializedName("comment_number") val commentNumber: Long,
+    @SerializedName("tag_name") val tagName: String,
+    @SerializedName("profile_image") val profileImg: String,
+    @SerializedName("nickname") val nickname : String,
+    @SerializedName("modified_date") val modifiedDate : LocalDateTime
 )
 
 // 게시물 작성

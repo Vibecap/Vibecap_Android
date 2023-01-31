@@ -1,27 +1,22 @@
 package com.example.vibecapandroid.coms
 
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.PATCH
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 // 게시물 전체 조회
 interface VibePostAllInterface{
     @GET("app/posts")
     fun postAllCheck(
-        @Query("tagName") tagName:String
+        @Query("tagName") tagName: String
     ): Call<PostAllResponse>
 }
 
 // 게시물 1개 조회
 interface VibePostApiInterface {
-    @GET("app/posts/{postId}")
+    @GET("app/posts/{post_id}")
     fun postDetailCheck(
-        @Path("postId") postId:Int
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Path("post_id") postId: Long
     ): Call<PostDetailResponse>
 }
 

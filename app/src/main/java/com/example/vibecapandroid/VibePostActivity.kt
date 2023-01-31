@@ -1,269 +1,170 @@
 package com.example.vibecapandroid
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.widget.Button
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
+import android.view.View
+import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.bumptech.glide.Glide
+import com.example.vibecapandroid.coms.PostDetailData
 import com.example.vibecapandroid.coms.PostDetailResponse
 import com.example.vibecapandroid.coms.VibePostApiInterface
 import com.example.vibecapandroid.databinding.ActivityVibePostBinding
+import com.example.vibecapandroid.utils.getRetrofit
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
 
-class VibePostActivity : AppCompatActivity() {
-    val viewBinding : ActivityVibePostBinding by lazy {
-        ActivityVibePostBinding.inflate(layoutInflater)
-    }
+class VibePostActivity : AppCompatActivity(), GetPostView, View.OnClickListener {
 
+    lateinit var binding: ActivityVibePostBinding
+    private lateinit var getPostView: GetPostView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(viewBinding.root)
+        binding = ActivityVibePostBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        // 게시물 1개 조회
+        getPost()
 
-        // 툴바
-        val toolbar = findViewById<Toolbar>(R.id.toolBar_top)
-        setSupportActionBar(toolbar)
-        val ab = supportActionBar!!
-        ab.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.vibePostBackBtn.setOnClickListener(this)
+        binding.vibePostCommentBtn.setOnClickListener(this)
 
-        // API
-        requestToRestAPI()
+        // 게시물 메뉴 BottomSheet 설정
+        val postMenuBottomSheetView =
+            layoutInflater.inflate(R.layout.bottom_sheet_vibe_post_menu, binding.root, false)
+        val postMenuBottomSheetDialog =
+            BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
 
-        // 댓글창 열기
-        viewBinding.imageButtonComment.setOnClickListener {
-            val intent = Intent(this, VibeCommentActivity::class.java)
+        postMenuBottomSheetDialog.setContentView(postMenuBottomSheetView)
+        setBottomSheetView(postMenuBottomSheetView, postMenuBottomSheetDialog, this)
+
+        binding.vibePostMenuBtn.setOnClickListener {
+            postMenuBottomSheetDialog.show()
+        }
+    }
+
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.vibePostBackBtn -> finish()
+            binding.vibePostCommentBtn -> {
+                // 댓글창 열기 // post_id 전달 해야 함
+                val intent = Intent(this, VibeCommentActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+    // 게시물 메뉴 BottomSheet Click event 설정
+    private fun setBottomSheetView(
+        bottomSheetView: View,
+        dialog: BottomSheetDialog,
+        context: Context
+    ) {
+        val postBlockBtn =
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_block_layout)
+        postBlockBtn.setOnClickListener {
+            Toast.makeText(context, "게시물을 차단했습니다.", Toast.LENGTH_SHORT).show()
+            // 차단 API
+        }
+
+        val postReportBtn =
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_report_layout)
+        postReportBtn.setOnClickListener {
+            val intent = Intent(context, VibePopupActivity::class.java)
             startActivity(intent)
         }
 
-        // 게시글 popup
-        viewBinding.articlePopup.setOnClickListener {
-            // Dialog만들기
-            val mDialogView =
-                LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
-            val mBuilder = AlertDialog.Builder(this)
-                .setView(mDialogView)
+        val postLinkBtn =
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_link_layout)
+        postLinkBtn.setOnClickListener {
+            Toast.makeText(context, "링크를 복사했습니다.", Toast.LENGTH_SHORT).show()
+            // 링크 복사 API
+        }
 
-            val mAlertDialog = mBuilder.show()
+        val postShareBtn =
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_share_layout)
+        postShareBtn.setOnClickListener {
+            Toast.makeText(context, "게시물을 공유헀습니다.", Toast.LENGTH_SHORT).show()
+            // 게시물 공유 API
+        }
 
-            val block_table = mDialogView.findViewById<Button>(R.id.dialog_table_block)
-            block_table.setOnClickListener {
-
-                Toast.makeText(this, "게시물을 차단했습니다.", Toast.LENGTH_SHORT).show()
-                // 차단 API
-            }
-
-            val declaration_table = mDialogView.findViewById<Button>(R.id.dialog_table_declaration)
-            declaration_table.setOnClickListener {
-
-                var intent = Intent(this, VibePopupActivity::class.java)
-                startActivity(intent)
-            }
-
-            val copy_table = mDialogView.findViewById<Button>(R.id.dialog_table_copy)
-            copy_table.setOnClickListener {
-
-                Toast.makeText(this, "링크를 복사했습니다.", Toast.LENGTH_SHORT).show()
-                // 링크 복사 API
-            }
-
-            val share_table = mDialogView.findViewById<Button>(R.id.dialog_table_share)
-            share_table.setOnClickListener {
-
-                Toast.makeText(this, "토스트 메시지", Toast.LENGTH_SHORT).show()
-                // 게시물 공유 API
-            }
+        // 상단 close bar 버튼 누르면 닫기
+        val closeBtn =
+            bottomSheetView.findViewById<ImageButton>(R.id.bottom_sheet_vibe_post_menu_close_btn)
+        closeBtn.setOnClickListener {
+            dialog.dismiss()
         }
     }
 
-    // 툴바
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-            else -> {}
-        }
+    // 게시물 1개 조회
+    private fun getPost() {
+        val vibePostService = getRetrofit().create(VibePostApiInterface::class.java)
+        vibePostService.postDetailCheck(userToken, 33)
+            .enqueue(object : Callback<PostDetailResponse> {
+                override fun onResponse(
+                    call: Call<PostDetailResponse>,
+                    response: Response<PostDetailResponse>
+                ) {
+                    Log.d("[VIBE] GET_POST/SUCCESS", response.toString())
+                    val resp: PostDetailResponse = response.body()!!
 
-        return super.onOptionsItemSelected(item)
-    }
+                    Log.d("[VIBE] GET_POST/CODE", resp.code.toString())
 
-    // api
-    object RetrofitObject {
-        private fun getRetrofit(): Retrofit {
-            return Retrofit.Builder()
-                .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
-
-        fun getApiService():VibePostApiInterface{
-            return getRetrofit().create(VibePostApiInterface::class.java)
-        }
-    }
-
-    private fun requestToRestAPI(){
-        RetrofitObject.getApiService().postDetailCheck(7).enqueue(object : Callback<PostDetailResponse>{
-            // api 호출 성공시
-            override fun onResponse(call: Call<PostDetailResponse>, response: Response<PostDetailResponse>) {
-                Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT).show()
-                setTitleText(response.code(), response.body())
-                setVibeIdImage(response.code(), response.body())
-                setNumber(response.code(),response.body())
-                setTagName(response.code(),response.body())
-                setNicknameText(response.code(), response.body())
-                setPostText(response.code(), response.body())
-                setProfileImg(response.code(),response.body())
-                val responseData = response.body()
-                Log.d(
-                    "postCapture",
-                    "postCapture\n"+
-                            "isSuccess:${responseData?.is_success}\n " +
-                            "Code: ${responseData?.code} \n" +
-                            "Message:${responseData?.message} \n" )
-            }
-
-            // api 호출 실패시
-            override fun onFailure(call: Call<PostDetailResponse>, t: Throwable) {
-                Log.e("retrofit onFailure", "${t.message.toString()}")
-                Toast.makeText(applicationContext, "fail", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
-
-    // post id 설정
-    // member id 설정
-    // title 설정
-    private fun setTitleText(resCode:Int, body: PostDetailResponse?){
-        // title text 지정
-        viewBinding.textViewTitle.text = when(resCode){
-            200 -> {
-                if(body == null){
-                    "api body가 비어있습니다."
-                }else{
-                    if(body.result[0].title == ""){
-                        "api호출은 성공했으나 데이터가 없습니다."
-                    }else{
-                        body.result[0].title
+                    // 서버 response 중 code 값에 따른 결과
+                    when (resp.code) {
+                        1000 -> getPostView.onGetPostSuccess(resp.result)
+                        else -> getPostView.onGetPostFailure(resp.code, resp.message)
                     }
                 }
-            }
-            400 -> {
-                "API 키가 만료됬거나 쿼리 파라미터가 잘못 됬습니다."
-            }
-            401 -> {
-                "인증 정보가 정확하지 않습니다."
-            }
-            500 -> {
-                "API 서버에 문제가 발생하였습니다."
-            }
-            else -> {
-                "기타 문제발생..."
-            }
-        }
-    }
-    // posttxt 설정
-    private fun setPostText(resCode: Int,body: PostDetailResponse?){
-        viewBinding.textViewPosttxt.text = when(resCode){
-            200 -> {
-                if(body == null){
-                    "api body가 비어있습니다."
-                }else{
-                    if(body.result[0].body.toString()== "[]"){
-                        "api호출은 성공했으나 데이터가 없습니다."
-                    }else{
-                        body.result[0].body.toString()
-                    }
-                }
-            }
-            400 -> {
-                "API 키가 만료됬거나 쿼리 파라미터가 잘못 됬습니다."
-            }
-            401 -> {
-                "인증 정보가 정확하지 않습니다."
-            }
-            500 -> {
-                "API 서버에 문제가 발생하였습니다."
-            }
-            else -> {
-                "기타 문제발생..."
-            }
-        }
-    }
-    // vibe id, vibe image 설정
-    private fun setVibeIdImage(resCode: Int, body: PostDetailResponse?){
 
-    }
-    // like_number, scrap_number, comment_number 설정
-    private fun setNumber(resCode: Int, body: PostDetailResponse?){
-        val like_number = body!!.result[0].like_number
-        val scrap_number = body!!.result[0].scrap_number
-        val comment_number = body!!.result[0].comment_number
-    }
-    // tag name 설정
-    private fun setTagName(resCode: Int, body: PostDetailResponse?){
-        viewBinding.textViewTag1.text = when(resCode){
-            200 -> {
-                if(body == null){
-                    "데이터가 없습니다."
-                }else{
-                    if (body.result[0].tag_name == ""){
-                        "api 호출은 성공했으나 데이터가 없습니다."
-                    }else{
-                        body.result[0].tag_name
-                    }
+                override fun onFailure(call: Call<PostDetailResponse>, t: Throwable) {
+                    Log.d("[VIBE] GET_POST/FAILURE", t.message.toString())
                 }
-            }
-            3012 -> {
-                "게시물이 존재하지 않습니다."
-            }
-            else -> {
-                "기타 문제 발생"
-            }
-        }
+            })
+        Log.d("[VIBE] GET_POST", "HELLO")
     }
-    // nickname 설정
-    private fun setNicknameText(resCode: Int, body: PostDetailResponse?) {
-        viewBinding.textViewUsername.text = when(resCode){
-            200 -> {
-                if(body == null){
-                    "api body가 비어있습니다."
-                }else{
-                    if(body.result[0].nickname== ""){
-                        "api호출은 성공했으나 데이터가 없습니다."
-                    }else{
-                        body.result[0].nickname
-                    }
-                }
-            }
-            400 -> {
-                "API 키가 만료됬거나 쿼리 파라미터가 잘못 됬습니다."
-            }
-            401 -> {
-                "인증 정보가 정확하지 않습니다."
-            }
-            500 -> {
-                "API 서버에 문제가 발생하였습니다."
-            }
-            else -> {
-                "기타 문제발생..."
-            }
-        }
+
+    // 게시물 설정
+    private fun setPost(result: PostDetailData) {
+        binding.vibePostPostTitleTv.text = result.title
+        binding.vibePostPostBodyTv.text = result.body
+        binding.vibePostNicknameTv.text = result.nickname
+        Glide.with(applicationContext).load(result.profileImg).into(binding.vibePostProfileImgBtn)
+        binding.vibePostDateTv.text = result.modifiedDate.toString()
+        // ++ tag name 설정 (최대 최소 제한 있는지? / 뭔가 1을 만나면 태그가 끝나는 듯)
+
+        val beginIdx = result.youtubeLink.indexOf("watch?v=")
+        val endIdx = result.youtubeLink.length
+        val videoId = result.youtubeLink.substring(beginIdx + 8, endIdx)
+        val youtubePlayerFragment = YoutubePlayerFragment.newInstance()
+        val bundle = Bundle()
+        bundle.putString("VIDEO_ID", videoId)
+        youtubePlayerFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.vibe_post_youtube_player_view, youtubePlayerFragment)
+            .commitNow()
+
+        binding.vibePostLikeCountTv.text = result.likeNumber.toString()
+        binding.vibePostCommentCountTv.text = result.commentNumber.toString()
     }
-    // profileImg 설정 - 미완
-    private fun setProfileImg(resCode: Int, body: PostDetailResponse?){
-        viewBinding.imageViewProfile
+
+    override fun onGetPostSuccess(result: PostDetailData) {
+        setPost(result)
     }
+
+    override fun onGetPostFailure(code: Int, message: String) {
+        Log.d("[VIBE] GET_POST/FAILURE", "$code / $message")
+    }
+
 
 }
 
+interface GetPostView {
+    fun onGetPostSuccess(result: PostDetailData)
+    fun onGetPostFailure(code: Int, message: String)
+}
 

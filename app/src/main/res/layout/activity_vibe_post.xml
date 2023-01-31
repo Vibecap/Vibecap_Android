@@ -6,171 +6,275 @@
     android:layout_height="match_parent"
     tools:context=".VibePostActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolBar_top"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/vibe_post_top_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints">
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="20dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_logo"
+        <ImageButton
+            android:id="@+id/vibe_post_back_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="center"
-            android:text="게시물"
-            android:textColor="@color/black"
-            android:textSize="15dp"
-            android:textStyle="bold" />
-
-    </androidx.appcompat.widget.Toolbar>
-
-
-    <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/toolBar_top"
-        tools:ignore="MissingConstraints">
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/imageView_profile"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_activity_vibe_post_profile" />
+            android:layout_gravity="center_vertical"
+            android:background="@null"
+            android:contentDescription="@string/go_back"
+            android:src="@drawable/ic_activity_vibe_detail_back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView_username"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text=""
-            android:textColor="@color/black" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/article_popup"
+            android:id="@+id/vibe_post_title_tv"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_activity_mypage_post_menu" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
-
-        <TextView
-            android:id="@+id/textView_title"
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text=""
+            android:text="@string/post_title"
             android:textColor="@color/black"
-            android:textStyle="bold" />
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/imageView_postmain"
-            android:layout_width="match_parent"
-            android:layout_height="209dp"
-            app:srcCompat="@drawable/image_ic_activity_history_album_list1" />
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout8"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/imageButton_heart"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_activity_vibe_post_heart" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/imageButton_comment"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_activity_vibe_post_chat" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/imageButton_save"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/transparent"
-            android:src="@drawable/ic_activity_vibe_post_save" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout9"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
-
-        <TextView
-            android:id="@+id/textView_posttxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text=""
-            android:textColor="@color/black" />
+        app:layout_constraintTop_toBottomOf="@+id/vibe_post_top_bar_layout">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView_tag1"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vibe_post_profile_layout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/vibe_post_top_bar_layout">
+
+                <ImageButton
+                    android:id="@+id/vibe_post_profile_img_btn"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="@color/transparent"
+                    android:contentDescription="@string/profile_img"
+                    android:src="@drawable/ic_activity_vibe_post_profile"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/vibe_post_nickname_tv"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="username"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/vibe_post_profile_img_btn"
+                    app:layout_constraintStart_toEndOf="@+id/vibe_post_profile_img_btn"
+                    app:layout_constraintTop_toTopOf="@+id/vibe_post_profile_img_btn" />
+
+                <ImageButton
+                    android:id="@+id/vibe_post_menu_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@color/transparent"
+                    android:contentDescription="@string/post_menu"
+                    android:src="@drawable/ic_activity_mypage_post_menu"
+                    app:layout_constraintBottom_toBottomOf="@+id/vibe_post_profile_img_btn"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/vibe_post_profile_img_btn" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vibe_post_post_title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vibe_post_profile_layout">
+
+                <TextView
+                    android:id="@+id/vibe_post_post_title_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="제목입니다."
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <FrameLayout
+                android:id="@+id/vibe_post_youtube_player_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="#B1B1B1"
-                android:text=""
-                android:textColor="@color/white" />
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="50dp"
+                android:layout_marginBottom="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/vibe_post_post_title_layout" />
 
-            <TextView
-                android:id="@+id/textView_tag2"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vibe_post_action_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="#B1B1B1"
-                android:text=""
-                android:textColor="@color/white" />
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/vibe_post_youtube_player_view">
+
+                <ImageButton
+                    android:id="@+id/vibe_post_like_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:backgroundTint="@color/transparent"
+                    android:contentDescription="@string/like"
+                    android:src="@drawable/ic_activity_vibe_post_heart"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/vibe_post_like_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="1개"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/vibe_post_like_btn"
+                    app:layout_constraintStart_toEndOf="@+id/vibe_post_like_btn"
+                    app:layout_constraintTop_toTopOf="@+id/vibe_post_like_btn" />
+
+                <ImageButton
+                    android:id="@+id/vibe_post_comment_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="10dp"
+                    android:backgroundTint="@color/transparent"
+                    android:contentDescription="@string/comment"
+                    android:src="@drawable/ic_activity_vibe_post_chat"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/vibe_post_like_count_tv"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/vibe_post_comment_count_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="1개"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/vibe_post_like_btn"
+                    app:layout_constraintStart_toEndOf="@+id/vibe_post_comment_btn"
+                    app:layout_constraintTop_toTopOf="@+id/vibe_post_like_btn" />
+
+                <ImageButton
+                    android:id="@+id/vibe_post_scrap_btn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:backgroundTint="@color/transparent"
+                    android:contentDescription="@string/scrap"
+                    android:src="@drawable/ic_activity_vibe_post_save"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vibe_post_post_body_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="18dp"
+                app:layout_constraintTop_toBottomOf="@+id/vibe_post_action_layout">
+
+                <TextView
+                    android:id="@+id/vibe_post_post_body_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="내용입니다."
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/vibe_post_tag_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:paddingVertical="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/vibe_post_post_body_tv">
+
+                    <TextView
+                        android:id="@+id/vibe_post_tag_first_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:background="#B1B1B1"
+                        android:paddingHorizontal="2dp"
+                        android:paddingVertical="2dp"
+                        android:text="#태그"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/vibe_post_tag_second_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
+                        android:background="#B1B1B1"
+                        android:paddingHorizontal="2dp"
+                        android:paddingVertical="2dp"
+                        android:text="#태그"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/vibe_post_tag_last_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#B1B1B1"
+                        android:paddingHorizontal="2dp"
+                        android:paddingVertical="2dp"
+                        android:text="#태그"
+                        android:textColor="@color/white"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/vibe_post_date_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="13dp"
+                    android:text="2022. 12. 26. 14:26"
+                    android:textColor="#B1B1B1"
+                    android:textSize="11sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/vibe_post_tag_layout" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView25"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="2022. 12. 26. 14:26"
-            android:textSize="11dp"
-            android:textColor="#B1B1B1" />
-    </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

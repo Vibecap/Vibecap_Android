@@ -2,4 +2,22 @@
     <string name="app_name">VibecapAndroid</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- 공통 -->
+    <string name="post_title">게시물</string>
+    <string name="go_back">뒤로 가기</string>
+    <string name="profile_img">프로필 이미지</string>
+    <string name="post_menu">게시물 메뉴</string>
+    <string name="like">좋아요</string>
+    <string name="comment">댓글</string>
+    <string name="scrap">스크랩</string>
+    <string name="comment_title">댓글</string>
+
+
+    <!-- [VIBE] 게시물 메뉴 -->
+    <string name="vibe_post_menu_block">게시물 차단하기</string>
+    <string name="vibe_post_menu_report">게시물 신고하기</string>
+    <string name="vibe_post_menu_link">링크 복사</string>
+    <string name="vibe_post_menu_share">게시물 공유하기</string>
+
 </resources>
