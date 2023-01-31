@@ -114,14 +114,6 @@ class MypageLikeActivity : AppCompatActivity() {
                         }
 
 
-
-                        //var writed_image = findViewById<ImageView>(R.layout.activity_mypage_writedgrid)
-                        //writed_image!!.setImageBitmap(stringToBitmap(responseData.result.vibe_image))
-
-                        //arrayList?.add(MypageWritedimageClass(stringToBitmap(responseData.result[0].vibe_image)))
-                        //arrayList?.add(MypageLikeimageClass(R.drawable.image_ic_activity_history_album_list1))
-                        //arrayList?.add(MypageLikeimageClass(R.drawable.image_ic_activity_history_album_list2))
-                        //mypageLikeAdapters!!.notifyDataSetChanged()
                     }
                     else{
                         Log.d("Retrofit","Null data") }

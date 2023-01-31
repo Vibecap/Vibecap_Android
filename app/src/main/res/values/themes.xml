@@ -22,6 +22,7 @@
         <item name="windowActionBar">false</item>
         <item name="android:windowBackground">@drawable/layout_splash_main</item>
     </style>
+
     
 
 </resources>

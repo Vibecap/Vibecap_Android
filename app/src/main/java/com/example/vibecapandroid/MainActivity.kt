@@ -19,6 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.time.LocalDateTime
 
 
 /*
@@ -47,6 +48,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 public lateinit var userToken:String
 public var arrayList:ArrayList<com.example.vibecapandroid.coms.HistoryMainImageClass>?=null
 public var MEMBER_ID:Long=0
+
+
 
 val retrofit: Retrofit = Retrofit.Builder()
     .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")

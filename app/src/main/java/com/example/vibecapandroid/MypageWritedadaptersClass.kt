@@ -16,6 +16,7 @@ import com.example.vibecapandroid.coms.CheckMypageWritedResponseResult
 class MypageWritedadaptersClass(var context: Context, var arrayList: ArrayList<CheckMypageWritedResponseResult>):
     RecyclerView.Adapter<MypageWritedadaptersClass.ItemHolder>() {
 
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.activity_mypage_writedgrid,parent,false)
         return ItemHolder(itemHolder)
@@ -29,9 +30,11 @@ class MypageWritedadaptersClass(var context: Context, var arrayList: ArrayList<C
         }
 
         holder.itemView.setOnClickListener {
-            val intent= Intent(holder.itemView.context,VibePostActivity::class.java)
+            val intent= Intent(holder.itemView.context,MypagePostActivity::class.java)
+            intent.putExtra("post_id",arrayList[position].post_id.toInt())
             ContextCompat.startActivity(holder.itemView.context,intent,null)
             Log.d("position","${position}")
+            Log.d("post_id","${arrayList[position].post_id}")
         }
 
 

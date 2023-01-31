@@ -99,7 +99,7 @@ class MypageSetupActivity : AppCompatActivity() {
                     val logoutDialog = Dialog(this)
                     logoutDialog.setContentView(dialogBinding)
                     logoutDialog.setCancelable(true)
-                    //logoutDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    logoutDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     logoutDialog.show()
 
                     val cancelBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_logout_cancel)
@@ -116,7 +116,7 @@ class MypageSetupActivity : AppCompatActivity() {
 
                 }
                 if (position==2){
-
+/*
                     val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("탈퇴하시겠습니까?")
@@ -128,7 +128,7 @@ class MypageSetupActivity : AppCompatActivity() {
                                     .setPositiveButton("계정 삭제",
                                         DialogInterface.OnClickListener { dialog, id ->
                                             val intent = Intent(this, LoginActivity::class.java)
-                                            startActivity(intent)
+                                            startActivity(intent)*/
                                             /*
 
                                             //웹 브라우저 창 열기
@@ -176,7 +176,7 @@ class MypageSetupActivity : AppCompatActivity() {
                                                 }
 
                                             })*/
-                                        })
+                                       /* })
                                     .setNegativeButton("취소",
                                         DialogInterface.OnClickListener { dialog, id ->
                                         })
@@ -189,7 +189,27 @@ class MypageSetupActivity : AppCompatActivity() {
                     // 다이얼로그를 띄워주기
                     builder.show()
 
+*/
 
+                    val dialogBinding = layoutInflater.inflate(R.layout.activity_mypage_dialog_quit,null)
+
+                    val quitDialog = Dialog(this)
+                    quitDialog.setContentView(dialogBinding)
+                    quitDialog.setCancelable(true)
+                    quitDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                    quitDialog.show()
+
+                    val cancelBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_logout_cancel)
+                    cancelBtn.setOnClickListener{
+                        val intent = Intent(this, MypageSetupActivity::class.java)
+                        startActivity(intent)
+                    }
+
+                    val logoutBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_logout_logout)
+                    logoutBtn.setOnClickListener{
+                        val intent = Intent(this, LoginActivity::class.java)
+                        startActivity(intent)
+                    }
                 }
 
 
