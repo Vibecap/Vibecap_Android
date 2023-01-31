@@ -24,7 +24,7 @@ class VibeDetailActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         // 게시물 작성 열기
-        viewBinding.btnAddpost.setOnClickListener {
+        viewBinding.btnAddpostdetail.setOnClickListener {
             val intent = Intent(this, HistoryPostActivity::class.java)
             startActivity(intent)
         }
@@ -32,15 +32,15 @@ class VibeDetailActivity : AppCompatActivity() {
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-            val id = item.itemId
-            when (id) {
-                android.R.id.home -> {
-                    finish()
-                    return true
-                }
-                else -> {}
+        val id = item.itemId
+        when (id) {
+            android.R.id.home -> {
+                finish()
+                return true
             }
-        
+            else -> {}
+        }
+
         return super.onOptionsItemSelected(item)
     }
 }
