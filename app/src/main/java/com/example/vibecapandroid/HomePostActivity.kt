@@ -28,7 +28,6 @@ class HomePostActivity  : AppCompatActivity() {
         //완료 버튼
         viewBinding.activityHistoryPostFinish.setOnClickListener{
 
-            
             //post request 객체 생성
             var member_id :Int  = MEMBER_ID.toInt()
             var member =member(member_id)
@@ -57,6 +56,11 @@ class HomePostActivity  : AppCompatActivity() {
                             1000 ->{
                                 Log.d("레트로핏",responseData.result.toString())
                                 Toast.makeText(applicationContext, "게시물 작성 완료", Toast.LENGTH_LONG).show();
+                                //게시물 조회 액티비티로 이동
+                                
+                                
+                                
+                                
                             }
                             500 -> {
                                 Log.d ("레트로핏","해당 바이브에 대한 접근 권한이 없습니다" )

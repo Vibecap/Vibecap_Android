@@ -77,12 +77,17 @@ class HomeCapturedActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(intent, youtube_link))
 
         }
-        // post button
+        //post button
         viewBinding.btWrite.setOnClickListener{
-            val nextIntent = Intent(this, HomePostActivity::class.java)
-            nextIntent.putExtra("video_id",video_id)
-            nextIntent.putExtra("vibe_id",vibe_id)
-            startActivity(nextIntent)
+            if(vibe_id!=null){
+                val nextIntent = Intent(this, HomePostActivity::class.java)
+                nextIntent.putExtra("video_id",video_id)
+                nextIntent.putExtra("vibe_id",vibe_id)
+                startActivity(nextIntent)
+            }
+            else{
+                Toast.makeText(applicationContext, "서버에 저장되어있는 사진이 없습니다", Toast.LENGTH_SHORT).show();
+            }
         }
         //download button
         viewBinding.btDownload.setOnClickListener{
@@ -99,7 +104,16 @@ class HomeCapturedActivity : AppCompatActivity() {
 
     private fun showProgressbar(isShow: Boolean){
         if(isShow) viewBinding.progressBar.visibility = View.VISIBLE
-        else viewBinding.progressBar.visibility = View.GONE
+        else {
+            viewBinding.progressBar.visibility = View.GONE
+            viewBinding.btDelete.visibility=View.VISIBLE
+            viewBinding.btYoutube.visibility= View.VISIBLE
+            viewBinding.btShare.visibility=View.VISIBLE
+            viewBinding.btDownload.visibility=View.VISIBLE
+            viewBinding.btWrite.visibility =View.VISIBLE
+
+        }
+
     }
 
 
@@ -171,6 +185,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                 if (responseData?.is_success==true) {
                     when(response.body()?.code){
                         1000 ->{
+                            vibe_id =null
                             Log.d("레트로핏",responseData.result)
                             Toast.makeText(applicationContext, "사진 삭제 성공", Toast.LENGTH_SHORT).show();
                         }

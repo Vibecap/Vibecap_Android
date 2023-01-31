@@ -37,7 +37,7 @@ class HomeCameraActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.activity_home_camera)
+        //setContentView(R.layout.activity_home_camera)
         CallCamera()
         // 카메라
         //val camera = findViewById<Button>(R.id.camera)
@@ -115,8 +115,7 @@ class HomeCameraActivity: AppCompatActivity() {
                 CAMERA_CODE -> {
                     if(data?.extras?.get("data") != null) {
                         val img = data?.extras?.get("data") as Bitmap
-                        //val uri = saveFile(RandomFileName(), "image/jpeg", img) // 휴대폰 local db 에 저장
-                        //imageuri = uri
+
                         val nextIntent = Intent(this, HomeCapturedActivity::class.java)
                         nextIntent.putExtra("imagebitmap",img)
                         startActivity(nextIntent)

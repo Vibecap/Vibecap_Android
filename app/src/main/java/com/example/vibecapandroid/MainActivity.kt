@@ -58,17 +58,16 @@ class MainActivity : AppCompatActivity() {
     private val viewBinding: ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
     }
-    @SuppressLint("WrongViewCast")
+
+
     fun setDataInList(){
         arrayList = ArrayList()
         apiService.getHistoryAll(userToken, MEMBER_ID)
             .enqueue(object : Callback<HistoryAllResponse> {
                 override fun onResponse(call: Call<HistoryAllResponse>, response: Response<HistoryAllResponse>) {
                     val responseData=response.body()
-                    /*
                     if(response.isSuccessful){
-
-                        if (responseData.result.album.isEmpty() != null) {
+                        if (responseData != null) {
                             Log.d(
                                 "getHistoryAllResponse",
                                 "getHistoryAllResponse\n"+
@@ -82,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                                 }
                                 else{
                                     arrayList!!.addAll(responseData.result.album.toMutableList())
-                                    //Log.d("ArrayList is success 통신구문","${arrayList}")
+                                    Log.d("ArrayList is success 통신구문","${arrayList}")
                                 }
                             }
                         }
@@ -90,9 +89,7 @@ class MainActivity : AppCompatActivity() {
                         { Log.d("getHistory","getHistoryAll Response Null data") }
                     }
                     else{ Log.d("getHistory","getHistoryAll Response Response Not Success") }
-                */
                 }
-
                 override fun onFailure(call: Call<HistoryAllResponse>, t: Throwable) { Log.d("getHistory","${t.toString()}") }
             })
     }

@@ -35,6 +35,7 @@
         app:itemIconTint="@color/black"
         app:itemBackground="@color/transparent"
         app:menu="@menu/bottom_menu"
+
         />
 
 
