@@ -24,6 +24,7 @@ class VibeCommentActivity : AppCompatActivity(), GetCommentsView, View.OnClickLi
 
     lateinit var binding: ActivityVibeCommentBinding
     private lateinit var getCommentsView: GetCommentsView
+    private var postId: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +35,7 @@ class VibeCommentActivity : AppCompatActivity(), GetCommentsView, View.OnClickLi
 
         val intent = intent // 전달된 데이터를 받을 Intent
 
-        val postId = intent.getIntExtra("post_id", 0)
+        postId = intent.getIntExtra("post_id", 0)
         val postProfileImg: Bitmap? = intent.getParcelableExtra("post_profile_img")
         val postNickname = intent.getStringExtra("post_nickname")
         val postBody = intent.getStringExtra("post_body")
@@ -45,12 +46,13 @@ class VibeCommentActivity : AppCompatActivity(), GetCommentsView, View.OnClickLi
         binding.vibeCommentPostBodyTv.text = postBody
         binding.vibeCommentWriterDateTv.text = postDate
 
+        binding.vibeCommentBackBtn.setOnClickListener(this)
+
         // 댓글 & 대댓글 조회
-        getComments(userToken, postId)
+        getComments(userToken, postId!!)
 
         // 댓글 작성
 
-        binding.vibeCommentBackBtn.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -61,6 +63,7 @@ class VibeCommentActivity : AppCompatActivity(), GetCommentsView, View.OnClickLi
 
     override fun finish() {
         val intent = Intent(this, VibePostActivity::class.java)
+        intent.putExtra("post_id", postId)
         startActivity(intent)
         super.finish()
     }

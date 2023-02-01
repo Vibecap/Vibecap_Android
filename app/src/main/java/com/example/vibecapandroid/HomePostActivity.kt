@@ -30,9 +30,9 @@ class HomePostActivity  : AppCompatActivity() {
 
             //post request 객체 생성
             var member_id :Int  = MEMBER_ID.toInt()
-            var member =memberClass(member_id)
+            var member =member(member_id)
             var vibe_id : Int = intent.getLongExtra("vibe_id",0).toInt()
-            var vibe = vibeClass(vibe_id)
+            var vibe = vibe(vibe_id)
             var title :String = viewBinding.editTextTitle.text.toString()
             var body : String = viewBinding.editTextPostbody.text.toString()
             var tag : String = feeling
