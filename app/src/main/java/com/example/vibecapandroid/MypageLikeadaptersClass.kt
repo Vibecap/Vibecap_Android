@@ -36,7 +36,7 @@ class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<Che
             Glide.with(context).load(mypageLikeImage.vibe_image).into(images)
         }
         holder.itemView.setOnClickListener {
-            val intent= Intent(holder.itemView.context,MypagePostLikeActivity::class.java)
+            val intent= Intent(holder.itemView.context,VibePostActivity::class.java)
             intent.putExtra("post_id",arrayList[position].post_id.toInt())
             ContextCompat.startActivity(holder.itemView.context,intent,null)
             Log.d("position","${position}")
