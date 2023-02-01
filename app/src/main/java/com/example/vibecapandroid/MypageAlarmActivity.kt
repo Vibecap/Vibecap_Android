@@ -63,11 +63,11 @@ class MypageAlarmActivity : AppCompatActivity() {
         activity_mypage_alarm_recyclerview.setHasFixedSize(true)
 
         activity_mypage_alarm_recyclerview.adapter = MypageAlarmadaptersClass(alarmList)
-
+/*
         activity_mypage_alarm_recyclerview.addItemDecoration(
             DividerItemDecoration(this,DividerItemDecoration.VERTICAL)
         )
-
+*/
     }
 
     }

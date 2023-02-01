@@ -30,7 +30,7 @@ class MypageWritedadaptersClass(var context: Context, var arrayList: ArrayList<C
         }
 
         holder.itemView.setOnClickListener {
-            val intent= Intent(holder.itemView.context,MypagePostActivity::class.java)
+            val intent= Intent(holder.itemView.context,VibePostActivity::class.java)
 
             intent.putExtra("post_id",arrayList[position].post_id.toInt())
 

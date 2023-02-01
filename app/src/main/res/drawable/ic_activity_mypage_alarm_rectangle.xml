@@ -7,4 +7,5 @@
       android:pathData="M4,2h285v57h-285z"
       android:fillColor="#ffffff"
       android:strokeColor="@color/back_txt" />
+
 </vector>

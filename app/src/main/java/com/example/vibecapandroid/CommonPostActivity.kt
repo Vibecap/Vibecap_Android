@@ -178,14 +178,14 @@ class CommonPostActivity  : AppCompatActivity() {
             "Input",
             "\n"+
                     "token:${userToken}\n " +
-                    "member: ${memberClass(MEMBER_ID.toInt())}\n" +
+                    "member: ${member(MEMBER_ID.toInt())}\n" +
                     "Message:${title} \n" +
                     "Result:${body}"+
-                    "Result:${vibeClass(vibe_id)}"
+                    "Result:${vibe(vibe_id)}"
         )
         val apiService = retrofit.create(PostApiInterface::class.java)
         apiService.posting(
-            userToken,  PostRequest(memberClass(MEMBER_ID.toInt()), title,body,vibeClass(vibe_id),
+            userToken,  PostRequest(member(MEMBER_ID.toInt()), title,body,vibe(vibe_id),
                 feeling_tag+viewBinding.commonPostTagOwntype.text.toString())
         ).enqueue(object : Callback<PostResponse> {
             override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
