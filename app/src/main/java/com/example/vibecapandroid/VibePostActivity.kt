@@ -35,8 +35,7 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
         // 게시물 1개 조회
         /*** 전달 값은 postId */
         val intent = intent // 전달된 데이터를 받을 Intent
-//        val postId = intent.getIntExtra("post_id", 0)
-        val postId = 33
+        val postId = intent.getIntExtra("post_id", 0)
         val memberId: MemberId = MemberId(MEMBER_ID)
 
         getPost(postId, MEMBER_ID)
