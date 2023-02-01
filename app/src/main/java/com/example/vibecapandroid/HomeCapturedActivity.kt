@@ -48,7 +48,6 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         //button youtube GONE
         viewBinding.btYoutube.visibility= View.GONE
-
         //progress bar start
         showProgressbar(true)
 
@@ -99,6 +98,27 @@ class HomeCapturedActivity : AppCompatActivity() {
         }
 
 
+    }
+
+
+    override fun onRestart() {
+        super.onRestart()
+        youtubefragmentshow()
+    }
+
+    private fun youtubefragmentshow(){
+            var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
+            var bundle = Bundle()
+            bundle.putString("VIDEO_ID", video_id)
+            YoutubePlayerFragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
+                .commitAllowingStateLoss()
+            //progresss bar 종료
+//         runOnUiThread {
+//            showProgressbar(false)
+//            viewBinding.btYoutube.visibility = View.VISIBLE
+//        }
     }
 
 
@@ -285,7 +305,6 @@ class HomeCapturedActivity : AppCompatActivity() {
                                 vibe_id = response.body()!!.result.vibe_id
                                 youtube_link = response.body()!!.result.youtube_link
                                 Log.d("레트로핏",video_id+" "+ youtube_link)
-
                                 var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
                                 var bundle = Bundle()
                                 bundle.putString("VIDEO_ID", video_id)
@@ -293,13 +312,11 @@ class HomeCapturedActivity : AppCompatActivity() {
                                 supportFragmentManager.beginTransaction()
                                     .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
                                     .commitNow()
-
-                                runOnUiThread{
-                                    //progresss bar 종료
+                                //progresss bar 종료
+                                 runOnUiThread {
                                     showProgressbar(false)
-                                    viewBinding.btYoutube.visibility =View.VISIBLE
+                                    viewBinding.btYoutube.visibility = View.VISIBLE
                                 }
-
                             }
 
                             3500 -> {

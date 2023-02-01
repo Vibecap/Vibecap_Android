@@ -90,6 +90,7 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
                 itt.type = MediaStore.Images.Media.CONTENT_TYPE
                 startActivityForResult(itt, STORAGE_CODE)
             }
+
         }
 
 }

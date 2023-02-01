@@ -25,8 +25,8 @@ data class PostRequest(
 )
 
 data class member(
-    val memberId : Int
+    val member_id : Int
 )
 data class vibe(
-    val vibeId  : Int
+    val vibe_id  : Int
 )

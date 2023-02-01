@@ -11,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -55,9 +56,12 @@ class HomeMainFragment : Fragment() {
         layout.setBackgroundResource(R.raw.bg_img_sinna)
 
 
+        
         wheelView = viewBinding.wheelview
         wheelView!!.setWheelItemCount(size)
         val textView = viewBinding.fragmentHomeMainFeeling
+        
+        textView.text = "신나는"
 
         val shapeDrawables = arrayOfNulls<ShapeDrawable>(size)
         val colors = arrayOfNulls<String>(size)
@@ -96,57 +100,55 @@ class HomeMainFragment : Fragment() {
 
         wheelView!!.onWheelAngleChangeListener =
             WheelView.OnWheelAngleChangeListener { angle->
-                var angler = abs(angle % 360)
-                //Log.d("angler", angler.toString())
-                if(angler>=0){
+                var angler = angle % 360
+               // Log.d("angler",angler.toString())
+                if((angler>=0 && angler < 40)||(angler>=-360 && angler <-320 )){
                         layout.setBackgroundResource(R.raw.bg_img_sinna)
                         textView.text = "신나는"
                         feeling = textView.text as String
                         wheelView!!.setWheelDrawable(R.drawable.wheel_sinna)
-
-
                 }
-                if(angler>=45){
+                else if((angler>=40 && angler<80)||(angler>=-320 && angler <-280 )){
                     layout.setBackgroundResource(R.raw.bg_img_pogen)
                     textView.text = "포근한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_pogen)
 
                 }
-                if(angler>=90){
+                else if((angler>=80 && angler<120)||(angler>=-280 && angler <-240 )){
                     layout.setBackgroundResource(R.raw.bg_img_sunsun)
                     textView.text = "선선한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_sunsun)
                     //Log.d("angle", angle.toString())
                 }
-                if(angler>=135){
+                else if((angler>=120 && angler<160)||(angler>=-240 && angler <-200 )){
                     layout.setBackgroundResource(R.raw.bg_img_nangman)
                     textView.text = "낭만적인"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_nangman)
                     //Log.d("angle", angle.toString())
                 }
-                if(angler>=180){
+                else if((angler>=160 && angler<200)||(angler>=-200 && angler <-160 )){
                     layout.setBackgroundResource(R.raw.bg_img_zanzan)
                     textView.text = "잔잔한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_zanzan)
 
                 }
-                if(angler>=225){
+                else if((angler>=200 && angler<240)||(angler>=-160 && angler <-120 )){
                     layout.setBackgroundResource(R.raw.bg_img_woowool)
                     textView.text = "우울한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_woowool)
                 }
-                if(angler>=270){
+                else if((angler>=240 && angler<280)||(angler>=-120  && angler <-80 )){
                     layout.setBackgroundResource(R.raw.bg_img_gonghe)
                     textView.text = "공허한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_gonghe)
                 }
-                if(angler>=315){
+                else if((angler>=280 && angler<320)||(angler>=-80 && angler <-40 )){
                     layout.setBackgroundResource(R.raw.bg_img_simsim)
                     textView.text = "심심한"
                     feeling = textView.text as String

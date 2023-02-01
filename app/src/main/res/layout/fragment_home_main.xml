@@ -97,7 +97,7 @@
         android:id="@+id/fragment_home_main_feeling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="신나는"
+
         android:textSize="23dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/wheelview"

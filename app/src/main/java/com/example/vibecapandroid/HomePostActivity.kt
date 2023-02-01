@@ -37,10 +37,13 @@ class HomePostActivity  : AppCompatActivity() {
             var body : String = viewBinding.editTextPostbody.text.toString()
             var tag : String = feeling
 
+
+            Log.d("postrequest",PostRequest(member, title,body,vibe,tag).toString())
             //api 연결
             val apiService = retrofit.create(PostApiInterface::class.java)
             apiService.posting(
                 userToken,  PostRequest(member, title,body,vibe,tag)
+
 
             ).enqueue(object : Callback<PostResponse> {
                 override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
