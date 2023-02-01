@@ -31,7 +31,7 @@
         app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_vibe_post_menu_close_btn">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottom_sheet_vibe_post_block_layout"
+            android:id="@+id/bottom_sheet_mypage_post_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/tv_bottom_sheet_vibe"
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:gravity="center"
-                android:text="@string/mypage_post_menu_share"
+                android:text="@string/mypage_post_menu_edit"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/bottom_sheet_vibe_post_block_iv"
@@ -66,7 +66,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottom_sheet_vibe_post_report_layout"
+            android:id="@+id/bottom_sheet_mypage_post_delete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/tv_bottom_sheet_vibe"
@@ -79,6 +79,7 @@
                 android:id="@+id/bottom_sheet_vibe_post_report_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
                 android:contentDescription="@string/vibe_post_menu_report"
                 android:src="@drawable/ic_activity_mypage_post_popup_delete"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -100,7 +101,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottom_sheet_vibe_post_link_layout"
+            android:id="@+id/bottom_sheet_mypage_post_share"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/tv_bottom_sheet_vibe"

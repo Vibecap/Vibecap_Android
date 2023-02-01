@@ -64,6 +64,7 @@ class MypagePostPopupEditFragment : Fragment() {
 
 
     }
+    /*
     interface OnButtonClickListener {
         fun onButton1Clicked()
         fun onButton2Clicked()
@@ -72,7 +73,7 @@ class MypagePostPopupEditFragment : Fragment() {
         this.buttonClickListener = buttonClickListener
     }
     // 클릭 이벤트 실행
-    private lateinit var buttonClickListener: OnButtonClickListener
+    private lateinit var buttonClickListener: OnButtonClickListener*/
 }
 
 
