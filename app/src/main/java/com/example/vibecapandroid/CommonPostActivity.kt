@@ -111,7 +111,7 @@ class CommonPostActivity  : AppCompatActivity() {
             title = viewBinding.commonPostTitle.text.toString()
             body  = viewBinding.commonPostBody.text.toString()
             callPostApi()
-
+            finish()
         }
         //x 버튼
         viewBinding.commonBackbtn.setOnClickListener{

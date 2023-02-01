@@ -34,6 +34,9 @@ class HistoryYoutubeActivity:AppCompatActivity() {
             startActivity(intent)
         }
 
+        viewBinding.btHome.setOnClickListener(){
+            finish() }
+
     }
 
     private fun getYouTubeId(youTubeUrl: String): String? {
@@ -64,6 +67,5 @@ class HistoryYoutubeActivity:AppCompatActivity() {
             .commitNow()
 
     }
-
 
 }
