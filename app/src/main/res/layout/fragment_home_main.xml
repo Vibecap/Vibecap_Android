@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
 
+
     >
 
     <ImageButton
@@ -40,18 +41,18 @@
         android:id="@+id/wheelview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="60dp"
         app:repeatItems="true"
+        app:rotatableWheelDrawable="false"
         app:selectionAngle="90.0"
-        app:wheelDrawable="@drawable/ic_wheel_main"
         app:selectionDrawable="@drawable/ic_wheel_selection_button"
         app:wheelColor="#1A000000"
+        app:wheelDrawable="@drawable/wheel_sinna"
         app:wheelItemRadius="5dp"
         app:wheelPadding="50dp"
         app:wheelRadius="100dp"
-        app:rotatableWheelDrawable="false"
         app:wheelToItemDistance="130dp">
         <!--    wheelDrawable
                 wheelColor
@@ -78,16 +79,16 @@
 
     <TextView
         android:id="@+id/fragment_home_main_Title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
+        android:layout_width="293dp"
+        android:layout_height="29dp"
+        android:layout_marginTop="143dp"
         android:text="당신의 현재 느낌을 선택해주세요"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="20dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/wheelview"
         app:layout_constraintVertical_bias="0.0"
@@ -97,32 +98,16 @@
         android:id="@+id/fragment_home_main_feeling"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="20dp"
+        android:textSize="23dp"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="@+id/wheelview"
         app:layout_constraintEnd_toEndOf="@+id/wheelview"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@id/wheelview"
         app:layout_constraintTop_toTopOf="@+id/wheelview"
-        app:layout_constraintVertical_bias="0.49"
-        android:visibility="invisible"/>
+        app:layout_constraintVertical_bias="0.5"
+        />
 
-    <Button
-        android:id="@+id/HomeMainWheelButton"
-        android:layout_width="198dp"
-        android:layout_height="203dp"
-        android:background="@color/transparent"
-        android:enabled="true"
-        android:text=""
-        android:textSize="25dp"
-        android:textColor="@color/black"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment_home_main_Title"
-        app:layout_constraintVertical_bias="0.356" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

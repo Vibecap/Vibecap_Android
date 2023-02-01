@@ -17,8 +17,8 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.vibecapandroid.WheelView.WheelView
 import com.example.vibecapandroid.WheelView.adapter.WheelAdapter
@@ -26,18 +26,11 @@ import com.example.vibecapandroid.databinding.FragmentHomeMainBinding
 import java.lang.Math.abs
 
 
-
 public lateinit var feeling : String
 
 class HomeMainFragment : Fragment() {
     private var wheelView: WheelView? = null
     private lateinit var viewBinding: FragmentHomeMainBinding
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    //private val binding get() = viewBinding!!
-    //위에 코드는 아마 다른 프래그먼트에서 다시 돌아왓을떄 해당 프래그먼트를 다시 살릴지 여부를 결정하는 코드인듯
-
     //size 설정
     var size = 8
 
@@ -58,12 +51,17 @@ class HomeMainFragment : Fragment() {
             startActivity(intent)
         }
 
-
         val vibrator = requireContext().getSystemService(VIBRATOR_SERVICE) as Vibrator
         val layout: ConstraintLayout = viewBinding.wheelMain
+        layout.setBackgroundResource(R.raw.bg_img_sinna)
+
+
+        
         wheelView = viewBinding.wheelview
         wheelView!!.setWheelItemCount(size)
         val textView = viewBinding.fragmentHomeMainFeeling
+        
+        textView.text = "신나는"
 
         val shapeDrawables = arrayOfNulls<ShapeDrawable>(size)
         val colors = arrayOfNulls<String>(size)
@@ -73,13 +71,12 @@ class HomeMainFragment : Fragment() {
             shapeDrawables[i]!!.paint.color = Color.parseColor(colors[i])
         }
 
-        wheelView!!.setWheelDrawableRotatable(false)
-
 
         //wheelView 초기화
         wheelView!!.adapter = object : WheelAdapter {
             override fun getDrawable(position: Int): Drawable {
-                return shapeDrawables[position]!!
+                var drawable:Drawable = resources.getDrawable(R.drawable.wheel_not_selected)
+                return drawable
             }
 
             override fun getCount(): Int {
@@ -95,81 +92,71 @@ class HomeMainFragment : Fragment() {
 //            }
 //            true
 //        }
-
-
-//        var drawable:Drawable = resources.getDrawable(R.drawable.ic_wheel_main)
+        //var drawable:Drawable = resources.getDrawable(R.drawable.wheel_main)
 //        wheelView!!.setWheelDrawable(drawable)
 
 
 
-        viewBinding.HomeMainWheelButton.setOnClickListener{
-            //button 없애기
-            viewBinding.HomeMainWheelButton.visibility =GONE
-            //흰색 글자 만들어주기
-            context?.let { it1 -> viewBinding.fragmentHomeMainTitle.setTextColor(it1.getColor(R.color.white)) }
-
-        }
 
         wheelView!!.onWheelAngleChangeListener =
             WheelView.OnWheelAngleChangeListener { angle->
-                var angler = abs(angle % 360)
-                //Log.d("angler", angler.toString())
-                if(angler>=0){
+                var angler = angle % 360
+               // Log.d("angler",angler.toString())
+                if((angler>=0 && angler < 40)||(angler>=-360 && angler <-320 )){
+                        layout.setBackgroundResource(R.raw.bg_img_sinna)
+                        textView.text = "신나는"
+                        feeling = textView.text as String
+                        wheelView!!.setWheelDrawable(R.drawable.wheel_sinna)
+                }
+                else if((angler>=40 && angler<80)||(angler>=-320 && angler <-280 )){
                     layout.setBackgroundResource(R.raw.bg_img_pogen)
-                    textView.visibility=VISIBLE
                     textView.text = "포근한"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_pogen)
 
                 }
-                if(angler>=45){
-                    layout.setBackgroundResource(R.raw.bg_img_gonghe)
-                    textView.visibility=VISIBLE
-                    textView.text = "공허한"
+                else if((angler>=80 && angler<120)||(angler>=-280 && angler <-240 )){
+                    layout.setBackgroundResource(R.raw.bg_img_sunsun)
+                    textView.text = "선선한"
                     feeling = textView.text as String
-
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_sunsun)
+                    //Log.d("angle", angle.toString())
                 }
-                if(angler>=90){
+                else if((angler>=120 && angler<160)||(angler>=-240 && angler <-200 )){
                     layout.setBackgroundResource(R.raw.bg_img_nangman)
-                    textView.visibility=VISIBLE
                     textView.text = "낭만적인"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_nangman)
                     //Log.d("angle", angle.toString())
                 }
-                if(angler>=135){
-                    layout.setBackgroundResource(R.raw.bg_img_sinna)
-                    textView.visibility=VISIBLE
-                    textView.text = "신나는"
-                    feeling = textView.text as String
-                    //Log.d("angle", angle.toString())
-                }
-                if(angler>=180){
+                else if((angler>=160 && angler<200)||(angler>=-200 && angler <-160 )){
                     layout.setBackgroundResource(R.raw.bg_img_zanzan)
-                    textView.visibility=VISIBLE
                     textView.text = "잔잔한"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_zanzan)
 
                 }
-                if(angler>=225){
+                else if((angler>=200 && angler<240)||(angler>=-160 && angler <-120 )){
                     layout.setBackgroundResource(R.raw.bg_img_woowool)
-                    textView.visibility=VISIBLE
                     textView.text = "우울한"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_woowool)
                 }
-                if(angler>=270){
+                else if((angler>=240 && angler<280)||(angler>=-120  && angler <-80 )){
                     layout.setBackgroundResource(R.raw.bg_img_gonghe)
-                    textView.visibility=VISIBLE
                     textView.text = "공허한"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_gonghe)
                 }
-                if(angler>=315){
-                    layout.setBackgroundResource(R.raw.bg_img_gonghe)
-                    textView.visibility=VISIBLE
-                    textView.text = "공허한"
+                else if((angler>=280 && angler<320)||(angler>=-80 && angler <-40 )){
+                    layout.setBackgroundResource(R.raw.bg_img_simsim)
+                    textView.text = "심심한"
                     feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_simsim)
                 }
             }
 
-        wheelView!!.setOnWheelAngleChangeListener (wheelView!!.onWheelAngleChangeListener)
+       // wheelView!!.setOnWheelAngleChangeListener (wheelView!!.onWheelAngleChangeListener)
 
 
         wheelView!!.setOnWheelItemSelectedListener { parent, itemDrawable, position ->

@@ -58,7 +58,8 @@ class MainActivity : AppCompatActivity() {
     private val viewBinding: ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
     }
-    @SuppressLint("WrongViewCast")
+
+
     fun setDataInList(){
         arrayList = ArrayList()
         apiService.getHistoryAll(userToken, MEMBER_ID)

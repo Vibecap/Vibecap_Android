@@ -17,16 +17,16 @@ interface PostApiInterface {
 }
 
 data class PostRequest(
-    val member : memberClass,
+    val member : member,
     val title : String?,
     val body : String?, //게시물 내용
-    val vibe : vibeClass, //capture 한 사진
+    val vibe : vibe, //capture 한 사진
     val tag_name : String? //게시물 태그내용
 )
 
-data class memberClass(
+data class member(
     val member_id : Int
 )
-data class vibeClass(
+data class vibe(
     val vibe_id  : Int
 )

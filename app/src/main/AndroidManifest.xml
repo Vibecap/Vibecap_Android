@@ -249,6 +249,13 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+         <activity
+            android:name=".HistoryPhoneGalleryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".CommonPostActivity"
             android:windowSoftInputMode="adjustPan"

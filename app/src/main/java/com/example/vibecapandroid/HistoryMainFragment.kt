@@ -1,5 +1,6 @@
 package com.example.vibecapandroid
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -19,6 +20,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.util.Base64.*
+import android.widget.ImageButton
 
 
 class HistoryMainFragment : Fragment() {
@@ -46,6 +48,13 @@ class HistoryMainFragment : Fragment() {
         recyclerView?.setHasFixedSize(true)
         recyclerView?.adapter = historyMainAdapters
         historyMainAdapters?.notifyDataSetChanged()
+
+        val galleryButton : ImageButton? = view?.findViewById(R.id.history_phone_gallery_button)
+        galleryButton?.setOnClickListener{
+            val nextIntent = Intent(context, HistoryPhoneGalleryActivity::class.java)
+            startActivity(nextIntent)
+        }
+
 
 
     }
