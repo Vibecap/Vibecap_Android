@@ -116,80 +116,6 @@ class MypageSetupActivity : AppCompatActivity() {
 
                 }
                 if (position==2){
-/*
-                    val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle("탈퇴하시겠습니까?")
-                        .setPositiveButton("네",
-                            DialogInterface.OnClickListener { dialog, id ->
-                                val builder = AlertDialog.Builder(this)
-                                builder.setTitle("정말 계정을 탈퇴하시겠습니까?")
-                                    .setMessage("계정이 영구히 삭제됩니다")
-                                    .setPositiveButton("계정 삭제",
-                                        DialogInterface.OnClickListener { dialog, id ->
-                                            val intent = Intent(this, LoginActivity::class.java)
-                                            startActivity(intent)*/
-                                            /*
-
-                                            //웹 브라우저 창 열기
-                                            val retrofit = Retrofit.Builder()
-                                                .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
-                                                .addConverterFactory(GsonConverterFactory.create())
-                                                .build()
-
-                                            //어떤 주소로 들어갈지 입력
-                                            val apiService = retrofit.create(MypageApiInterface::class.java)
-
-                                            Log.d("userToken","$userToken")
-                                            //입력한 주소중 하나로 연결 시도
-                                            apiService.patchMypageQuit(userToken,patchMypageQuitInput(1)).enqueue(object :Callback<patchMypageQuitResponse> {
-                                                override fun onResponse(
-                                                    call: Call<patchMypageQuitResponse>,
-                                                    response: Response<patchMypageQuitResponse>
-                                                ) {
-
-                                                    if (response.isSuccessful) {
-                                                        val responseData = response.body()
-
-                                                        if (responseData !== null) {
-                                                            Log.d(
-                                                                "Retrofit",
-                                                                "MypageResponse\n"+
-                                                                        "isSuccess:${responseData.is_success}" +
-                                                                        "Code:${responseData.code}"+
-                                                                        "Message:${responseData.message}"+
-                                                                        "Result:${responseData.result.nickname}"
-
-                                                            )
-
-                                                        }
-                                                        else{
-                                                            Log.d("Retrofit","Null data") }
-
-                                                    } else {
-                                                        Log.w("Retrofit", "Response Not Successful${response.code()}")
-                                                    }
-                                                }
-
-                                                override fun onFailure(call: Call<patchMypageQuitResponse>, t: Throwable) {
-                                                    Log.e("Retrofit","Error",t)
-                                                }
-
-                                            })*/
-                                       /* })
-                                    .setNegativeButton("취소",
-                                        DialogInterface.OnClickListener { dialog, id ->
-                                        })
-                                // 다이얼로그를 띄워주기
-                                builder.show()
-                            })
-                        .setNegativeButton("취소",
-                            DialogInterface.OnClickListener { dialog, id ->
-                            })
-                    // 다이얼로그를 띄워주기
-                    builder.show()
-
-*/
 
                     val dialogBinding = layoutInflater.inflate(R.layout.activity_mypage_dialog_quit,null)
 
@@ -199,16 +125,84 @@ class MypageSetupActivity : AppCompatActivity() {
                     quitDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     quitDialog.show()
 
-                    val cancelBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_logout_cancel)
+                    val cancelBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_quit_cancel)
                     cancelBtn.setOnClickListener{
                         val intent = Intent(this, MypageSetupActivity::class.java)
                         startActivity(intent)
                     }
 
-                    val logoutBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_logout_logout)
-                    logoutBtn.setOnClickListener{
-                        val intent = Intent(this, LoginActivity::class.java)
-                        startActivity(intent)
+                    val quitBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_quit_quit)
+                    quitBtn.setOnClickListener{
+
+                        val dialogBinding = layoutInflater.inflate(R.layout.activity_mypage_dialog_quit_real,null)
+
+                        val quitRealDialog = Dialog(this)
+                        quitRealDialog.setContentView(dialogBinding)
+                        quitRealDialog.setCancelable(true)
+                        quitRealDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                        quitRealDialog.show()
+
+                        val cancelBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_quitreal_cancel)
+                        cancelBtn.setOnClickListener{
+                            val intent = Intent(this, MypageSetupActivity::class.java)
+                            startActivity(intent)
+                        }
+
+                        val quitrealBtn = dialogBinding.findViewById<Button>(R.id.dialog_mypage_quitreal_quit)
+                        quitrealBtn.setOnClickListener{
+                            val intent = Intent(this, LoginActivity::class.java)
+                            startActivity(intent)
+
+
+
+                            //웹 브라우저 창 열기
+                            val retrofit = Retrofit.Builder()
+                                .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build()
+
+                            //어떤 주소로 들어갈지 입력
+                            val apiService = retrofit.create(MypageApiInterface::class.java)
+
+                            Log.d("userToken","$userToken")
+                            //입력한 주소중 하나로 연결 시도
+                            apiService.patchMypageQuit(userToken,patchMypageQuitInput(MEMBER_ID)).enqueue(object :Callback<patchMypageQuitResponse> {
+                                override fun onResponse(
+                                    call: Call<patchMypageQuitResponse>,
+                                    response: Response<patchMypageQuitResponse>
+                                ) {
+
+                                    if (response.isSuccessful) {
+                                        val responseData = response.body()
+
+                                        if (responseData !== null) {
+                                            Log.d(
+                                                "Retrofit",
+                                                "MypageResponse\n"+
+                                                        "isSuccess:${responseData.is_success}" +
+                                                        "Code:${responseData.code}"+
+                                                        "Message:${responseData.message}"+
+                                                        "Result:${responseData.result.nickname}"
+
+                                            )
+
+                                        }
+                                        else{
+                                            Log.d("Retrofit","Null data") }
+
+                                    } else {
+                                        Log.w("Retrofit", "Response Not Successful${response.code()}")
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<patchMypageQuitResponse>, t: Throwable) {
+                                    Log.e("Retrofit","Error",t)
+                                }
+
+                            })
+                        }
+
+
                     }
                 }
 

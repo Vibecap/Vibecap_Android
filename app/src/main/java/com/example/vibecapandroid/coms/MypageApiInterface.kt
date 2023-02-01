@@ -83,4 +83,11 @@ interface MypageApiInterface {
         @Path("post_id") post_id: Int,
         @Body JsonBody: patchMypageEditPostInput
     ):retrofit2.Call<postMypageEditResponse>
+
+    @DELETE("app/posts/{post_id}")
+    fun deleteMypagePost(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Path("post_id") post_id: Int,
+        @Body JsonBody: deleteMypagePostInput
+    ):retrofit2.Call<deleteMypageResponse>
 }

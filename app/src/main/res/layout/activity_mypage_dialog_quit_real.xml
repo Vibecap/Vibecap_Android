@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/white"
     android:background="@drawable/dialog_mypage_logout_background"
     android:layout_gravity="center"
     android:paddingHorizontal="50dp"
-    android:paddingVertical="10dp"
-    android:backgroundTint="@color/white">
+    android:paddingVertical="10dp">
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -15,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="탈퇴하시겠습니까?"
+        android:text="정말 계정을 삭제하시겠습니까?"
         android:layout_marginTop="20dp"
         android:textSize="17sp"
         android:textColor="@color/black"
@@ -24,31 +26,45 @@
         android:backgroundTint="@color/white"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/dialog_mypage_quit_cancel"
+        android:id="@+id/dialog_mypage_quitreal_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:text="취소"
         android:textColor="@color/black"
         app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_mypage_logout_title"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/dialog_mypage_quit_quit"
+        android:id="@+id/dialog_mypage_quitreal_quit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="네"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="계정삭제"
         android:textColor="@color/red"
-        app:backgroundTint="@color/white"
         android:textStyle="bold"
+        app:backgroundTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/dialog_mypage_quit_cancel"
-        app:layout_constraintTop_toBottomOf="@id/dialog_mypage_logout_title"
+        app:layout_constraintStart_toEndOf="@+id/dialog_mypage_quitreal_cancel"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="계정이 영구히 삭제됩니다"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/dialog_mypage_logout_title"
+        app:layout_constraintStart_toStartOf="@+id/dialog_mypage_logout_title"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_mypage_logout_title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

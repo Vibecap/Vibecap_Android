@@ -228,3 +228,14 @@ data class patchMypageEditPostInput(
     @SerializedName("title") val title: String,
     @SerializedName("body") val body: String,
 )
+
+data class deleteMypageResponse(
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
+    val result: String
+
+)
+data class deleteMypagePostInput(
+    @SerializedName("body") val body: String
+)

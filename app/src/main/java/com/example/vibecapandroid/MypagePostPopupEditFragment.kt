@@ -13,9 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import com.example.vibecapandroid.coms.MypageApiInterface
 import com.example.vibecapandroid.databinding.FragmentHomeMainBinding
 import com.example.vibecapandroid.databinding.FragmentMypagePostPopupEditBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MypagePostPopupEditFragment : Fragment() {
     private lateinit var viewBinding: FragmentMypagePostPopupEditBinding
@@ -37,9 +40,22 @@ class MypagePostPopupEditFragment : Fragment() {
             buttonClickListener.onButton1Clicked()
         }
         viewBinding.dialogTableDelete.setOnClickListener{
+
+
+            //웹 브라우저 창 열기
+            val retrofit = Retrofit.Builder()
+                .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            //어떤 주소로 들어갈지 입력
+            val apiService = retrofit.create(MypageApiInterface::class.java)
+
             val intent = Intent(context, MypageProfileActivity::class.java)
             startActivity(intent)
             buttonClickListener.onButton2Clicked()
+
+
         }
 
 
