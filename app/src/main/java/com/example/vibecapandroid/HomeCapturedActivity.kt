@@ -7,6 +7,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
+import android.webkit.RenderProcessGoneDetail
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -44,10 +46,14 @@ class HomeCapturedActivity : AppCompatActivity() {
         val view = viewBinding.root
         setContentView(view)
 
+        //button youtube GONE
+        viewBinding.btYoutube.visibility= View.GONE
+        //progress bar start
+        showProgressbar(true)
+
         //유튜브 출력
         Youtubeplay()
-
-
+        
         //button setonClickListener
         //play on youtube button
         viewBinding.btYoutube.setOnClickListener{
@@ -70,12 +76,17 @@ class HomeCapturedActivity : AppCompatActivity() {
             startActivity(Intent.createChooser(intent, youtube_link))
 
         }
-        // post button
+        //post button
         viewBinding.btWrite.setOnClickListener{
-            val nextIntent = Intent(this, HomePostActivity::class.java)
-            nextIntent.putExtra("video_id",video_id)
-            nextIntent.putExtra("vibe_id",vibe_id)
-            startActivity(nextIntent)
+            if(vibe_id!=null){
+                val nextIntent = Intent(this, HomePostActivity::class.java)
+                nextIntent.putExtra("video_id",video_id)
+                nextIntent.putExtra("vibe_id",vibe_id)
+                startActivity(nextIntent)
+            }
+            else{
+                Toast.makeText(applicationContext, "서버에 저장되어있는 사진이 없습니다", Toast.LENGTH_SHORT).show();
+            }
         }
         //download button
         viewBinding.btDownload.setOnClickListener{
@@ -86,6 +97,42 @@ class HomeCapturedActivity : AppCompatActivity() {
             deletePhoto()
         }
 
+
+    }
+
+
+    override fun onRestart() {
+        super.onRestart()
+        youtubefragmentshow()
+    }
+
+    private fun youtubefragmentshow(){
+            var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
+            var bundle = Bundle()
+            bundle.putString("VIDEO_ID", video_id)
+            YoutubePlayerFragment.arguments = bundle
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
+                .commitAllowingStateLoss()
+            //progresss bar 종료
+//         runOnUiThread {
+//            showProgressbar(false)
+//            viewBinding.btYoutube.visibility = View.VISIBLE
+//        }
+    }
+
+
+    private fun showProgressbar(isShow: Boolean){
+        if(isShow) viewBinding.progressBar.visibility = View.VISIBLE
+        else {
+            viewBinding.progressBar.visibility = View.GONE
+            viewBinding.btDelete.visibility=View.VISIBLE
+            viewBinding.btYoutube.visibility= View.VISIBLE
+            viewBinding.btShare.visibility=View.VISIBLE
+            viewBinding.btDownload.visibility=View.VISIBLE
+            viewBinding.btWrite.visibility =View.VISIBLE
+
+        }
 
     }
 
@@ -111,8 +158,9 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         when(formatted2.toInt()){
             in 6..12 -> result = result + "아침"
-            in 12..17 -> result = result +"낮"
-            in 17 .. 20 -> result = result +"저녁"
+            in 12..14 -> result = result +"낮"
+            in 14..18 -> result = result + "오후"
+            in 18 .. 20 -> result = result +"저녁"
             in 20.. 24-> result = result +"밤"
             in 0..6 -> result = result +"새벽"
             else -> result = result +""
@@ -136,7 +184,7 @@ class HomeCapturedActivity : AppCompatActivity() {
         //imagebitmap = intent.getParcelableExtra<Bitmap>("imagebitmap")
         saveFile(RandomFileName(), "image/jpeg", imagebitmap!!) // 휴대폰 local db 에 저장
         Log.d("파일", "파일저장 완료")
-        Toast.makeText(applicationContext, "사진 다운로드 성공", Toast.LENGTH_LONG).show();
+        Toast.makeText(applicationContext, "사진 다운로드 성공", Toast.LENGTH_SHORT).show();
     }
 
     private fun deletePhoto(){
@@ -157,8 +205,9 @@ class HomeCapturedActivity : AppCompatActivity() {
                 if (responseData?.is_success==true) {
                     when(response.body()?.code){
                         1000 ->{
+                            vibe_id =null
                             Log.d("레트로핏",responseData.result)
-                            Toast.makeText(applicationContext, "사진 삭제 성공", Toast.LENGTH_LONG).show();
+                            Toast.makeText(applicationContext, "사진 삭제 성공", Toast.LENGTH_SHORT).show();
                         }
                         2100 -> {
                             Log.d ("레트로핏","해당 바이브에 대한 접근 권한이 없습니다" )
@@ -166,7 +215,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                     }
                 }
                 else {
-                    Toast.makeText(applicationContext, "해당 사진이 이미 서버에서 삭제 되었습니다", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "해당 사진이 이미 서버에서 삭제 되었습니다", Toast.LENGTH_SHORT).show()
                     Log.d("레트로핏","Response Not Success ${response.code()}")
                 }
 
@@ -219,7 +268,6 @@ class HomeCapturedActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     private fun Youtubeplay(){
 
-
         imagebitmap = intent.getParcelableExtra<Bitmap>("imagebitmap")
         val fileName = "VibeCap_Photo" + ".jpg"
         Log.d("imagebitmap",imagebitmap.toString())
@@ -229,20 +277,7 @@ class HomeCapturedActivity : AppCompatActivity() {
         val body = RequestBody.create(MediaType.parse("image/*"), byteArray, 0, byteArray.size)
         var image: MultipartBody.Part = MultipartBody.Part.createFormData("image_file", fileName ,body)
         Log.d("파일",image.toString())
-         
-        
-//        //uri를 절대경로로 만들고, request body로 만들어주기 , 현재 쓰지않지만 혹시모르니 남겨둠
-//        val file = File(absolutelyPath(imageuri,this))
-//        Log.d("파일",file.toString())
-//        var requestBody: RequestBody = RequestBody.create(MediaType.parse("image/*"), file)
-//        var image: MultipartBody.Part = MultipartBody.Part.createFormData("image_file", file.name, requestBody)
-//        Log.d("파일",image.toString())
-
-        
         var time: String = timing() //계절 및 시간
-        //var EXTRA_INFO :String = time + 기분
-
-
         Log.d("키워드", time+ " "+ feeling)
 
         //base url 설정
@@ -264,13 +299,12 @@ class HomeCapturedActivity : AppCompatActivity() {
                     if (responseData?.is_success==true) {
                         when(response.body()?.code){
                             1000 ->{
-                                Toast.makeText(getApplicationContext(), "File Uploaded Successfully...", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "File Uploaded Successfully...", Toast.LENGTH_SHORT).show();
                                 Log.d("레트로핏","이미지 전송 성공")
                                 video_id = response.body()!!.result.video_id
                                 vibe_id = response.body()!!.result.vibe_id
                                 youtube_link = response.body()!!.result.youtube_link
                                 Log.d("레트로핏",video_id+" "+ youtube_link)
-
                                 var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
                                 var bundle = Bundle()
                                 bundle.putString("VIDEO_ID", video_id)
@@ -278,6 +312,11 @@ class HomeCapturedActivity : AppCompatActivity() {
                                 supportFragmentManager.beginTransaction()
                                     .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
                                     .commitNow()
+                                //progresss bar 종료
+                                 runOnUiThread {
+                                    showProgressbar(false)
+                                    viewBinding.btYoutube.visibility = View.VISIBLE
+                                }
                             }
 
                             3500 -> {
@@ -299,5 +338,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                 }
             })
     }
+
+
 
 }

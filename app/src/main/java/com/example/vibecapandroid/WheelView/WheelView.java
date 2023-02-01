@@ -1074,15 +1074,18 @@ public class WheelView extends View {
 
                 }
 
+                
+                //감정선택이 완료됬다면
+                if (feeling!=null) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(500,100));
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(500, 100));
+                    }
+                    Intent intent = new Intent(getContext(), HomeCameraActivity.class);
+                    intent.putExtra("feeling", feeling);
+                    getContext().startActivity(intent);
                 }
 
-
-                Intent intent = new Intent(getContext(), HomeCameraActivity.class);
-                intent.putExtra("feeling",feeling);
-                getContext().startActivity(intent);
 
             case MotionEvent.ACTION_CANCEL:
                 if (mIsDraggingWheel) {

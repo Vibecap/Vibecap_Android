@@ -1,269 +1,486 @@
 package com.example.vibecapandroid
 
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.widget.Button
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
-import com.example.vibecapandroid.coms.PostDetailResponse
-import com.example.vibecapandroid.coms.VibePostApiInterface
+import android.view.View
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.bumptech.glide.Glide
+import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.ActivityVibePostBinding
+import com.example.vibecapandroid.utils.getRetrofit
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.*
-import retrofit2.converter.gson.GsonConverterFactory
 
-class VibePostActivity : AppCompatActivity() {
-    val viewBinding : ActivityVibePostBinding by lazy {
-        ActivityVibePostBinding.inflate(layoutInflater)
-    }
 
+class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrapView,
+    View.OnClickListener {
+
+    lateinit var binding: ActivityVibePostBinding
+    private lateinit var getPostView: GetPostView
+    private lateinit var setLikeView: SetLikeView
+    private lateinit var setScrapView: SetScrapView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(viewBinding.root)
+        binding = ActivityVibePostBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
+        setPostView(this, this, this)
 
-        // 툴바
-        val toolbar = findViewById<Toolbar>(R.id.toolBar_top)
-        setSupportActionBar(toolbar)
-        val ab = supportActionBar!!
-        ab.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+        // 게시물 1개 조회
+        /*** 전달 값은 postId */
+        val intent = intent // 전달된 데이터를 받을 Intent
+//        val postId = intent.getIntExtra("post_id", 0)
+        val postId = 33
+        val memberId: MemberId = MemberId(MEMBER_ID)
 
-        // API
-        requestToRestAPI()
+        getPost(postId, MEMBER_ID)
 
-        // 댓글창 열기
-        viewBinding.imageButtonComment.setOnClickListener {
+        binding.vibePostBackBtn.setOnClickListener(this)
+        // 게시물 좋아요
+        binding.vibePostLikeBtn.setOnClickListener {
+            setLike(userToken, postId, memberId)
+        }
+        // 게시물 스크랩
+        binding.vibePostScrapBtn.setOnClickListener {
+            setScrap(userToken, postId, memberId)
+        }
+        // 댓글창
+        binding.vibePostCommentBtn.setOnClickListener {
+            finish()
             val intent = Intent(this, VibeCommentActivity::class.java)
+            // 게시물의 post_id, 프로필 사진, 닉네임, 내용을 intent로 전달
+            intent.putExtra("post_id", postId)
+            val postProfileImgBitmap =
+                (binding.vibePostProfileIv.drawable as BitmapDrawable).bitmap
+
+            intent.putExtra("post_profile_img", postProfileImgBitmap)
+            intent.putExtra("post_nickname", binding.vibePostNicknameTv.text)
+            intent.putExtra("post_body", binding.vibePostPostBodyTv.text)
+            intent.putExtra("post_date", binding.vibePostDateTv.text)
+
+            startActivity(intent)
+        }
+        // 댓글창
+        binding.vibePostCommentMoreBtn.setOnClickListener {
+            finish()
+            val intent = Intent(this, VibeCommentActivity::class.java)
+            // 게시물의 post_id, 프로필 사진, 닉네임, 내용을 intent로 전달
+            intent.putExtra("post_id", postId)
+            val postProfileImgBitmap =
+                (binding.vibePostProfileIv.drawable as BitmapDrawable).bitmap
+
+            intent.putExtra("post_profile_img", postProfileImgBitmap)
+            intent.putExtra("post_nickname", binding.vibePostNicknameTv.text)
+            intent.putExtra("post_body", binding.vibePostPostBodyTv.text)
+            intent.putExtra("post_date", binding.vibePostDateTv.text)
+
             startActivity(intent)
         }
 
-        // 게시글 popup
-        viewBinding.articlePopup.setOnClickListener {
-            // Dialog만들기
-            val mDialogView =
-                LayoutInflater.from(this).inflate(R.layout.activity_popup, null)
-            val mBuilder = AlertDialog.Builder(this)
-                .setView(mDialogView)
 
-            val mAlertDialog = mBuilder.show()
+        // 게시물 메뉴 BottomSheet 설정
+        val postMenuBottomSheetView =
+            layoutInflater.inflate(R.layout.bottom_sheet_vibe_post_menu, binding.root, false)
+        val postMenuBottomSheetDialog =
+            BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
 
-            val block_table = mDialogView.findViewById<Button>(R.id.dialog_table_block)
-            block_table.setOnClickListener {
+        postMenuBottomSheetDialog.setContentView(postMenuBottomSheetView)
+        setPostBottomSheetView(postMenuBottomSheetView, postMenuBottomSheetDialog, this)
 
-                Toast.makeText(this, "게시물을 차단했습니다.", Toast.LENGTH_SHORT).show()
-                // 차단 API
-            }
-
-            val declaration_table = mDialogView.findViewById<Button>(R.id.dialog_table_declaration)
-            declaration_table.setOnClickListener {
-
-                var intent = Intent(this, VibePopupActivity::class.java)
-                startActivity(intent)
-            }
-
-            val copy_table = mDialogView.findViewById<Button>(R.id.dialog_table_copy)
-            copy_table.setOnClickListener {
-
-                Toast.makeText(this, "링크를 복사했습니다.", Toast.LENGTH_SHORT).show()
-                // 링크 복사 API
-            }
-
-            val share_table = mDialogView.findViewById<Button>(R.id.dialog_table_share)
-            share_table.setOnClickListener {
-
-                Toast.makeText(this, "토스트 메시지", Toast.LENGTH_SHORT).show()
-                // 게시물 공유 API
-            }
+        binding.vibePostMenuBtn.setOnClickListener {
+            postMenuBottomSheetDialog.show()
         }
     }
 
-    // 툴바
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        when (id) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-            else -> {}
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    // api
-    object RetrofitObject {
-        private fun getRetrofit(): Retrofit {
-            return Retrofit.Builder()
-                .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build()
-        }
-
-        fun getApiService():VibePostApiInterface{
-            return getRetrofit().create(VibePostApiInterface::class.java)
+    override fun onClick(v: View?) {
+        when (v) {
+            binding.vibePostBackBtn -> finish()
         }
     }
 
-    private fun requestToRestAPI(){
-        RetrofitObject.getApiService().postDetailCheck(7).enqueue(object : Callback<PostDetailResponse>{
-            // api 호출 성공시
-            override fun onResponse(call: Call<PostDetailResponse>, response: Response<PostDetailResponse>) {
-                Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT).show()
-                setTitleText(response.code(), response.body())
-                setVibeIdImage(response.code(), response.body())
-                setNumber(response.code(),response.body())
-                setTagName(response.code(),response.body())
-                setNicknameText(response.code(), response.body())
-                setPostText(response.code(), response.body())
-                setProfileImg(response.code(),response.body())
-                val responseData = response.body()
-                Log.d(
-                    "postCapture",
-                    "postCapture\n"+
-                            "isSuccess:${responseData?.is_success}\n " +
-                            "Code: ${responseData?.code} \n" +
-                            "Message:${responseData?.message} \n" )
-            }
+    /*** 게시물 1개 조회 */
+    private fun getPost(postId: Int, memberId: Long) {
+        val vibePostService = getRetrofit().create(VibePostApiInterface::class.java)
+        vibePostService.postDetailCheck(userToken, postId, memberId)
+            .enqueue(object : Callback<PostDetailResponse> {
+                override fun onResponse(
+                    call: Call<PostDetailResponse>,
+                    response: Response<PostDetailResponse>
+                ) {
+                    Log.d("[VIBE] GET_POST/SUCCESS", response.toString())
+                    val resp: PostDetailResponse = response.body()!!
 
-            // api 호출 실패시
-            override fun onFailure(call: Call<PostDetailResponse>, t: Throwable) {
-                Log.e("retrofit onFailure", "${t.message.toString()}")
-                Toast.makeText(applicationContext, "fail", Toast.LENGTH_SHORT).show()
-            }
-        })
-    }
+                    Log.d("[VIBE] GET_POST/CODE", resp.code.toString())
 
-    // post id 설정
-    // member id 설정
-    // title 설정
-    private fun setTitleText(resCode:Int, body: PostDetailResponse?){
-        // title text 지정
-        viewBinding.textViewTitle.text = when(resCode){
-            200 -> {
-                if(body == null){
-                    "api body가 비어있습니다."
-                }else{
-                    if(body.result[0].title == ""){
-                        "api호출은 성공했으나 데이터가 없습니다."
-                    }else{
-                        body.result[0].title
+                    // 서버 response 중 code 값에 따른 결과
+                    when (resp.code) {
+                        1010, 1011, 1012, 1013 -> getPostView.onGetPostSuccess(
+                            resp.code,
+                            resp.result
+                        )
+                        else -> getPostView.onGetPostFailure(resp.code, resp.message)
                     }
                 }
-            }
-            400 -> {
-                "API 키가 만료됬거나 쿼리 파라미터가 잘못 됬습니다."
-            }
-            401 -> {
-                "인증 정보가 정확하지 않습니다."
-            }
-            500 -> {
-                "API 서버에 문제가 발생하였습니다."
-            }
-            else -> {
-                "기타 문제발생..."
-            }
-        }
+
+                override fun onFailure(call: Call<PostDetailResponse>, t: Throwable) {
+                    Log.d("[VIBE] GET_POST/FAILURE", t.message.toString())
+                }
+            })
+        Log.d("[VIBE] GET_POST", "HELLO")
     }
-    // posttxt 설정
-    private fun setPostText(resCode: Int,body: PostDetailResponse?){
-        viewBinding.textViewPosttxt.text = when(resCode){
-            200 -> {
-                if(body == null){
-                    "api body가 비어있습니다."
-                }else{
-                    if(body.result[0].body.toString()== "[]"){
-                        "api호출은 성공했으나 데이터가 없습니다."
-                    }else{
-                        body.result[0].body.toString()
-                    }
+
+    // 게시물 설정
+    private fun setPost(code: Int, result: PostDetailData) {
+        // post 설정
+        binding.vibePostPostTitleTv.text = result.title
+        binding.vibePostPostBodyTv.text = result.body
+        binding.vibePostNicknameTv.text = result.nickname
+        if (!result.profileImg.isNullOrEmpty()) {
+            Glide.with(applicationContext).load(result.profileImg).circleCrop()
+                .into(binding.vibePostProfileIv)
+        }
+        // modifiedDate 설정
+        var modifiedDate = result.modifiedDate.replace("-", ". ").replace("T", ". ")
+        val dateLastIdx = modifiedDate.lastIndexOf(":")
+        modifiedDate = modifiedDate.removeRange(dateLastIdx, modifiedDate.length)
+        binding.vibePostDateTv.text = modifiedDate
+
+        // tag name 설정
+        if (result.tagName.isNullOrEmpty()) {
+            binding.vibePostTagLayout.visibility = View.GONE
+        } else {
+            // tag name 을 공백으로 구분
+            val tagList = result.tagName.split(buildString {
+                append("\\s")
+            }.toRegex()).toTypedArray()
+            // tag name 앞에 # 붙여주기
+            for (i in tagList.indices) {
+                tagList[i] = "#" + tagList[i]
+            }
+            // tag name 최대 6개라고 가정하고 View visibility 설정
+            binding.vibePostTagLayout.visibility = View.VISIBLE
+            when (tagList.size) {
+                1 -> {
+                    binding.vibePostTagFirstTv.visibility = View.VISIBLE
+                    binding.vibePostTagFirstTv.text = tagList[0]
+                    binding.vibePostTagSecondTv.visibility = View.GONE
+                    binding.vibePostTagThirdTv.visibility = View.GONE
+                    binding.vibePostTagFourthTv.visibility = View.GONE
+                    binding.vibePostTagFifthTv.visibility = View.GONE
+                    binding.vibePostTagLastTv.visibility = View.GONE
+                }
+                2 -> {
+                    binding.vibePostTagFirstTv.visibility = View.VISIBLE
+                    binding.vibePostTagFirstTv.text = tagList[0]
+                    binding.vibePostTagSecondTv.visibility = View.VISIBLE
+                    binding.vibePostTagSecondTv.text = tagList[1]
+                    binding.vibePostTagThirdTv.visibility = View.GONE
+                    binding.vibePostTagFourthTv.visibility = View.GONE
+                    binding.vibePostTagFifthTv.visibility = View.GONE
+                    binding.vibePostTagLastTv.visibility = View.GONE
+                }
+                3 -> {
+                    binding.vibePostTagFirstTv.visibility = View.VISIBLE
+                    binding.vibePostTagFirstTv.text = tagList[0]
+                    binding.vibePostTagSecondTv.visibility = View.VISIBLE
+                    binding.vibePostTagSecondTv.text = tagList[1]
+                    binding.vibePostTagThirdTv.visibility = View.VISIBLE
+                    binding.vibePostTagThirdTv.text = tagList[2]
+                    binding.vibePostTagFourthTv.visibility = View.GONE
+                    binding.vibePostTagFifthTv.visibility = View.GONE
+                    binding.vibePostTagLastTv.visibility = View.GONE
+                }
+                4 -> {
+                    binding.vibePostTagFirstTv.visibility = View.VISIBLE
+                    binding.vibePostTagFirstTv.text = tagList[0]
+                    binding.vibePostTagSecondTv.visibility = View.VISIBLE
+                    binding.vibePostTagSecondTv.text = tagList[1]
+                    binding.vibePostTagThirdTv.visibility = View.VISIBLE
+                    binding.vibePostTagThirdTv.text = tagList[2]
+                    binding.vibePostTagFourthTv.visibility = View.VISIBLE
+                    binding.vibePostTagFourthTv.text = tagList[3]
+                    binding.vibePostTagFifthTv.visibility = View.GONE
+                    binding.vibePostTagLastTv.visibility = View.GONE
+                }
+                5 -> {
+                    binding.vibePostTagFirstTv.visibility = View.VISIBLE
+                    binding.vibePostTagFirstTv.text = tagList[0]
+                    binding.vibePostTagSecondTv.visibility = View.VISIBLE
+                    binding.vibePostTagSecondTv.text = tagList[1]
+                    binding.vibePostTagThirdTv.visibility = View.VISIBLE
+                    binding.vibePostTagThirdTv.text = tagList[2]
+                    binding.vibePostTagFourthTv.visibility = View.VISIBLE
+                    binding.vibePostTagFourthTv.text = tagList[3]
+                    binding.vibePostTagFifthTv.visibility = View.VISIBLE
+                    binding.vibePostTagFifthTv.text = tagList[4]
+                    binding.vibePostTagLastTv.visibility = View.GONE
+                }
+                6 -> {
+                    binding.vibePostTagFirstTv.visibility = View.VISIBLE
+                    binding.vibePostTagFirstTv.text = tagList[0]
+                    binding.vibePostTagSecondTv.visibility = View.VISIBLE
+                    binding.vibePostTagSecondTv.text = tagList[1]
+                    binding.vibePostTagThirdTv.visibility = View.VISIBLE
+                    binding.vibePostTagThirdTv.text = tagList[2]
+                    binding.vibePostTagFourthTv.visibility = View.VISIBLE
+                    binding.vibePostTagFourthTv.text = tagList[3]
+                    binding.vibePostTagFifthTv.visibility = View.VISIBLE
+                    binding.vibePostTagFifthTv.text = tagList[4]
+                    binding.vibePostTagLastTv.visibility = View.VISIBLE
+                    binding.vibePostTagFirstTv.text = tagList[5]
                 }
             }
-            400 -> {
-                "API 키가 만료됬거나 쿼리 파라미터가 잘못 됬습니다."
+
+        }
+
+        // youtube link 설정
+        val beginIdx = result.youtubeLink.indexOf("watch?v=")
+        val endIdx = result.youtubeLink.length
+        val videoId = result.youtubeLink.substring(beginIdx + 8, endIdx)
+        val youtubePlayerFragment = YoutubePlayerFragment.newInstance()
+        val bundle = Bundle()
+        bundle.putString("VIDEO_ID", videoId)
+        youtubePlayerFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.vibe_post_youtube_player_view, youtubePlayerFragment)
+            .commitNow()
+
+        binding.vibePostLikeCountTv.text = result.likeNumber.toString()
+        binding.vibePostCommentCountTv.text = result.commentNumber.toString()
+
+        // 좋아요, 스크랩 여부 설정
+        when (code) {
+            1010 -> {
+                // 좋아요 O, 스크랩 O 게시물
+                binding.vibePostLikeBtn.setImageResource(R.drawable.ic_activity_vibe_post_like_on) // 임시로 아무 사진
+                binding.vibePostScrapBtn.setImageResource(R.drawable.ic_activity_vibe_post_save_on) // 임시로 아무 사진
             }
-            401 -> {
-                "인증 정보가 정확하지 않습니다."
+            1011 -> {
+                // 좋아요 X, 스크랩 X 게시물
+                binding.vibePostLikeBtn.setImageResource(R.drawable.ic_activity_vibe_post_heart) // 임시로 아무 사진
+                binding.vibePostScrapBtn.setImageResource(R.drawable.ic_activity_vibe_post_save) // 임시로 아무 사진
             }
-            500 -> {
-                "API 서버에 문제가 발생하였습니다."
+            1012 -> {
+                // 좋아요 O, 스크랩 X 게시물
+                binding.vibePostLikeBtn.setImageResource(R.drawable.ic_activity_vibe_post_like_on) // 임시로 아무 사진
+                binding.vibePostScrapBtn.setImageResource(R.drawable.ic_activity_vibe_post_save)
             }
-            else -> {
-                "기타 문제발생..."
+            1013 -> {
+                // 좋아요 X, 스크랩 O 게시물
+                binding.vibePostLikeBtn.setImageResource(R.drawable.ic_activity_vibe_post_heart)
+                binding.vibePostScrapBtn.setImageResource(R.drawable.ic_activity_vibe_post_save_on) // 임시로 아무 사진
             }
         }
-    }
-    // vibe id, vibe image 설정
-    private fun setVibeIdImage(resCode: Int, body: PostDetailResponse?){
 
     }
-    // like_number, scrap_number, comment_number 설정
-    private fun setNumber(resCode: Int, body: PostDetailResponse?){
-        val like_number = body!!.result[0].like_number
-        val scrap_number = body!!.result[0].scrap_number
-        val comment_number = body!!.result[0].comment_number
-    }
-    // tag name 설정
-    private fun setTagName(resCode: Int, body: PostDetailResponse?){
-        viewBinding.textViewTag1.text = when(resCode){
-            200 -> {
-                if(body == null){
-                    "데이터가 없습니다."
-                }else{
-                    if (body.result[0].tag_name == ""){
-                        "api 호출은 성공했으나 데이터가 없습니다."
-                    }else{
-                        body.result[0].tag_name
+
+    /*** 게시물 좋아요 ***/
+    private fun setLike(userToken: String, postId: Int, memberId: MemberId) {
+        val vibePostService = getRetrofit().create(VibePostApiInterface::class.java)
+        vibePostService.postLike(userToken, postId, memberId)
+            .enqueue(object : Callback<PostLikeResponse> {
+                override fun onResponse(
+                    call: Call<PostLikeResponse>,
+                    response: Response<PostLikeResponse>
+                ) {
+                    Log.d("[VIBE] SET_LIKE/SUCCESS", response.toString())
+                    val resp: PostLikeResponse = response.body()!!
+
+                    Log.d("[VIBE] SET_LIKE/CODE", resp.code.toString())
+
+                    // 서버 response 중 code 값에 따른 결과
+                    when (resp.code) {
+                        1000 -> setLikeView.onSetLikeSuccess(resp.result)
+                        else -> setLikeView.onSetLikeFailure(
+                            resp.code,
+                            resp.message
+                        )
                     }
                 }
-            }
-            3012 -> {
-                "게시물이 존재하지 않습니다."
-            }
-            else -> {
-                "기타 문제 발생"
-            }
-        }
+
+                override fun onFailure(call: Call<PostLikeResponse>, t: Throwable) {
+                    Log.d("[VIBE] SET_LIKE/FAILURE", t.message.toString())
+                }
+            })
+        Log.d("[VIBE] SET_LIKE", "HELLO")
     }
-    // nickname 설정
-    private fun setNicknameText(resCode: Int, body: PostDetailResponse?) {
-        viewBinding.textViewUsername.text = when(resCode){
-            200 -> {
-                if(body == null){
-                    "api body가 비어있습니다."
-                }else{
-                    if(body.result[0].nickname== ""){
-                        "api호출은 성공했으나 데이터가 없습니다."
-                    }else{
-                        body.result[0].nickname
+
+    /*** 게시물 스크랩 ***/
+    private fun setScrap(userToken: String, postId: Int, memberId: MemberId) {
+        val vibePostService = getRetrofit().create(VibePostApiInterface::class.java)
+        vibePostService.postScrap(userToken, postId, memberId)
+            .enqueue(object : Callback<PostScrapResponse> {
+                override fun onResponse(
+                    call: Call<PostScrapResponse>,
+                    response: Response<PostScrapResponse>
+                ) {
+                    Log.d("[VIBE] SET_SCRAP/SUCCESS", response.toString())
+                    val resp: PostScrapResponse = response.body()!!
+
+                    Log.d("[VIBE] SET_SCRAP/CODE", resp.code.toString())
+
+                    // 서버 response 중 code 값에 따른 결과
+                    when (resp.code) {
+                        1000 -> setScrapView.onSetScrapSuccess(resp.result)
+                        else -> setScrapView.onSetScrapFailure(resp.code, resp.message)
                     }
                 }
-            }
-            400 -> {
-                "API 키가 만료됬거나 쿼리 파라미터가 잘못 됬습니다."
-            }
-            401 -> {
-                "인증 정보가 정확하지 않습니다."
-            }
-            500 -> {
-                "API 서버에 문제가 발생하였습니다."
-            }
-            else -> {
-                "기타 문제발생..."
-            }
+
+                override fun onFailure(call: Call<PostScrapResponse>, t: Throwable) {
+                    Log.d("[VIBE] SET_SCRAP/FAILURE", t.message.toString())
+                }
+            })
+        Log.d("[VIBE] SET_SCRAP", "HELLO")
+    }
+
+    // 게시물 메뉴 BottomSheet Click event 설정
+    private fun setPostBottomSheetView(
+        bottomSheetView: View,
+        dialog: BottomSheetDialog,
+        context: Context
+    ) {
+        // 게시물 차단하기
+        val postBlockBtn =
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_block_layout)
+        postBlockBtn.setOnClickListener {
+            Toast.makeText(context, "게시물을 차단했습니다.", Toast.LENGTH_SHORT).show()
+            // 차단 API
+        }
+
+        // 게시물 신고하기
+        val postReportBtn =
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_report_layout)
+        postReportBtn.setOnClickListener {
+            // 게시물 신고 Bottom Sheet open
+            val postReportMenuBottomSheetView =
+                layoutInflater.inflate(
+                    R.layout.bottom_sheet_vibe_post_report_menu,
+                    binding.root,
+                    false
+                )
+            val postReportMenuBottomSheetDialog =
+                BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
+
+            postReportMenuBottomSheetDialog.setContentView(postReportMenuBottomSheetView)
+            setPostReportBottomSheetView(
+                postReportMenuBottomSheetView,
+                postReportMenuBottomSheetDialog,
+                this
+            )
+
+            dialog.dismiss()
+            postReportMenuBottomSheetDialog.show()
+        }
+
+        // 링크 복사
+        val postLinkBtn =
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_link_layout)
+        postLinkBtn.setOnClickListener {
+            Toast.makeText(context, "클립보드에 복사되었습니다.", Toast.LENGTH_SHORT).show()
+            // 링크 복사 API
+        }
+
+        // 게시물 공유하기
+        val postShareBtn =
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_share_layout)
+        postShareBtn.setOnClickListener {
+            Toast.makeText(context, "게시물을 공유했습니다.", Toast.LENGTH_SHORT).show()
+            // 게시물 공유 API
+        }
+
+        // 상단 close bar 버튼 누르면 닫기
+        val closeBtn =
+            bottomSheetView.findViewById<ImageButton>(R.id.bottom_sheet_vibe_post_menu_close_btn)
+        closeBtn.setOnClickListener {
+            dialog.dismiss()
         }
     }
-    // profileImg 설정 - 미완
-    private fun setProfileImg(resCode: Int, body: PostDetailResponse?){
-        viewBinding.imageViewProfile
+
+    // 게시물 신고 메뉴 BottomSheet Click event 설정
+    private fun setPostReportBottomSheetView(
+        bottomSheetView: View,
+        dialog: BottomSheetDialog,
+        context: Context
+    ) {
     }
+
+    private fun setPostView(
+        getPostView: GetPostView,
+        setLikeView: SetLikeView,
+        setScrapView: SetScrapView
+    ) {
+        this.getPostView = getPostView
+        this.setLikeView = setLikeView
+        this.setScrapView = setScrapView
+    }
+
+    /**
+     * 게시물 1개 조회 성공, 실패 처리
+     */
+    override fun onGetPostSuccess(code: Int, result: PostDetailData) {
+        setPost(code, result)
+    }
+
+    override fun onGetPostFailure(code: Int, message: String) {
+        Log.d("[VIBE] GET_POST/FAILURE", "$code / $message")
+    }
+
+    /**
+     * 게시물 좋아요 성공, 실패 처리
+     */
+    override fun onSetLikeSuccess(result: IsPostLiked) {
+        val str = "해당 게시물에 좋아요를 눌렀습니다."
+        if (result.likeOrElse == str) {
+            (binding.vibePostLikeCountTv.text.toString().toInt() + 1).toString()
+                .also { binding.vibePostLikeCountTv.text = it }
+            binding.vibePostLikeBtn.setImageResource(R.drawable.ic_activity_vibe_post_like_on) // 임시로 아무 사진
+        } else {
+            (binding.vibePostLikeCountTv.text.toString().toInt() - 1).toString()
+                .also { binding.vibePostLikeCountTv.text = it }
+            binding.vibePostLikeBtn.setImageResource(R.drawable.ic_activity_vibe_post_heart)
+        }
+    }
+
+    override fun onSetLikeFailure(code: Int, message: String) {
+        Log.d("[VIBE] SET_LIKE/FAILURE", "$code / $message")
+    }
+
+    /**
+     * 게시물 스크랩 성공, 실패 처리
+     */
+    override fun onSetScrapSuccess(result: IsPostScraped) {
+        val str = "해당 게시물을 스크랩하였습니다."
+        if (result.scrapOrElse == str) {
+            binding.vibePostScrapBtn.setImageResource(R.drawable.ic_activity_vibe_post_save_on) // 임시로 아무 사진
+        } else {
+            binding.vibePostScrapBtn.setImageResource(R.drawable.ic_activity_vibe_post_save)
+        }
+    }
+
+    override fun onSetScrapFailure(code: Int, message: String) {
+        Log.d("[VIBE] SET_SCRAP/FAILURE", "$code / $message")
+    }
+
 
 }
 
+interface GetPostView {
+    fun onGetPostSuccess(code: Int, result: PostDetailData)
+    fun onGetPostFailure(code: Int, message: String)
+}
 
+interface SetLikeView {
+    fun onSetLikeSuccess(result: IsPostLiked)
+    fun onSetLikeFailure(code: Int, message: String)
+}
+
+interface SetScrapView {
+    fun onSetScrapSuccess(result: IsPostScraped)
+    fun onSetScrapFailure(code: Int, message: String)
+}

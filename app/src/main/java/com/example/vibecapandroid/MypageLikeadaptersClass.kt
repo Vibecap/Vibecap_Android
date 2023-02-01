@@ -42,8 +42,6 @@ class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<Che
             Log.d("position","${position}")
             Log.d("post_id","${arrayList[position].post_id}")
         }
-
-
     }
 
 

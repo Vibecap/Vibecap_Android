@@ -51,10 +51,6 @@ class MypageLikeActivity : AppCompatActivity() {
         mypageLikeAdapters = MypageLikeadaptersClass(applicationContext,arrayList!!)
         recyclerView?.adapter = mypageLikeAdapters
 
-
-
-
-
         val mypage_back = findViewById<ImageView>(R.id.activity_mypage_like_back)
         mypage_back.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, MypageProfileActivity::class.java)
@@ -99,8 +95,6 @@ class MypageLikeActivity : AppCompatActivity() {
                                     "Message:${responseData.message}"+
                                     "Result:${responseData.result}"
                         )
-
-
                         if(responseData.is_success){
                             if(responseData.result.isEmpty()){
                                 Log.d("좋아요한 사진 없음","좋아요한 사진 없음")

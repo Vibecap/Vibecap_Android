@@ -123,16 +123,21 @@
                 android:text="#신나는"
                 android:textColor="@color/white" />
 
-            <TextView
-                android:id="@+id/textView_tag2"
+
+            <EditText
+                android:id="@+id/input_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
                 android:background="#B1B1B1"
-                android:text="#설레는"
-                android:textColor="@color/white" />
+                android:layout_marginLeft="10dp"
+                android:hint="#직접입력"
+                android:textColorHint="@color/white"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textSize="15dp"
+                />
+
+
         </LinearLayout>
 
     </LinearLayout>
