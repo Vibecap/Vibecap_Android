@@ -38,11 +38,7 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
         }
 
         holder.itemView.setOnClickListener {
-
-            // val intent=Intent(holder.itemView.context,HomeCapturedActivity::class.java)
-            //   ContextCompat.startActivity(holder.itemView.context,intent,null)
-            Log.d("찍은 사진 position","${position}")
-            apiService.getHistoryOne(userToken, arrayList.get(0).vibe_id)
+            apiService.getHistoryOne(userToken, arrayList.get(position).vibe_id)
                 .enqueue(object : Callback<HistoryOneResponse> {
                     override fun onResponse(call: Call<HistoryOneResponse>, response: Response<HistoryOneResponse>) {
                         val responseData=response.body()
@@ -64,8 +60,10 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
                                     //arrayList?.add(HistoryMainImageClass((responseData.result.album[0].vibe_image)))
                                     val intent = Intent(it.context, HistoryYoutubeActivity::class.java)
                                     intent.putExtra("video_id",responseData.result.youtube_link)
+                                    intent.putExtra("vibe_id",responseData.result.vibe_id.toInt())
+                                    intent.putExtra("vibe_keywords",responseData.result.vibe_keywords.toString())
+                                    Log.d("adapter keywords","${responseData.result.vibe_keywords.toString()}")
                                     it.context.startActivity(intent)
-                                    Log.d("getHistoryOne 통신 success","success")
                                 }
                                 else{Log.d("getHistoryOne 통신 Fail","Fail Data is null")}
                             } else { Log.d("getHistoryOne","getHistoryOne Response Null data") }

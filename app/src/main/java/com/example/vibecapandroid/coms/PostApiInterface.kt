@@ -18,10 +18,10 @@ interface PostApiInterface {
 
 data class PostRequest(
     val member : member,
-    val title : String,
-    val body : String, //게시물 내용
+    val title : String?,
+    val body : String?, //게시물 내용
     val vibe : vibe, //capture 한 사진
-    val tag_name : String //게시물 태그내용
+    val tag_name : String? //게시물 태그내용
 )
 
 data class member(
