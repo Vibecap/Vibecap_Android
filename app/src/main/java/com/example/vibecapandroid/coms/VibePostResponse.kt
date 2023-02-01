@@ -10,13 +10,12 @@ data class PostTagResponse(
     @SerializedName("is_success") val is_success: Boolean,
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
-    @SerializedName("result")val result: Class<PostAllData>
-
+    @SerializedName("result")val result: PostAllData
 )
 
 data class PostAllData(
     @SerializedName("content") val content: List<postContentData>,
-    @SerializedName("pageable") val pageable: Class<postPageableData>
+    @SerializedName("pageable") val pageable: postPageableData
 )
 
 data class postPageableData (
