@@ -79,9 +79,9 @@ class HomeCapturedActivity : AppCompatActivity() {
         //post button
         viewBinding.btWrite.setOnClickListener{
             if(vibe_id!=null){
-                val nextIntent = Intent(this, HomePostActivity::class.java)
-                nextIntent.putExtra("video_id",video_id)
-                nextIntent.putExtra("vibe_id",vibe_id)
+                val nextIntent = Intent(this, CommonPostActivity::class.java)
+                //nextIntent.putExtra("video_id",video_id)
+                nextIntent.putExtra("vibe_id", vibe_id!!.toInt())
                 startActivity(nextIntent)
             }
             else{

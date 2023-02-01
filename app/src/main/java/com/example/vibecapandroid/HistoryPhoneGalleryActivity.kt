@@ -21,6 +21,7 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //내장 갤러리 사용
+        requestPermissions(STORAGE,STORAGE_CODE)
         GetAlbum()
     }
 
@@ -31,6 +32,11 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
                 for (grant in grantResults) {
                     if (grant != PackageManager.PERMISSION_GRANTED) {
                         Toast.makeText(this, "저장소 권한을 승인해 주세요", Toast.LENGTH_LONG).show()
+                    }
+                    else{
+                        val itt = Intent(Intent.ACTION_PICK)
+                        itt.type = MediaStore.Images.Media.CONTENT_TYPE
+                        startActivityForResult(itt, STORAGE_CODE)
                     }
                 }
             }
