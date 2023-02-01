@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_vibe_background"
+    app:behavior_draggable="true"
+    app:behavior_hideable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+    <ImageButton
+        android:id="@+id/bottom_sheet_vibe_comment_menu_close_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_bottom_sheet_vibe_close_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/close" />
+
+    <LinearLayout
+        android:id="@+id/bottom_sheet_vibe_comment_menu_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17.5dp"
+        android:orientation="vertical"
+        android:paddingBottom="19.5dp"
+        app:layout_constraintTop_toBottomOf="@+id/bottom_sheet_vibe_comment_menu_close_btn">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_sheet_vibe_comment_block_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tv_bottom_sheet_vibe"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="7.5dp">
+
+            <ImageView
+                android:id="@+id/bottom_sheet_vibe_post_block_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/vibe_comment_menu_block"
+                android:src="@drawable/ic_activity_vibe_post_dialog_block"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/bottom_sheet_vibe_post_block_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:text="@string/vibe_comment_menu_block"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/bottom_sheet_vibe_post_block_iv"
+                app:layout_constraintStart_toEndOf="@+id/bottom_sheet_vibe_post_block_iv"
+                app:layout_constraintTop_toTopOf="@+id/bottom_sheet_vibe_post_block_iv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_sheet_vibe_comment_report_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tv_bottom_sheet_vibe"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingHorizontal="18dp"
+            android:paddingVertical="7.5dp">
+
+            <ImageView
+                android:id="@+id/bottom_sheet_vibe_comment_report_iv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/vibe_comment_menu_report"
+                android:src="@drawable/ic_activity_vibe_post_declaration"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/bottom_sheet_vibe_post_report_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="@string/vibe_comment_menu_report"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@+id/bottom_sheet_vibe_comment_report_iv"
+                app:layout_constraintStart_toEndOf="@+id/bottom_sheet_vibe_comment_report_iv"
+                app:layout_constraintTop_toTopOf="@+id/bottom_sheet_vibe_comment_report_iv" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

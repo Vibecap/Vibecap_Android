@@ -18,9 +18,17 @@ interface HistoryApiInterface {
         @Path ("vibe_id") vibe_id:Long
     ): Call<HistoryOneResponse>
 
+    //게시물 작성
     @POST("app/posts")
     fun postHistoryPosting(
         @Header("X-AUTH-TOKEN") jwt: String,
-        @Body jsonBody: HistoryPostingBody
+        @Body JsonBody: HistoryPostingBody
     ):Call<HistoryPostingResponse>
+
+    //찍은 사진 삭제
+    @DELETE("app/album/vibe/{vibe_id}")
+    fun postHistoryDeletePhoto(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Path ("vibe_id") vibe_id: Long?
+    ): Call<HistoryDeleteResponse>
 }
