@@ -31,6 +31,7 @@ class CommonPostActivity  : AppCompatActivity() {
     var body : String? = null
     var feeling_tag : String? = null
     var video_id: String?= null
+    var post_id : Int = 0
 
     //신경써야할 Input값은 Intent로 vibe_id 하나만 이 activity를 호출하는 activity/fragment에서 넘겨줘서 받을것.
     //아래 vibe_id라고 선언된 것.
@@ -44,8 +45,7 @@ class CommonPostActivity  : AppCompatActivity() {
         vibe_id=intent.getIntExtra("vibe_id",0)
         setProfileData()
         getOneVibeInfo()
-        title = viewBinding.commonPostTitle.text.toString()
-        body  = viewBinding.commonPostBody.text.toString()
+
         //글자수 제한 및 글자수 표기
         with(viewBinding){
             commonPostTitle.addTextChangedListener(object : TextWatcher {
@@ -108,7 +108,10 @@ class CommonPostActivity  : AppCompatActivity() {
 
         //완료 버튼
         viewBinding.commonPostFinish.setOnClickListener{
+            title = viewBinding.commonPostTitle.text.toString()
+            body  = viewBinding.commonPostBody.text.toString()
             callPostApi()
+            finish()
         }
         //x 버튼
         viewBinding.commonBackbtn.setOnClickListener{
@@ -183,10 +186,16 @@ class CommonPostActivity  : AppCompatActivity() {
                     "Result:${body}"+
                     "Result:${vibe(vibe_id)}"
         )
+
+        var member = member(MEMBER_ID.toInt())
+        var vibe = vibe(vibe_id)
+
+        Log.d("tagname ",feeling_tag.toString())
+        Log.d("tagname",viewBinding.commonPostTagOwntype.text.toString())
+
         val apiService = retrofit.create(PostApiInterface::class.java)
         apiService.posting(
-            userToken,  PostRequest(member(MEMBER_ID.toInt()), title,body,vibe(vibe_id),
-                feeling_tag+viewBinding.commonPostTagOwntype.text.toString())
+            userToken,  PostRequest(member,title,body,vibe, "")
         ).enqueue(object : Callback<PostResponse> {
             override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
                 val responseData = response.body()
@@ -199,8 +208,14 @@ class CommonPostActivity  : AppCompatActivity() {
                 if (responseData?.is_success==true) {
                     when(response.body()?.code){
                         1000 ->{
+                            //post_id 저장
+                            post_id = responseData.result
                             Log.d("레트로핏",responseData.result.toString())
                             Toast.makeText(applicationContext, "게시물 작성 완료", Toast.LENGTH_LONG).show();
+                            val nextIntent = Intent(this@CommonPostActivity, VibePostActivity::class.java)
+                            nextIntent.putExtra("post_id", post_id)
+                            Log.d("postid",post_id.toString())
+                            startActivity(nextIntent)
                         }
                         500 -> {
                             Log.d ("레트로핏","해당 바이브에 대한 접근 권한이 없습니다" )
@@ -246,6 +261,7 @@ class CommonPostActivity  : AppCompatActivity() {
                             if(responseData.is_success) {
                                 video_id=getYouTubeId(responseData.result.youtube_link)
                                 feeling_tag=responseData.result.vibe_keywords
+                                Log.d("responseData",responseData.result.vibe_keywords.toString())
                                 //기분으로 태그 작성
                                 viewBinding.textViewTag1.setText("#"+feeling_tag)
                                 setYoutube()

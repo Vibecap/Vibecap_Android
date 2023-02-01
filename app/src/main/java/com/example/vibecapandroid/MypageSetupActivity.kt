@@ -32,6 +32,7 @@ class MypageSetupActivity : AppCompatActivity() {
 
 
     var setupList1 = arrayListOf<MypageSetupClass>(
+        MypageSetupClass(R.drawable.ic_activity_mypage_setup_profile,"프로필 이미지 변경",R.drawable.ic_activity_mypage_profile_next),
         MypageSetupClass(R.drawable.ic_activity_mypage_setup_edit,"닉네임 변경",R.drawable.ic_activity_mypage_profile_next),
         MypageSetupClass(R.drawable.ic_activity_mypage_setup_alarm,"알림 설정",R.drawable.ic_activity_mypage_profile_next)
     )
@@ -60,9 +61,14 @@ class MypageSetupActivity : AppCompatActivity() {
                 if(position==0){
                     val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
                     val intent = Intent(this,MypageNicknameActivity::class.java)
+                    intent.putExtra("프로필 변경",setupList1[position].profile_textview)
+                    startActivity(intent)}
+                if(position==1){
+                    val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
+                    val intent = Intent(this,MypageNicknameActivity::class.java)
                     intent.putExtra("닉네임 변경",setupList1[position].profile_textview)
                     startActivity(intent)}
-                if (position == 1) {
+                if (position == 2) {
                     val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
                     val intent = Intent(this, MypageAlarmsetupActivity::class.java)
                     intent.putExtra("알림 설정", setupList1[position].profile_textview)

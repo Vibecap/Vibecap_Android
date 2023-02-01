@@ -26,4 +26,9 @@
     <string name="vibe_comment_menu_block">댓글 작성자 차단하기</string>
     <string name="vibe_comment_menu_report">댓글 신고하기</string>
 
+    <!--[마이페이지] 메뉴-->
+    <string name="mypage_post_menu_edit">수정하기</string>
+    <string name="mypage_post_menu_delete">삭제하기</string>
+    <string name="mypage_post_menu_share">게시물 공유하기</string>
+
 </resources>

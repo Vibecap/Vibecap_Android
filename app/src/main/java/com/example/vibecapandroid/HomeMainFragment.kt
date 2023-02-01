@@ -7,12 +7,15 @@ import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.OvalShape
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -34,6 +37,10 @@ class HomeMainFragment : Fragment() {
     //size 설정
     var size = 8
 
+//    var sound : Uri =RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
+//    var ringtone = RingtoneManager.getRingtone(context,sound)
+
+
     @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,6 +57,10 @@ class HomeMainFragment : Fragment() {
             val intent = Intent(context, MypageProfileActivity::class.java)
             startActivity(intent)
         }
+
+
+
+
 
         val vibrator = requireContext().getSystemService(VIBRATOR_SERVICE) as Vibrator
         val layout: ConstraintLayout = viewBinding.wheelMain
@@ -97,7 +108,6 @@ class HomeMainFragment : Fragment() {
 
 
 
-
         wheelView!!.onWheelAngleChangeListener =
             WheelView.OnWheelAngleChangeListener { angle->
                 var angler = angle % 360
@@ -107,6 +117,8 @@ class HomeMainFragment : Fragment() {
                         textView.text = "신나는"
                         feeling = textView.text as String
                         wheelView!!.setWheelDrawable(R.drawable.wheel_sinna)
+
+
                 }
                 else if((angler>=40 && angler<80)||(angler>=-320 && angler <-280 )){
                     layout.setBackgroundResource(R.raw.bg_img_pogen)
@@ -173,6 +185,8 @@ class HomeMainFragment : Fragment() {
         /* return view*/
 
     }
+
+
 
 
 }

@@ -31,7 +31,7 @@ class MypagePostPopupEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewBinding = FragmentMypagePostPopupEditBinding.inflate(layoutInflater)
+/*        viewBinding = FragmentMypagePostPopupEditBinding.inflate(layoutInflater)
 
         viewBinding.textViewDeclaration.setOnClickListener{
             Log.d("edit","click")
@@ -56,7 +56,7 @@ class MypagePostPopupEditFragment : Fragment() {
             buttonClickListener.onButton2Clicked()
 
 
-        }
+        }*/
 
 
         // Inflate the layout for this fragment
@@ -64,6 +64,7 @@ class MypagePostPopupEditFragment : Fragment() {
 
 
     }
+    /*
     interface OnButtonClickListener {
         fun onButton1Clicked()
         fun onButton2Clicked()
@@ -72,7 +73,7 @@ class MypagePostPopupEditFragment : Fragment() {
         this.buttonClickListener = buttonClickListener
     }
     // 클릭 이벤트 실행
-    private lateinit var buttonClickListener: OnButtonClickListener
+    private lateinit var buttonClickListener: OnButtonClickListener*/
 }
 
 

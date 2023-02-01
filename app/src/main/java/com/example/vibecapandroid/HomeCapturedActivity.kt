@@ -53,7 +53,7 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         //유튜브 출력
         Youtubeplay()
-        
+
         //button setonClickListener
         //play on youtube button
         viewBinding.btYoutube.setOnClickListener{
@@ -79,9 +79,9 @@ class HomeCapturedActivity : AppCompatActivity() {
         //post button
         viewBinding.btWrite.setOnClickListener{
             if(vibe_id!=null){
-                val nextIntent = Intent(this, HomePostActivity::class.java)
-                nextIntent.putExtra("video_id",video_id)
-                nextIntent.putExtra("vibe_id",vibe_id)
+                val nextIntent = Intent(this, CommonPostActivity::class.java)
+                //nextIntent.putExtra("video_id",video_id)
+                nextIntent.putExtra("vibe_id", vibe_id!!.toInt())
                 startActivity(nextIntent)
             }
             else{
@@ -107,14 +107,14 @@ class HomeCapturedActivity : AppCompatActivity() {
     }
 
     private fun youtubefragmentshow(){
-            var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
-            var bundle = Bundle()
-            bundle.putString("VIDEO_ID", video_id)
-            YoutubePlayerFragment.arguments = bundle
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
-                .commitAllowingStateLoss()
-            //progresss bar 종료
+        var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
+        var bundle = Bundle()
+        bundle.putString("VIDEO_ID", video_id)
+        YoutubePlayerFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
+            .commitAllowingStateLoss()
+        //progresss bar 종료
 //         runOnUiThread {
 //            showProgressbar(false)
 //            viewBinding.btYoutube.visibility = View.VISIBLE
@@ -219,7 +219,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                     Log.d("레트로핏","Response Not Success ${response.code()}")
                 }
 
-        }
+            }
             override fun onFailure(call: Call<DeleteResponse>, t: Throwable) {
                 Log.d("레트로핏","레트로핏 호출 실패" +t.message.toString())
             }
@@ -313,7 +313,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                                     .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
                                     .commitNow()
                                 //progresss bar 종료
-                                 runOnUiThread {
+                                runOnUiThread {
                                     showProgressbar(false)
                                     viewBinding.btYoutube.visibility = View.VISIBLE
                                 }
