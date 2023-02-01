@@ -7,10 +7,11 @@ import java.time.LocalDateTime
 // 게시물 전체 조회
 data class PostAllResponse(
     @SerializedName("is_success") val is_success: Boolean,
-    @SerializedName("code")val code: Int,
+    @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
-    @SerializedName("result")val result: List<PostAllData>
+    @SerializedName("result") val result: List<PostAllData>
 )
+
 data class PostAllData(
     @SerializedName("post_id") val post_id: Int,
     @SerializedName("member_id") val member_id: Blob,
@@ -21,32 +22,33 @@ data class PostAllData(
 // 게시물 개별 조회
 data class PostDetailResponse(
     @SerializedName("is_success") val is_success: Boolean,
-    @SerializedName("code")val code: Int,
+    @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
-    @SerializedName("result")val result: PostDetailData
+    @SerializedName("result") val result: PostDetailData
 )
+
 data class PostDetailData(
-    @SerializedName("post_id") val postId: Long,
-    @SerializedName("member_id") val memberId: Long,
+    @SerializedName("post_id") val postId: Int,
+    @SerializedName("member_id") val memberId: Int,
     @SerializedName("title") val title: String,
-    @SerializedName("body") val body : String,
-    @SerializedName("vibe_id") val vibeId: Long,
+    @SerializedName("body") val body: String,
+    @SerializedName("vibe_id") val vibeId: Int,
     @SerializedName("vibe_image") val vibeImg: String,
     @SerializedName("youtube_link") val youtubeLink: String,
-    @SerializedName("like_number") val likeNumber: Long,
-    @SerializedName("scrap_number") val scrapNumber: Long,
-    @SerializedName("comment_number") val commentNumber: Long,
+    @SerializedName("like_number") val likeNumber: Int,
+    @SerializedName("scrap_number") val scrapNumber: Int,
+    @SerializedName("comment_number") val commentNumber: Int,
     @SerializedName("tag_name") val tagName: String,
     @SerializedName("profile_image") val profileImg: String,
-    @SerializedName("nickname") val nickname : String,
-    @SerializedName("modified_date") val modifiedDate : LocalDateTime
+    @SerializedName("nickname") val nickname: String,
+    @SerializedName("modified_date") val modifiedDate: String
 )
 
 // 게시물 작성
 data class PostWriteResponse(
-    val is_success:Boolean,
-    val code:Int,
-    val message:String,
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
     val result: PostMember
 )
 
@@ -67,8 +69,40 @@ data class PostMember(
 
 // 게시물 삭제
 data class PostDeleteResponse(
-    val is_success:Boolean,
-    val code:Int,
-    val message:String,
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
     val result: Char
+)
+
+
+// 게시물 좋아요
+data class PostLikeResponse(
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
+    val result: IsPostLiked
+)
+
+data class IsPostLiked(
+    @SerializedName("like_or_else") val likeOrElse: String
+)
+
+// 게시물 스크랩
+data class PostScrapResponse(
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
+    val result: IsPostScraped
+)
+
+data class IsPostScraped(
+    @SerializedName("scrap_or_else") val scrapOrElse: String
+)
+
+
+//** Request **//
+
+data class MemberId(
+    @SerializedName("member_id") val memberId: Long
 )
