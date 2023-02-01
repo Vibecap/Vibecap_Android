@@ -51,11 +51,11 @@ data class HistoryPostingBody(
     val tag_name: String
 )
 data class memberIdClass(
-    val member_id: Long
+    val member_id: Int
 )
 
 data class vibeIDClass(
-    val tag_name:String
+    val vibe_id: Int
 )
 
 data class HistoryPostingResponse(
@@ -64,3 +64,14 @@ data class HistoryPostingResponse(
     val message:String,
     val result:Int
 )
+
+//찍은 사진 삭제하기
+data class HistoryDeleteResponse(
+    val is_success : Boolean,
+    val code : Int,
+    val message : String,
+    val result : String
+)
+
+
+

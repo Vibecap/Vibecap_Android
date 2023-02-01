@@ -34,8 +34,6 @@ class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<Che
             ContextCompat.startActivity(holder.itemView.context,intent,null)
             Log.d("position","${position}")
         }
-
-
     }
 
 
