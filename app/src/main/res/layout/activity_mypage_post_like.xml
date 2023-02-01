@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MypagePostActivity">
+    tools:context=".MypagePostLikeActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolBar_top"
@@ -117,8 +117,8 @@
             android:id="@+id/imageButton_save"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_marginLeft="300dp"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="300dp"
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/transparent"
             android:src="@drawable/ic_activity_vibe_post_save" />

@@ -61,4 +61,33 @@ interface MypageApiInterface {
         @Header("X-AUTH-TOKEN") jwt: String,
         @Body JsonBody : patchMypageQuitInput
     ):retrofit2.Call<patchMypageQuitResponse>
+
+    @GET("app/posts/{post_id}")
+    fun getMypagePost(
+        @Path("post_id") post_id:Int
+    ):retrofit2.Call<postMypageResponse>
+
+    @GET("app/posts/{post_id}")
+    fun getMypageLikePost(
+        @Path("post_id") post_id:Int
+    ):retrofit2.Call<postMypageLikeResponse>
+
+    @GET("app/posts/{post_id}")
+    fun getMypageScrapPost(
+        @Path("post_id") post_id:Int
+    ):retrofit2.Call<postMypageScrapResponse>
+
+    @PATCH("app/posts/{post_id}")
+    fun patchMypageEditPost(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Path("post_id") post_id: Int,
+        @Body JsonBody: patchMypageEditPostInput
+    ):retrofit2.Call<postMypageEditResponse>
+
+    @DELETE("app/posts/{post_id}")
+    fun deleteMypagePost(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Path("post_id") post_id: Int,
+        @Body JsonBody: deleteMypagePostInput
+    ):retrofit2.Call<deleteMypageResponse>
 }

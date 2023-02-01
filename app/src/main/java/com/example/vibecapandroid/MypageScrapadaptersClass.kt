@@ -29,8 +29,10 @@ class MypageScrapadaptersClass(var context: Context, var arrayList: ArrayList<Ch
 
         holder.itemView.setOnClickListener {
             val intent= Intent(holder.itemView.context,MypageProfileActivity::class.java)
+            intent.putExtra("post_id",arrayList[position].post_id.toInt())
             ContextCompat.startActivity(holder.itemView.context,intent,null)
             Log.d("position","${position}")
+            Log.d("post_id","${arrayList[position].post_id}")
         }
 
     }

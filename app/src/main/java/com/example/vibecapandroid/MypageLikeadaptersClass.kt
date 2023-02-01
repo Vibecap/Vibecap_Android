@@ -1,5 +1,6 @@
 package com.example.vibecapandroid
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -10,29 +11,36 @@ import android.widget.ImageView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.annotation.GlideModule
+import com.bumptech.glide.module.AppGlideModule
 import com.example.vibecapandroid.coms.CheckMypageLikeResponseResult
+
+
 
 class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<CheckMypageLikeResponseResult>):
     RecyclerView.Adapter<MypageLikeadaptersClass.ItemHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val itemHolder = LayoutInflater.from(parent.context)
-            .inflate(R.layout.activity_mypage_likegrid, parent, false)
+        val itemHolder = LayoutInflater.from(parent.context).inflate(R.layout.activity_mypage_likegrid, parent, false)
         return ItemHolder(itemHolder)
     }
 
 
 
 
-    override fun onBindViewHolder(holder: MypageLikeadaptersClass.ItemHolder, position: Int) {
+    @SuppressLint("SuspiciousIndentation")
+    override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         var mypageLikeImage: CheckMypageLikeResponseResult = arrayList.get(position)
         holder.apply {
+            if(mypageLikeImage.vibe_image!=null&&images!=null)
             Glide.with(context).load(mypageLikeImage.vibe_image).into(images)
         }
         holder.itemView.setOnClickListener {
-            val intent= Intent(holder.itemView.context,MypageProfileActivity::class.java)
+            val intent= Intent(holder.itemView.context,MypagePostLikeActivity::class.java)
+            intent.putExtra("post_id",arrayList[position].post_id.toInt())
             ContextCompat.startActivity(holder.itemView.context,intent,null)
             Log.d("position","${position}")
+            Log.d("post_id","${arrayList[position].post_id}")
         }
     }
 
