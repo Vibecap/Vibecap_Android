@@ -21,7 +21,6 @@ class MypageAlarmadaptersClass(var alarmList: ArrayList<MypageAlarmClass>):
         holder.title.text=alarmList.get(position).title
         holder.id.text= alarmList.get(position).id
         holder.text.text=alarmList.get(position).text
-
     }
 
     override fun getItemCount(): Int {

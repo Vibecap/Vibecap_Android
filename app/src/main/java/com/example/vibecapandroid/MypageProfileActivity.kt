@@ -96,17 +96,10 @@ class MypageProfileActivity : AppCompatActivity() {
             override fun onResponse(
                 call: Call<CheckMypageResponse>,
                 response: Response<CheckMypageResponse>
-
-
             ) {
-
                 if (response.isSuccessful) {
                     val responseData = response.body()
-
-
                     if (responseData !== null) {
-
-
                         Log.d(
                             "Retrofit",
                             "MypageResponse\n"+
@@ -116,17 +109,13 @@ class MypageProfileActivity : AppCompatActivity() {
                                     "Result:${responseData.result.email}"+
                                     "Result:${responseData.result.profile_image}"+
                                     "Result:${responseData.result.nickname}"
-
                         )
-
-
                         var nickname = findViewById<TextView>(R.id.activity_mypage_profilelist_nickname)
                         nickname.setText(responseData.result.nickname)
                         var email = findViewById<TextView>(R.id.activity_mypage_profilelist_email)
                         email.setText(responseData.result.email)
                         var profile_image = findViewById<ImageView>(R.id.activity_mypage_profilelist_profileimg)
-                        //profile_image.setImageBitmap(responseData.result.profile_image)
-                        //profile_image!!.setImageBitmap(stringToBitmap(responseData.result.profile_image))
+
                     }
                     else{
                         Log.d("Retrofit","Null data") }
@@ -135,7 +124,6 @@ class MypageProfileActivity : AppCompatActivity() {
                     Log.w("Retrofit", "Response Not Successful${response.code()}")
                 }
             }
-
             override fun onFailure(call: Call<CheckMypageResponse>, t: Throwable) {
                 Log.e("Retrofit","Error",t)
             }

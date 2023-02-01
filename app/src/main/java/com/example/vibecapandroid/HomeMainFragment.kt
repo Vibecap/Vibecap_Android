@@ -41,8 +41,6 @@ class HomeMainFragment : Fragment() {
     //size 설정
     var size = 8
 
-
-
     @SuppressLint("ResourceType")
     override fun onCreateView(
         inflater: LayoutInflater,

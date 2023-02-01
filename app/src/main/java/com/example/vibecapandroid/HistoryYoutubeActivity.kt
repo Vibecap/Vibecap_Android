@@ -24,7 +24,13 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         Youtubeplay()
 
         viewBinding.btWrite.setOnClickListener(){
-            val intent = Intent(this, HistoryPostActivity::class.java)
+            val vibeId=intent.extras!!.getInt("vibe_id")
+            Log.d("vibe_id","${vibeId}")
+            val vibeKeyWords=intent.extras!!.getString("vibe_keywords")
+            val intent = Intent(this, CommonPostActivity::class.java)
+            intent.putExtra("vibe_id",vibeId)
+            intent.putExtra("vibe_keywords",vibeKeyWords)
+            Log.d("vibe_keywords","$vibeKeyWords")
             startActivity(intent)
         }
 
