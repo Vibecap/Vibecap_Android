@@ -300,4 +300,6 @@ class HomeCapturedActivity : AppCompatActivity() {
             })
     }
 
+
+
 }
