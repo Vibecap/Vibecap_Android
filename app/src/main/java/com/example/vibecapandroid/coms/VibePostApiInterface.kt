@@ -3,13 +3,22 @@ package com.example.vibecapandroid.coms
 import retrofit2.Call
 import retrofit2.http.*
 
-// 게시물 전체 조회
-interface VibePostAllInterface {
+
+// 게시물 전체 조회(태그별)
+interface VibePostTagInterface{
     @GET("app/posts")
     fun postAllCheck(
-        @Query("tagName") tagName: String
-    ): Call<PostAllResponse>
+        @Query("tagName") tagName:String
+    ): Call<PostTagResponse>
 }
+
+// 게시물 전체 조회(weekly)
+interface VibePostWeeklyInterface{
+    @GET("app/posts/weekly")
+    fun postWeeklyCheck(
+    ): Call<PostWeeklyResponse>
+}
+
 
 interface VibePostApiInterface {
     // 게시물 1개 조회
