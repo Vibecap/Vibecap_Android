@@ -375,6 +375,7 @@ class VibeMainFragment : Fragment() {
             val vibe_image_1 = responseData.result.content[0].vibe_image
 
             val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
+            imageView_1.clipToOutline = true
             Glide.with(this@VibeMainFragment)
                 .load(vibe_image_1) // 불러올 이미지 url
                 .fitCenter()
@@ -390,6 +391,7 @@ class VibeMainFragment : Fragment() {
             val vibe_image_2 = responseData.result.content[1].vibe_image
 
             val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
+            imageView_2.clipToOutline = true
             Glide.with(this@VibeMainFragment)
                 .load(vibe_image_2) // 불러올 이미지 url
                 .fitCenter()
@@ -405,6 +407,7 @@ class VibeMainFragment : Fragment() {
             val vibe_image_3 = responseData.result.content[2].vibe_image
 
             val imageView_3 = requireView().findViewById<ImageView>(R.id.imageButton_3)
+            imageView_3.clipToOutline = true
             Glide.with(this@VibeMainFragment)
                 .load(vibe_image_3) // 불러올 이미지 url
                 .override(800,200)
@@ -420,6 +423,7 @@ class VibeMainFragment : Fragment() {
             val vibe_image_4 = responseData.result.content[3].vibe_image
 
             val imageView_4 = requireView().findViewById<ImageView>(R.id.imageButton_4)
+            imageView_4.clipToOutline = true
             Glide.with(this@VibeMainFragment)
                 .load(vibe_image_4) // 불러올 이미지 url
                 .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
@@ -434,6 +438,7 @@ class VibeMainFragment : Fragment() {
             val vibe_image_5 = responseData.result.content[4].vibe_image
 
             val imageView_5 = requireView().findViewById<ImageView>(R.id.imageButton_5)
+            imageView_5.clipToOutline = true
             Glide.with(this@VibeMainFragment)
                 .load(vibe_image_5) // 불러올 이미지 url
                 .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
@@ -448,6 +453,7 @@ class VibeMainFragment : Fragment() {
             val vibe_image_6 = responseData.result.content[5].vibe_image
 
             val imageView_6 = requireView().findViewById<ImageView>(R.id.imageButton_6)
+            imageView_6.clipToOutline = true
             Glide.with(this@VibeMainFragment)
                 .load(vibe_image_6) // 불러올 이미지 url
                 .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
@@ -511,8 +517,10 @@ class VibeMainFragment : Fragment() {
             when (id){
                 0 -> {
                     val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
+                    imageView.clipToOutline = true
                     val defaultImage = R.drawable.ic_activity_vibe_main_banner
                     val url = vibe_image
+
                     //val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
                     Glide.with(this@VibeMainFragment)
                         .load(url) // 불러올 이미지 url
@@ -523,6 +531,7 @@ class VibeMainFragment : Fragment() {
                 }
                 1 -> {
                     val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
+                    imageView.clipToOutline = true
                     val defaultImage = R.drawable.ic_activity_vibe_main_banner
                     val url = vibe_image
                     //val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
@@ -535,6 +544,7 @@ class VibeMainFragment : Fragment() {
                 }
                 2 -> {
                     val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
+                    imageView.clipToOutline = true
                     val defaultImage = R.drawable.ic_activity_vibe_main_banner
                     val url = vibe_image
                     //val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"

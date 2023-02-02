@@ -18,7 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            app:srcCompat="@drawable/ic_activity_vibe_main_weekly"
+            android:scaleType="centerCrop"
+            android:radius="5dp"
+            android:background="@drawable/background_round"
             />
 
         <LinearLayout
