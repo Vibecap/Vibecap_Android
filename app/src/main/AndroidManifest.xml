@@ -216,13 +216,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".HomeAlbumActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".MypageSetupActivity"
             android:exported="false">
             <meta-data

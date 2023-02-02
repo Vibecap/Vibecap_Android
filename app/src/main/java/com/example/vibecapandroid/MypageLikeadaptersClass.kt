@@ -50,7 +50,7 @@ class MypageLikeadaptersClass(var context: Context, var arrayList: ArrayList<Che
     }
 
     class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var images = itemView.findViewById<ImageView>(R.id.image)
+        var images = itemView.findViewById<ImageView>(R.id.item_history_mypagelike_all_posts_iv)
         init {
             itemView.setOnClickListener {
                 Log.d("Click", "Click")

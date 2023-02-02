@@ -227,4 +227,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
             .commitNow()
     }
 
+    //스틱코드
+
+
 }
