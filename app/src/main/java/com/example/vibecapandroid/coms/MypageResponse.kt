@@ -1,7 +1,9 @@
 package com.example.vibecapandroid.coms
 
+import android.icu.text.LocaleDisplayNames
 import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
+import java.time.LocalDateTime
 
 data class CheckMypageResponse(
     val is_success: Boolean,
@@ -101,4 +103,139 @@ data class patchMypageQuitResponse(
 )
 data class patchMypageQUitresponseResult(
     val nickname: String
+)
+data class postMypageResponse(
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
+    val result: postMypageResponseResult
+)
+data class postMypageResponseResult(
+    val title: String,
+    val body: String,
+    val nickname: String,
+    val modified_data: String,
+    val post_id: Int,
+    val member_id: Long,
+    val vibe_id: Int,
+    val vibe_image: String,
+    val like_number: Int,
+    val scrap_number: Int,
+    val comment_number: Int,
+    val tag_name: String,
+    val profileImg: String,
+
+    )
+data class postMypageInput(
+    @SerializedName("post_id") val post_id: Int,
+    @SerializedName("member_id") val member_id: Int,
+    @SerializedName("title") val title: String,
+    @SerializedName("body") val body: String,
+    @SerializedName("vibe_id") val vibe_id: Int,
+    @SerializedName("vibe_image") val vibe_image: String,
+    @SerializedName("like_number") val like_number: Int,
+    @SerializedName("scrap_number") val scrap_number: Int,
+    @SerializedName("comment_number") val comment_number: Int,
+    @SerializedName("tag_name") val tag_name: String,
+    @SerializedName("profileImg") val profileImg: String,
+    @SerializedName("nickname") val nickname : String,
+    @SerializedName("modified_date") val modified_data: String
+)
+data class postMypageLikeResponse(
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
+    val result: List<postMypageLikeResponseResult>
+)
+data class postMypageLikeResponseResult(
+    val title: String,
+    val body: String,
+    val nickname: String,
+    val modified_data: LocalDateTime,
+    val post_id: Int,
+    val member_id: Long,
+    val vibe_id: Int,
+    val vibe_image: String,
+    val like_number: Int,
+    val scrap_number: Int,
+    val comment_number: Int,
+    val tag_name: String,
+    val profileImg: String,
+
+    )
+data class postMypageLikeInput(
+    @SerializedName("post_id") val post_id: Int,
+    @SerializedName("member_id") val member_id: Int,
+    @SerializedName("title") val title: String,
+    @SerializedName("body") val body: String,
+    @SerializedName("vibe_id") val vibe_id: Int,
+    @SerializedName("vibe_image") val vibe_image: String,
+    @SerializedName("like_number") val like_number: Int,
+    @SerializedName("scrap_number") val scrap_number: Int,
+    @SerializedName("comment_number") val comment_number: Int,
+    @SerializedName("tag_name") val tag_name: String,
+    @SerializedName("profileImg") val profileImg: String,
+    @SerializedName("nickname") val nickname : String,
+    @SerializedName("modified_date") val modified_data: LocalDateTime
+)
+data class postMypageScrapResponse(
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
+    val result: List<postMypageScrapResponseResult>
+)
+data class postMypageScrapResponseResult(
+    val title: String,
+    val body: String,
+    val nickname: String,
+    val modified_data: LocalDateTime,
+    val post_id: Int,
+    val member_id: Long,
+    val vibe_id: Int,
+    val vibe_image: String,
+    val like_number: Int,
+    val scrap_number: Int,
+    val comment_number: Int,
+    val tag_name: String,
+    val profileImg: String,
+
+    )
+data class postMypageScrapInput(
+    @SerializedName("post_id") val post_id: Int,
+    @SerializedName("member_id") val member_id: Int,
+    @SerializedName("title") val title: String,
+    @SerializedName("body") val body: String,
+    @SerializedName("vibe_id") val vibe_id: Int,
+    @SerializedName("vibe_image") val vibe_image: String,
+    @SerializedName("like_number") val like_number: Int,
+    @SerializedName("scrap_number") val scrap_number: Int,
+    @SerializedName("comment_number") val comment_number: Int,
+    @SerializedName("tag_name") val tag_name: String,
+    @SerializedName("profileImg") val profileImg: String,
+    @SerializedName("nickname") val nickname : String,
+    @SerializedName("modified_date") val modified_data: LocalDateTime
+)
+
+data class postMypageEditResponse(
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
+    val result: String
+
+)
+data class patchMypageEditPostInput(
+    @SerializedName("member_id") val member_id: Int,
+    @SerializedName("title") val title: String,
+    @SerializedName("body") val body: String,
+)
+
+data class deleteMypageResponse(
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
+    val result: String
+
+)
+data class deleteMypagePostInput(
+    @SerializedName("body") val body: String
 )

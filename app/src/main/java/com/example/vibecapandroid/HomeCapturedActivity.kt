@@ -53,7 +53,7 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         //유튜브 출력
         Youtubeplay()
-        
+
         //button setonClickListener
         //play on youtube button
         viewBinding.btYoutube.setOnClickListener{
@@ -82,6 +82,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                 val nextIntent = Intent(this, CommonPostActivity::class.java)
                 //nextIntent.putExtra("video_id",video_id)
                 nextIntent.putExtra("vibe_id", vibe_id!!.toInt())
+
                 startActivity(nextIntent)
             }
             else{
@@ -107,14 +108,14 @@ class HomeCapturedActivity : AppCompatActivity() {
     }
 
     private fun youtubefragmentshow(){
-            var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
-            var bundle = Bundle()
-            bundle.putString("VIDEO_ID", video_id)
-            YoutubePlayerFragment.arguments = bundle
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
-                .commitAllowingStateLoss()
-            //progresss bar 종료
+        var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
+        var bundle = Bundle()
+        bundle.putString("VIDEO_ID", video_id)
+        YoutubePlayerFragment.arguments = bundle
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
+            .commitAllowingStateLoss()
+        //progresss bar 종료
 //         runOnUiThread {
 //            showProgressbar(false)
 //            viewBinding.btYoutube.visibility = View.VISIBLE
@@ -150,7 +151,8 @@ class HomeCapturedActivity : AppCompatActivity() {
             in 3..5 -> result = "봄 "
             in 6..8 -> result = "여름 "
             in 9..11 -> result = "가을 "
-            else -> result = "몰라"
+            else -> result = ""
+            //아 자고 싶다 ㅅㅂ
         }
         val formatter2 = DateTimeFormatter.ofPattern("HH")
         val formatted2 = current.format(formatter2)
@@ -160,9 +162,10 @@ class HomeCapturedActivity : AppCompatActivity() {
             in 6..12 -> result = result + "아침"
             in 12..14 -> result = result +"낮"
             in 14..18 -> result = result + "오후"
-            in 18 .. 20 -> result = result +"저녁"
-            in 20.. 24-> result = result +"밤"
-            in 0..6 -> result = result +"새벽"
+            in 18 .. 21 -> result = result +"저녁"
+            in 21.. 24-> result = result +"밤"
+            in 0.. 2-> result = result +"밤"
+            in 2..6 -> result = result +"새벽"
             else -> result = result +""
         }
         Log.d("resulttime",result)
@@ -219,7 +222,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                     Log.d("레트로핏","Response Not Success ${response.code()}")
                 }
 
-        }
+            }
             override fun onFailure(call: Call<DeleteResponse>, t: Throwable) {
                 Log.d("레트로핏","레트로핏 호출 실패" +t.message.toString())
             }
@@ -282,10 +285,10 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         //base url 설정
         val apiService = retrofit.create(HomeApiInterface::class.java)
+        Log.d("따음표",time +" "+ feeling)
         apiService.postCapture(
             userToken, MEMBER_ID, time +" "+ feeling, // 계절 +시간 날씨 기분 -> api 통해서 가져와야함
             image
-
         )
             .enqueue(object : Callback<CaptureResponse> {
                 override fun onResponse(call: Call<CaptureResponse>, response: Response<CaptureResponse>) {
@@ -313,7 +316,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                                     .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
                                     .commitNow()
                                 //progresss bar 종료
-                                 runOnUiThread {
+                                runOnUiThread {
                                     showProgressbar(false)
                                     viewBinding.btYoutube.visibility = View.VISIBLE
                                 }

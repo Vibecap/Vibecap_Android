@@ -34,14 +34,18 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
 
         // 게시물 1개 조회
         /*** 전달 값은 postId */
+
         val intent = intent
         val postId = intent.getIntExtra("post_id",0)
         val memberId : MemberId = MemberId(MEMBER_ID)
 
 
+
         getPost(postId, MEMBER_ID)
 
-        binding.vibePostBackBtn.setOnClickListener(this)
+        binding.vibePostBackBtn.setOnClickListener(){
+            super.finish()
+        }
         // 게시물 좋아요
         binding.vibePostLikeBtn.setOnClickListener {
             setLike(userToken, postId, memberId)

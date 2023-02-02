@@ -21,8 +21,16 @@ interface VibePostWeeklyInterface{
 
 
 interface VibePostApiInterface {
+
+    // 게시물 전체 조회 (태그 X)
+    @GET("/app/posts")
+    fun postAllCheck(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Query("page") page: Int
+    ): Call<PostTagResponse>
+
     // 게시물 1개 조회
-    @GET("app/posts/{post_id}")
+    @GET("/app/posts/{post_id}")
     fun postDetailCheck(
         @Header("X-AUTH-TOKEN") jwt: String,
         @Path("post_id") postId: Int,
@@ -64,15 +72,3 @@ interface VibePostApiInterface {
     ): Call<PostScrapResponse>
 
 }
-
-//interface VibePostWriteInterface {
-//
-//}
-//
-//interface VibePostModifyInterface {
-//
-//}
-//
-//interface VibePostDeleteInterface {
-//
-//}

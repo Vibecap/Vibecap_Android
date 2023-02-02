@@ -3,13 +3,11 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/dialog_mypage_logout_background"
     android:layout_gravity="center"
     android:paddingHorizontal="50dp"
     android:paddingVertical="10dp"
     android:backgroundTint="@color/white">
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,7 +15,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="로그아웃 하시겠습니까?"
+        android:text="탈퇴하시겠습니까?"
         android:layout_marginTop="20dp"
         android:textSize="17sp"
         android:textColor="@color/black"
@@ -26,7 +24,7 @@
         android:backgroundTint="@color/white"/>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/dialog_mypage_logout_cancel"
+        android:id="@+id/dialog_mypage_quit_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -39,19 +37,18 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/dialog_mypage_logout_logout"
+        android:id="@+id/dialog_mypage_quit_quit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="로그아웃"
+        android:text="네"
         android:textColor="@color/red"
         app:backgroundTint="@color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/dialog_mypage_logout_cancel"
+        app:layout_constraintStart_toEndOf="@+id/dialog_mypage_quit_cancel"
         app:layout_constraintTop_toBottomOf="@id/dialog_mypage_logout_title"
         app:layout_constraintVertical_bias="0.0" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

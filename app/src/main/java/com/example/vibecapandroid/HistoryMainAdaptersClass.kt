@@ -59,6 +59,7 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
                                 if(responseData.is_success) {
                                     //arrayList?.add(HistoryMainImageClass((responseData.result.album[0].vibe_image)))
                                     val intent = Intent(it.context, HistoryYoutubeActivity::class.java)
+                                    intent.putExtra("position","$position")
                                     intent.putExtra("video_id",responseData.result.youtube_link)
                                     intent.putExtra("vibe_id",responseData.result.vibe_id.toInt())
                                     intent.putExtra("vibe_keywords",responseData.result.vibe_keywords.toString())
@@ -77,7 +78,7 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
     }
 
     class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var images: ImageView = itemView.findViewById(R.id.image)
+        var images: ImageView = itemView.findViewById(R.id.item_history_history_all_posts_iv)
         init {
             itemView.setOnClickListener {
                 Log.d("Click", "Click")
