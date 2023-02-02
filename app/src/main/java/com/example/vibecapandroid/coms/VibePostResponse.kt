@@ -10,6 +10,7 @@ data class PostTagResponse(
     @SerializedName("is_success") val is_success: Boolean,
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
+
     @SerializedName("result")val result: PostAllData
 )
 
@@ -24,25 +25,46 @@ data class postPageableData (
     @SerializedName("totalElements") val totalElements: Int,
     @SerializedName("size") val size: Int,
     @SerializedName("number") val number: Int,
+    @SerializedName("sort") val sort: PostSort,
+    @SerializedName("first") val first: Boolean,
+    @SerializedName("numberOfElements") val numberOfElements: Int,
+    @SerializedName("empty") val empty: Boolean,
 )
 
-data class postContentData(
+data class PostContentData(
     @SerializedName("post_id") val post_id: Int,
     @SerializedName("member_id") val member_id: Int,
     @SerializedName("vibe_id") val vibe_id: Int,
     @SerializedName("vibe_image") val vibe_image: String
 )
 
+data class PostPageableData(
+    @SerializedName("sort") val sort: PostSort,
+    @SerializedName("offset") val offset: Int,
+    @SerializedName("pageNumber") val pageNumber: Int,
+    @SerializedName("pageSize") val pageSize: Int,
+    @SerializedName("unpaged") val unpaged: Boolean,
+    @SerializedName("paged") val paged: Boolean
+)
+
+data class PostSort(
+    @SerializedName("empty") val empty: Boolean,
+    @SerializedName("unsorted") val unsorted: Boolean,
+    @SerializedName("sorted") val sorted: Boolean
+)
+
+
 // 게시물 전체 조회(Weekly)
 data class PostWeeklyResponse(
     @SerializedName("is_success") val is_success: Boolean,
-    @SerializedName("code")val code: Int,
+    @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
-    @SerializedName("result")val result: List<PostweeklyData>
+    @SerializedName("result") val result: List<PostweeklyData>
 )
+
 data class PostweeklyData(
     @SerializedName("post_id") val post_id: Int,
-    @SerializedName("tag_name")val tag_name: String,
+    @SerializedName("tag_name") val tag_name: String,
     @SerializedName("vibe_image") val vibe_image: String
 )
 
