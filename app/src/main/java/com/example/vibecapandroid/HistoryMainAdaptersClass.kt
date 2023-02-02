@@ -78,7 +78,7 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
     }
 
     class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var images: ImageView = itemView.findViewById(R.id.image)
+        var images: ImageView = itemView.findViewById(R.id.item_history_history_all_posts_iv)
         init {
             itemView.setOnClickListener {
                 Log.d("Click", "Click")

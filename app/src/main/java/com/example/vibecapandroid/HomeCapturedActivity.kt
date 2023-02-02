@@ -162,9 +162,10 @@ class HomeCapturedActivity : AppCompatActivity() {
             in 6..12 -> result = result + "아침"
             in 12..14 -> result = result +"낮"
             in 14..18 -> result = result + "오후"
-            in 18 .. 20 -> result = result +"저녁"
-            in 20.. 24-> result = result +"밤"
-            in 0..6 -> result = result +"새벽"
+            in 18 .. 21 -> result = result +"저녁"
+            in 21.. 24-> result = result +"밤"
+            in 0.. 2-> result = result +"밤"
+            in 2..6 -> result = result +"새벽"
             else -> result = result +""
         }
         Log.d("resulttime",result)
@@ -284,10 +285,10 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         //base url 설정
         val apiService = retrofit.create(HomeApiInterface::class.java)
+        Log.d("따음표",time +" "+ feeling)
         apiService.postCapture(
             userToken, MEMBER_ID, time +" "+ feeling, // 계절 +시간 날씨 기분 -> api 통해서 가져와야함
             image
-
         )
             .enqueue(object : Callback<CaptureResponse> {
                 override fun onResponse(call: Call<CaptureResponse>, response: Response<CaptureResponse>) {

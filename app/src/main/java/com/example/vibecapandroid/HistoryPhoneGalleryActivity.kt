@@ -27,6 +27,7 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         //내장 갤러리 사용
         checkPermission(STORAGE, STORAGE_CODE)
+
 //        val itt = Intent(Intent.ACTION_PICK)
 //        itt.type = MediaStore.Images.Media.CONTENT_TYPE
 //        startActivityForResult(itt, STORAGE_CODE)
@@ -43,6 +44,7 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(this, "저장소 권한을 승인완료", Toast.LENGTH_LONG).show()
                     GetAlbum()
+                    Log.d("onRequestPermission","onRequestPermission")
                 }
             }
         }
@@ -52,24 +54,25 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
     fun checkPermission(permissions: Array<out String>, type: Int): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             for (permission in permissions) {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        permission
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
+                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, permissions, type)
+                    Log.d("권한","권한없음")
                     return false
+                }
+                else{
+                    Log.d("여기?","여기?")
+                    GetAlbum()
+                    return true
                 }
             }
         }
+        GetAlbum()
         return true
     }
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 STORAGE_CODE -> {
@@ -85,7 +88,7 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
                     //감정 없음
                     feeling = " "
 
-                    Log.d("imagebitmap", "imagebitmap 안나옴")
+                    Log.d("imagebitmap", "imagebitmap")
 
                     //intent로 bitmap 넘겨주고 다음 activity 실행
                     val nextIntent = Intent(this, HomeCapturedActivity::class.java)
@@ -103,10 +106,12 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
     // 갤러리 취득
     fun GetAlbum() {
         // if (checkPermission(STORAGE, STORAGE_CODE)) {
-        val itt = Intent(Intent.ACTION_PICK)
-        itt.type = MediaStore.Images.Media.CONTENT_TYPE
-        startActivityForResult(itt, STORAGE_CODE)
-        finish()
+
+        Log.d("getalbum","getalbum")
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        startActivityForResult(intent, STORAGE_CODE)
+
         //}
         //}
     }
