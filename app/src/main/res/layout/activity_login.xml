@@ -11,7 +11,7 @@
         android:layout_width="85dp"
         android:layout_height="85dp"
         android:layout_marginTop="76dp"
-        android:src="@drawable/ic_bottom_nav_home_selected"
+        android:src="@drawable/logo_big"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
