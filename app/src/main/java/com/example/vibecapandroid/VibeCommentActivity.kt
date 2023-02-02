@@ -24,6 +24,7 @@ class VibeCommentActivity : AppCompatActivity(), GetCommentsView, View.OnClickLi
 
     lateinit var binding: ActivityVibeCommentBinding
     private lateinit var getCommentsView: GetCommentsView
+
     private var postId: Int? = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,7 +64,9 @@ class VibeCommentActivity : AppCompatActivity(), GetCommentsView, View.OnClickLi
 
     override fun finish() {
         val intent = Intent(this, VibePostActivity::class.java)
-        intent.putExtra("post_id", postId)
+
+        intent.putExtra("post_id",postId)
+
         startActivity(intent)
         super.finish()
     }

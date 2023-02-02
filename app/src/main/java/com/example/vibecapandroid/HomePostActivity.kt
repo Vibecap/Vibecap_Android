@@ -1,5 +1,6 @@
 package com.example.vibecapandroid
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -60,10 +61,6 @@ class HomePostActivity  : AppCompatActivity() {
                                 Log.d("레트로핏",responseData.result.toString())
                                 Toast.makeText(applicationContext, "게시물 작성 완료", Toast.LENGTH_LONG).show();
                                 //게시물 조회 액티비티로 이동
-                                
-                                
-                                
-                                
                             }
                             500 -> {
                                 Log.d ("레트로핏","해당 바이브에 대한 접근 권한이 없습니다" )
@@ -97,7 +94,14 @@ class HomePostActivity  : AppCompatActivity() {
 
         //x 버튼
         viewBinding.imageButtonBack.setOnClickListener{
+
+
+            val nextIntent = Intent(this, VibePostActivity::class.java)
+            //nextIntent.putExtra("video_id",video_id)
+           // nextIntent.putExtra("vibe_id", vibe_id!!.toInt())
+            startActivity(nextIntent)
             finish()
+
         }
 
 

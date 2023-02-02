@@ -9,36 +9,42 @@
     <ListView
         android:id="@+id/activity_mypage_setuplist1"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="160dp"
         android:layout_marginTop="110dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:dividerHeight="0px"
+        android:divider="@color/transparent">
 
     </ListView>
 
     <ListView
         android:id="@+id/activity_mypage_setuplist2"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_mypage_setuplist1">
+        app:layout_constraintTop_toBottomOf="@+id/activity_mypage_setuplist1"
+        android:dividerHeight="0px"
+        android:divider="@color/transparent">
 
     </ListView>
 
     <ListView
         android:id="@+id/activity_mypage_setuplist3"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="36dp"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/activity_mypage_setuplist2">
+        app:layout_constraintTop_toBottomOf="@+id/activity_mypage_setuplist2"
+        android:dividerHeight="0px"
+        android:divider="@color/transparent">
 
     </ListView>
 
@@ -51,7 +57,7 @@
         android:layout_marginEnd="8dp"
         android:text="설정"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

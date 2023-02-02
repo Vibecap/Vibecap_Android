@@ -59,6 +59,7 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
                                 if(responseData.is_success) {
                                     //arrayList?.add(HistoryMainImageClass((responseData.result.album[0].vibe_image)))
                                     val intent = Intent(it.context, HistoryYoutubeActivity::class.java)
+                                    intent.putExtra("position","$position")
                                     intent.putExtra("video_id",responseData.result.youtube_link)
                                     intent.putExtra("vibe_id",responseData.result.vibe_id.toInt())
                                     intent.putExtra("vibe_keywords",responseData.result.vibe_keywords.toString())

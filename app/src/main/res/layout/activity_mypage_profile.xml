@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/activity_mypage_alarm_imageview"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -19,11 +19,11 @@
 
     <TextView
         android:id="@+id/activity_mypage_alarm_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
         android:layout_marginStart="16dp"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="@+id/activity_mypage_alarm_imageview"
         app:layout_constraintStart_toEndOf="@+id/activity_mypage_alarm_imageview"
         app:layout_constraintTop_toTopOf="@+id/activity_mypage_alarm_imageview"
@@ -31,8 +31,8 @@
 
     <ImageView
         android:id="@+id/activity_mypage_profile_next"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/activity_mypage_alarm_imageview"
         app:layout_constraintEnd_toEndOf="parent"

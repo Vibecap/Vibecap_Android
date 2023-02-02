@@ -2,13 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:drawable="@color/white"/>
-
-    <item android:drawable="@drawable/ic_bottom_nav_home_selected"
+    <item android:drawable="@drawable/logo_big"
 
         android:gravity="center"
         android:width="70dp"
         android:height="70dp"
         />
+
 
 
 

@@ -1,6 +1,5 @@
 package com.example.vibecapandroid
 
-
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
@@ -9,15 +8,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+
+import com.example.vibecapandroid.R.id.imageView_weekly_item1
+
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.FragmentVibeMainBinding
 import com.example.vibecapandroid.utils.getRetrofit
@@ -28,6 +27,7 @@ import java.lang.Runnable
 
 class VibeMainFragment : Fragment(), GetAllPostsView {
     private lateinit var viewBinding: FragmentVibeMainBinding
+
     private var viewPager: ViewPager2? = null
     private lateinit var getAllPostsView: GetAllPostsView
 
@@ -42,6 +42,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
     private var isLoading = false
 
     var page: Int = 0
+
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -62,15 +63,16 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         getAllPosts(page)
 
         val view = inflater.inflate(R.layout.fragment_vibe_main, container, false)
-        val tag1: TextView = view.findViewById(R.id.tv_tag1)
-        val tag2: TextView = view.findViewById(R.id.tv_tag2)
-        val tag3: TextView = view.findViewById(R.id.tv_tag3)
-        val tag4: TextView = view.findViewById(R.id.tv_tag4)
-        val tag5: TextView = view.findViewById(R.id.tv_tag5)
-        val tag6: TextView = view.findViewById(R.id.tv_tag6)
-        val tag7: TextView = view.findViewById(R.id.tv_tag7)
-        val tag8: TextView = view.findViewById(R.id.tv_tag8)
-        val tag9: TextView = view.findViewById(R.id.tv_tag9)
+
+        val tag1  = viewBinding.tvTag1
+        val tag2  = viewBinding.tvTag2
+        val tag3  = viewBinding.tvTag3
+        val tag4  = viewBinding.tvTag4
+        val tag5  = viewBinding.tvTag5
+        val tag6  = viewBinding.tvTag6
+        val tag7  = viewBinding.tvTag7
+        val tag8  = viewBinding.tvTag8
+        val addView = viewBinding.btnAddview
 
 
         //  post 테스트 용************
@@ -82,39 +84,43 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         }
         //**********
 
-        val search: ImageButton = view.findViewById(R.id.imageButton_search)
+
+        val search = viewBinding.imageButtonSearch
+
         search.setOnClickListener {
             val intent = Intent(context, VibeSearchActivity::class.java)
             startActivity(intent)
         }
 
-        // 게시물 작성 플로팅 버튼
-        viewBinding.vibeMainAddFab.setOnClickListener {
+        val addpost = viewBinding.btnAddpost
+        addpost.setOnClickListener {
             val intent = Intent(context, HistoryPostActivity::class.java)
             startActivity(intent)
         }
 
 
-        val mypage_alarm2: ImageButton = view.findViewById(R.id.imageButton_alarm)
+        val mypage_alarm2 = viewBinding.imageButtonAlarm
         mypage_alarm2.setOnClickListener {
             val intent = Intent(context, MypageAlarmActivity::class.java)
             startActivity(intent)
         }
 
-        val mypage_profile2: ImageButton = view.findViewById(R.id.imageButton_profile)
+
+        val mypage_profile2  = viewBinding.imageButtonProfile
+
         mypage_profile2.setOnClickListener {
             val intent = Intent(context, MypageProfileActivity::class.java)
             startActivity(intent)
         }
 
-        val addview: Button = view.findViewById(R.id.btn_addview)
-        addview.setOnClickListener {
+
+        val addview = viewBinding.btnAddview
+        addview.setOnClickListener{
+
             val intent = Intent(context, VibeDetailActivity::class.java)
             startActivity(intent)
         }
-
-
-
+        defaultTag()
         tag1.setOnClickListener {
             tag1.setTextColor(Color.BLACK)
             tag2.setTextColor(Color.GRAY)
@@ -124,8 +130,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             tag6.setTextColor(Color.GRAY)
             tag7.setTextColor(Color.GRAY)
             tag8.setTextColor(Color.GRAY)
-            tag9.setTextColor(Color.GRAY)
 
+            addView.text = "#신나는 더보기"
             //api
             callTagAPI("신나는")
         }
@@ -139,7 +145,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             tag6.setTextColor(Color.GRAY)
             tag7.setTextColor(Color.GRAY)
             tag8.setTextColor(Color.GRAY)
-            tag9.setTextColor(Color.GRAY)
+
+            addView.text = "#포근한 더보기"
             //api
             callTagAPI("포근한")
         }
@@ -153,7 +160,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             tag6.setTextColor(Color.GRAY)
             tag7.setTextColor(Color.GRAY)
             tag8.setTextColor(Color.GRAY)
-            tag9.setTextColor(Color.GRAY)
+
+            addView.text = "#선선한 더보기"
             //api
             callTagAPI("선선한")
         }
@@ -167,7 +175,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             tag6.setTextColor(Color.GRAY)
             tag7.setTextColor(Color.GRAY)
             tag8.setTextColor(Color.GRAY)
-            tag9.setTextColor(Color.GRAY)
+
+            addView.text = "#낭만적인 더보기"
             //api
             callTagAPI("낭만적인")
         }
@@ -181,7 +190,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             tag6.setTextColor(Color.GRAY)
             tag7.setTextColor(Color.GRAY)
             tag8.setTextColor(Color.GRAY)
-            tag9.setTextColor(Color.GRAY)
+
+            addView.text = "#잔잔한 더보기"
             //api
             callTagAPI("잔잔한")
         }
@@ -195,7 +205,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             tag6.setTextColor(Color.BLACK)
             tag7.setTextColor(Color.GRAY)
             tag8.setTextColor(Color.GRAY)
-            tag9.setTextColor(Color.GRAY)
+
+            addView.text = "#우울한 더보기"
             //api
             callTagAPI("우울한")
         }
@@ -209,7 +220,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             tag6.setTextColor(Color.GRAY)
             tag7.setTextColor(Color.BLACK)
             tag8.setTextColor(Color.GRAY)
-            tag9.setTextColor(Color.GRAY)
+
+            addView.text = "#공허한 더보기"
             //api
             callTagAPI("공허한")
         }
@@ -223,21 +235,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             tag6.setTextColor(Color.GRAY)
             tag7.setTextColor(Color.GRAY)
             tag8.setTextColor(Color.BLACK)
-            tag9.setTextColor(Color.GRAY)
-            //api
-            callTagAPI("분노한")
-        }
 
-        tag9.setOnClickListener {
-            tag1.setTextColor(Color.GRAY)
-            tag2.setTextColor(Color.GRAY)
-            tag3.setTextColor(Color.GRAY)
-            tag4.setTextColor(Color.GRAY)
-            tag5.setTextColor(Color.GRAY)
-            tag6.setTextColor(Color.GRAY)
-            tag7.setTextColor(Color.GRAY)
-            tag8.setTextColor(Color.GRAY)
-            tag9.setTextColor(Color.BLACK)
+            addView.text = "#심심한 더보기"
             //api
             callTagAPI("심심한")
         }
@@ -245,8 +244,49 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         requestWeeklyAPI()
 
 
+        // 뷰페이저 적용
+        viewBinding.ViewPagerBanner.adapter = ViewPagerAdapter(getWeeklyList()) // 어댑터 생성
+        viewBinding.ViewPagerBanner.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
+        val wormDotsIndicator = viewBinding.dotsIndicator
+        val viewPager = viewBinding.ViewPagerBanner
+        val adapter = ViewPagerAdapter(getWeeklyList())
+        viewPager.adapter = adapter
+        wormDotsIndicator.attachTo(viewPager)
 
         return viewBinding.root
+    }
+
+
+    private fun defaultTag() {
+        val tag1  = viewBinding.tvTag1
+        val tag2  = viewBinding.tvTag2
+        val tag3  = viewBinding.tvTag3
+        val tag4  = viewBinding.tvTag4
+        val tag5  = viewBinding.tvTag5
+        val tag6  = viewBinding.tvTag6
+        val tag7  = viewBinding.tvTag7
+        val tag8  = viewBinding.tvTag8
+        val addView = viewBinding.btnAddview
+
+        tag1.setTextColor(Color.BLACK)
+        tag2.setTextColor(Color.GRAY)
+        tag3.setTextColor(Color.GRAY)
+        tag4.setTextColor(Color.GRAY)
+        tag5.setTextColor(Color.GRAY)
+        tag6.setTextColor(Color.GRAY)
+        tag7.setTextColor(Color.GRAY)
+        tag8.setTextColor(Color.GRAY)
+
+        addView.text = "#신나는 더보기"
+        //api
+        callTagAPI("신나는")
+    }
+
+
+
+
+    private fun getWeeklyList():  ArrayList<Int> {
+        return arrayListOf<Int>(R.drawable.ic_activity_vibe_main_weekly, R.drawable.ic_activity_vibe_main_weekly, R.drawable.ic_activity_vibe_main_weekly)
     }
 
 
@@ -287,37 +327,27 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             ) {
                 if (response.isSuccessful) {
                     val responseData = response.body()
-                    if (responseData != null) {
+                    if(responseData != null){
                         Log.d(
                             "WeeklyResult",
                             "WeeklyResult\n" +
                                     "isSuccess:${responseData?.is_success}\n " +
                                     "Code: ${responseData?.code} \n" +
                                     "Message:${responseData?.message} \n" +
-                                    "result:${responseData?.result}\n"
+                                    "result:${responseData.result[1].tag_name}\n"
                         )
-                        if (responseData.is_success) {
-                            // getSharedPreferences 해결해서 서버에서 데이터 가져와야함
-                            Log.d(
-                                "WeeklyResult2",
-                                "WeeklyResult\n"
-                            )
-                            val imageView = view!!.findViewById<ImageView>(R.id.imageView_banner)
-                            val defaultImage = R.drawable.ic_fragment_home_main_alarm
-                            val url =
-                                "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
-                            Glide.with(this@VibeMainFragment)
-                                .load(url) // 불러올 이미지 url
-                                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                                .into(imageView) // 이미지를 넣을 뷰
 
-                            // 태그 띄우기
-
-                            view!!.findViewById<TextView>(R.id.weeklyTagName).text = "#손흥민 #축구"
-                        } else {
-                            if (responseData.code == 3011) {
+                        if(responseData.is_success){
+                            when(response.body()?.code){
+                                1000 -> {
+                                    // 데이터 저장하기
+                                    weeklySaveData(0,responseData)
+                                    weeklySaveData(1,responseData)
+                                    weeklySaveData(2,responseData)
+                                }
+                            }
+                        }else{
+                            if (responseData.code == 3011){
                                 //Toast.makeText(this@VibeMainFragment,"해당 태그를 가진 게시물이 없습니다.", Toast.LENGTH_SHORT).show()
 
                             }
@@ -353,33 +383,24 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                                     "Code: ${responseData?.code} \n" +
                                     "Message:${responseData?.message} \n"
                         )
-                        if (responseData.is_success) {
-                            // getSharedPreferences 해결하기
-                            //val editor = getSharedPreferences(
-                            //"sharecropped",
-                            //MODE_PRIVATE
-                            //).edit()
-                            //editor.putInt("post_id",responseData.result)
-                            //editor.putInt("member_id",responseData.result[0].content[0].member_id)
-                            //editor.putInt("vibe_id",responseData.result[0].content[0].vibe_id)
-                            //editor.putString("vibe_image",responseData.result[1].vibe_image)
-                            //editor.apply()
-                            val imageView = view!!.findViewById<ImageView>(R.id.imageButton_1)
-                            val defaultImage = R.drawable.image_ic_activity_history_album_list1
-                            //val url = editor.putString("vibe_image",responseData.result[0].content[0].vibe_image)
-                            val url =
-                                "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
-                            Glide.with(this@VibeMainFragment)
-                                .load(url) // 불러올 이미지 url
-                                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                                .into(imageView) // 이미지를 넣을 뷰
-                        } else {
-                            if (responseData.code == 3011) {
+                        if(responseData.is_success){
+                            when(response.body()?.code){
+                                1000 -> {
+                                    // 데이터 저장하기
+                                    viewBinding.tagAlert.visibility = View.GONE
+                                    viewBinding.tableLayoutMain.visibility = View.VISIBLE
+                                    TagsaveData(tagName, responseData)
+                                }
+                                3011 -> {
+                                    viewBinding.tagAlert.visibility = View.VISIBLE
+                                    viewBinding.tableLayoutMain.visibility = View.GONE
+                                }
+                            }
+                        }else{
+                            if(responseData.code == 3011){
                                 // xml에 tvView 추가해서 문구 띄우기
-                                //Toast.makeText(applicationContext,"해당 태그를 가진 게시물이 없습니다.", Toast.LENGTH_SHORT).show()
-
+                                Log.d("TagResult", "해당 태그를 가진 게시물이 없습니다.\n")
+                                viewBinding.tagAlert.visibility = View.VISIBLE
                             }
                         }
                     }
@@ -392,6 +413,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             }
         })
     }
+
 
     // 전체 게시물 조회 API
     private fun getAllPosts(page: Int) {
@@ -421,13 +443,113 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         Log.d("[VIBE] GET_ALL_POSTS", "HELLO")
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        val pagerAdapter = VibeWeeklyAdapter(requireActivity())
+    // 태그별 저장
+    private fun TagsaveData(tagName: String, responseData: PostTagResponse) {
 
-        viewPager?.adapter = pagerAdapter
+        if(tagName.isNullOrEmpty()){
+            // textView 추가하기
+            Log.d("tagEmpty","태그 이름 없음")
+        }else{
+            val defaultImage = R.drawable.image_ic_activity_history_album_list1
+
+            // 1번째 post
+            val post_id_1 = responseData.result.content[0].post_id
+            val member_id_1 = responseData.result.content[0].member_id
+            val vibe_id_1 = responseData.result.content[0].vibe_id
+            val vibe_image_1 = responseData.result.content[0].vibe_image
+
+            val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
+            imageView_1.clipToOutline = true
+            Glide.with(this@VibeMainFragment)
+                .load(vibe_image_1) // 불러올 이미지 url
+                .fitCenter()
+                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(imageView_1) // 이미지를 넣을 뷰
+
+            // 2번째 post
+            val post_id_2 = responseData.result.content[1].post_id
+            val member_id_2 = responseData.result.content[1].member_id
+            val vibe_id_2 = responseData.result.content[1].vibe_id
+            val vibe_image_2 = responseData.result.content[1].vibe_image
+
+            val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
+            imageView_2.clipToOutline = true
+            Glide.with(this@VibeMainFragment)
+                .load(vibe_image_2) // 불러올 이미지 url
+                .fitCenter()
+                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(imageView_2) // 이미지를 넣을 뷰
+
+            // 3번째 post
+            val post_id_3 = responseData.result.content[2].post_id
+            val member_id_3 = responseData.result.content[2].member_id
+            val vibe_id_3 = responseData.result.content[2].vibe_id
+            val vibe_image_3 = responseData.result.content[2].vibe_image
+
+            val imageView_3 = requireView().findViewById<ImageView>(R.id.imageButton_3)
+            imageView_3.clipToOutline = true
+            Glide.with(this@VibeMainFragment)
+                .load(vibe_image_3) // 불러올 이미지 url
+                .override(800,200)
+                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(imageView_3) // 이미지를 넣을 뷰
+
+            // 4번째 post
+            val post_id_4 = responseData.result.content[3].post_id
+            val member_id_4 = responseData.result.content[3].member_id
+            val vibe_id_4 = responseData.result.content[3].vibe_id
+            val vibe_image_4 = responseData.result.content[3].vibe_image
+
+            val imageView_4 = requireView().findViewById<ImageView>(R.id.imageButton_4)
+            imageView_4.clipToOutline = true
+            Glide.with(this@VibeMainFragment)
+                .load(vibe_image_4) // 불러올 이미지 url
+                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(imageView_4) // 이미지를 넣을 뷰
+
+            // 5번째 post
+            val post_id_5 = responseData.result.content[4].post_id
+            val member_id_5 = responseData.result.content[4].member_id
+            val vibe_id_5 = responseData.result.content[4].vibe_id
+            val vibe_image_5 = responseData.result.content[4].vibe_image
+
+            val imageView_5 = requireView().findViewById<ImageView>(R.id.imageButton_5)
+            imageView_5.clipToOutline = true
+            Glide.with(this@VibeMainFragment)
+                .load(vibe_image_5) // 불러올 이미지 url
+                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(imageView_5) // 이미지를 넣을 뷰
+
+            // 6번째 post
+            val post_id_6 = responseData.result.content[5].post_id
+            val member_id_6 = responseData.result.content[5].member_id
+            val vibe_id_6 = responseData.result.content[5].vibe_id
+            val vibe_image_6 = responseData.result.content[5].vibe_image
+
+            val imageView_6 = requireView().findViewById<ImageView>(R.id.imageButton_6)
+            imageView_6.clipToOutline = true
+            Glide.with(this@VibeMainFragment)
+                .load(vibe_image_6) // 불러올 이미지 url
+                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                .into(imageView_6) // 이미지를 넣을 뷰
+        }
+
+
 
     }
+
 
     private fun setAllPostsView(
         getAllPostsView: GetAllPostsView
@@ -544,6 +666,104 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 //        }
 //    }
 
+    // Weekly 저장
+    private fun weeklySaveData(id: Int, responseData: PostWeeklyResponse){
+
+        val post_id = responseData.result[id].post_id
+        val tag_name = responseData.result[id].tag_name
+        val vibe_image = responseData.result[id].vibe_image
+
+        // post id 설정
+        viewBinding.ViewPagerBanner
+
+        // tag name 설정
+        if (tag_name.isNullOrEmpty()) {
+            requireView().findViewById<TextView>(R.id.weeklyTagLinear).visibility = View.GONE
+        } else {
+            // tag name 을 공백으로 구분
+            val tagList = tag_name.split(buildString {
+                append("\\s")
+            }.toRegex()).toTypedArray()
+            // tag name 앞에 # 붙여주기
+            for (i in tagList.indices) {
+                tagList[i] = "#" + tagList[i]
+            }
+            // tag name 최대 3개
+            when (tagList.size) {
+                1 -> {
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility = View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text = tagList[1]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv).visibility = View.GONE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv).visibility = View.GONE
+
+
+                }
+                2 -> {
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility = View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text = tagList[0]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.visibility = View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.text = tagList[1]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv).visibility = View.GONE
+                }
+                3 -> {
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility = View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text = tagList[0]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.visibility = View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.text = tagList[1]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv)!!.visibility = View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv)!!.text = tagList[2]
+                }
+            }
+
+            // 이미지 설정
+            when (id){
+                0 -> {
+                    val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
+                    imageView.clipToOutline = true
+                    val defaultImage = R.drawable.ic_activity_vibe_main_banner
+                    val url = vibe_image
+
+                    //val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
+                    Glide.with(this@VibeMainFragment)
+                        .load(url) // 불러올 이미지 url
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView) // 이미지를 넣을 뷰
+                }
+                1 -> {
+                    val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
+                    imageView.clipToOutline = true
+                    val defaultImage = R.drawable.ic_activity_vibe_main_banner
+                    val url = vibe_image
+                    //val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
+                    Glide.with(this@VibeMainFragment)
+                        .load(url) // 불러올 이미지 url
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView) // 이미지를 넣을 뷰
+                }
+                2 -> {
+                    val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
+                    imageView.clipToOutline = true
+                    val defaultImage = R.drawable.ic_activity_vibe_main_banner
+                    val url = vibe_image
+                    //val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
+                    Glide.with(this@VibeMainFragment)
+                        .load(url) // 불러올 이미지 url
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView) // 이미지를 넣을 뷰
+                }
+            }
+
+
+
+        }
+
+    }
 }
 
 interface GetAllPostsView {
