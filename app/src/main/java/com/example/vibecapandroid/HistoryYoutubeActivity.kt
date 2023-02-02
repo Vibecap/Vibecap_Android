@@ -1,15 +1,28 @@
 package com.example.vibecapandroid
 
+import android.content.ContentValues
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.vibecapandroid.coms.*
+import androidx.core.net.toUri
+import com.example.vibecapandroid.coms.DeleteResponse
+import com.example.vibecapandroid.coms.HomeApiInterface
 import com.example.vibecapandroid.databinding.ActivityHistoryYoutubeBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.FileOutputStream
+import java.text.SimpleDateFormat
 import java.util.regex.Pattern
 
 
@@ -21,8 +34,9 @@ class HistoryYoutubeActivity:AppCompatActivity() {
     private var vibeId:Int?=null
     private var vibeKeyWords:String?=null
     private var videoID:String?=null
+    var imagebitmap:Bitmap? = null
 
-
+    @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
@@ -33,10 +47,17 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         Log.d("vibe_keywords","$vibeKeyWords")
         videoID=intent.extras!!.getString("video_id")
 
+
+        var Uri:Uri?=null
+        Uri= ("file://"+intent.extras!!.getString("vibe_image")!!).toUri()
+        Log.d("Uri","$Uri")
+
+        Thread {
+            imagebitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(getContentResolver(), Uri!!));
+        }.start()
+        Log.d("imagebitmap","$imagebitmap")
         val position=intent.extras!!.getInt("position")
-
         Youtubeplay()
-
 
         viewBinding.btWrite.setOnClickListener(){
             if(vibeId!=null){
@@ -50,7 +71,8 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         }
 
         viewBinding.btHome.setOnClickListener(){
-            finish() }
+            finish()
+        }
 
         //share button
         viewBinding.btShare.setOnClickListener{
@@ -67,8 +89,64 @@ class HistoryYoutubeActivity:AppCompatActivity() {
             deletePhoto()
         }
 
+        viewBinding.btDownload.setOnClickListener(){
+            downloadPhoto()
+        }
+
     }
 
+    private fun downloadPhoto(){
+        //imagebitmap = intent.getParcelableExtra<Bitmap>("imagebitmap")
+        saveFile(RandomFileName(), "image/jpeg", imagebitmap!!) // 휴대폰 local db 에 저장
+        Log.d("파일", "파일저장 완료")
+        Toast.makeText(applicationContext, "사진 다운로드 성공", Toast.LENGTH_SHORT).show();
+    }
+    // 파일명을 날짜로 함수
+    private fun RandomFileName(): String {
+        val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
+        return fileName
+    }
+    private fun StringToBitmap(encodedString: String?): Bitmap? {
+        return try {
+            val encodeByte: ByteArray = Base64.decode(encodedString, Base64.DEFAULT)
+            BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
+        } catch (e: Exception) {
+            e.message
+            null
+        }
+    }
+    private fun saveFile(filename:String, mimeType:String, bitmap: Bitmap): Uri? {
+
+        var CV = ContentValues()
+
+        // MediaStore에 파일명, mimeType을 지정
+        CV.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+        CV.put(MediaStore.Images.Media.MIME_TYPE, mimeType)
+
+        // 안정성 검사
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            CV.put(MediaStore.Images.Media.IS_PENDING, 1)
+        }
+
+        // MediaStore에 파일을 저장
+        val uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, CV)
+
+        if(uri != null){
+            var scriptor = contentResolver.openFileDescriptor(uri, "w")
+            val fos = FileOutputStream(scriptor?.fileDescriptor)
+
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, fos)
+            fos.close()
+
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                CV.clear()
+                // IS_PENDING을 초기화
+                CV.put(MediaStore.Images.Media.IS_PENDING, 0)
+                contentResolver.update(uri, CV,null, null)
+            }
+        }
+        return uri
+    }
     override fun onRestart() {
         super.onRestart()
         YoutubePlayAgain()
@@ -130,7 +208,6 @@ class HistoryYoutubeActivity:AppCompatActivity() {
 
 
     private fun YoutubePlayAgain(){
-
         var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
         var bundle = Bundle()
         bundle.putString("VIDEO_ID", getYouTubeId(videoID!!))
@@ -139,6 +216,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
             .replace(R.id.history_youtube_you_tube_player_view, YoutubePlayerFragment)
             .commitAllowingStateLoss()
     }
+
     private fun Youtubeplay(){
         var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
         var bundle = Bundle()
