@@ -3,6 +3,7 @@ package com.example.vibecapandroid
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -92,7 +93,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             startActivity(intent)
         }
 
-        val addpost = viewBinding.btnAddpost
+        val addpost = viewBinding.vibeMainAddFab
         addpost.setOnClickListener {
             val intent = Intent(context, HistoryPostActivity::class.java)
             startActivity(intent)
@@ -456,7 +457,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_1 = responseData.result.content[0].post_id
             val member_id_1 = responseData.result.content[0].member_id
             val vibe_id_1 = responseData.result.content[0].vibe_id
-            val vibe_image_1 = responseData.result.content[0].vibe_image
+            val vibe_image_1: String? = responseData.result.content[0].vibe_image
 
             val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
             imageView_1.clipToOutline = true
@@ -472,7 +473,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_2 = responseData.result.content[1].post_id
             val member_id_2 = responseData.result.content[1].member_id
             val vibe_id_2 = responseData.result.content[1].vibe_id
-            val vibe_image_2 = responseData.result.content[1].vibe_image
+            val vibe_image_2 :String?= responseData.result.content[1].vibe_image
 
             val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
             imageView_2.clipToOutline = true
@@ -488,7 +489,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_3 = responseData.result.content[2].post_id
             val member_id_3 = responseData.result.content[2].member_id
             val vibe_id_3 = responseData.result.content[2].vibe_id
-            val vibe_image_3 = responseData.result.content[2].vibe_image
+            val vibe_image_3 :String?= responseData.result.content[2].vibe_image
 
             val imageView_3 = requireView().findViewById<ImageView>(R.id.imageButton_3)
             imageView_3.clipToOutline = true
@@ -504,7 +505,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_4 = responseData.result.content[3].post_id
             val member_id_4 = responseData.result.content[3].member_id
             val vibe_id_4 = responseData.result.content[3].vibe_id
-            val vibe_image_4 = responseData.result.content[3].vibe_image
+            val vibe_image_4 :String?= responseData.result.content[3].vibe_image
 
             val imageView_4 = requireView().findViewById<ImageView>(R.id.imageButton_4)
             imageView_4.clipToOutline = true
@@ -519,7 +520,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_5 = responseData.result.content[4].post_id
             val member_id_5 = responseData.result.content[4].member_id
             val vibe_id_5 = responseData.result.content[4].vibe_id
-            val vibe_image_5 = responseData.result.content[4].vibe_image
+            val vibe_image_5 :String?= responseData.result.content[4].vibe_image
 
             val imageView_5 = requireView().findViewById<ImageView>(R.id.imageButton_5)
             imageView_5.clipToOutline = true
@@ -534,7 +535,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_6 = responseData.result.content[5].post_id
             val member_id_6 = responseData.result.content[5].member_id
             val vibe_id_6 = responseData.result.content[5].vibe_id
-            val vibe_image_6 = responseData.result.content[5].vibe_image
+            val vibe_image_6:String? = responseData.result.content[5].vibe_image
 
             val imageView_6 = requireView().findViewById<ImageView>(R.id.imageButton_6)
             imageView_6.clipToOutline = true

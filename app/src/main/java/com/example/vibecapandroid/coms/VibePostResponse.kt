@@ -10,16 +10,12 @@ data class PostTagResponse(
     @SerializedName("is_success") val is_success: Boolean,
     @SerializedName("code") val code: Int,
     @SerializedName("message") val message: String,
-
-    @SerializedName("result")val result: PostAllData
+    @SerializedName("result") val result: PostAllData
 )
 
 data class PostAllData(
-    @SerializedName("content") val content: List<postContentData>,
-    @SerializedName("pageable") val pageable: postPageableData
-)
-
-data class postPageableData (
+    @SerializedName("content") val content: List<PostContentData>,
+    @SerializedName("pageable") val pageable: PostPageableData,
     @SerializedName("last") val last: Boolean,
     @SerializedName("totalPages") val totalPages: Int,
     @SerializedName("totalElements") val totalElements: Int,
@@ -52,6 +48,7 @@ data class PostSort(
     @SerializedName("unsorted") val unsorted: Boolean,
     @SerializedName("sorted") val sorted: Boolean
 )
+
 
 
 // 게시물 전체 조회(Weekly)
