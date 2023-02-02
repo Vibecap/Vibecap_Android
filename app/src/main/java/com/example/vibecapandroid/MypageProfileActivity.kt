@@ -12,6 +12,7 @@ import android.widget.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import android.util.Base64.*
+import com.bumptech.glide.Glide
 import com.example.vibecapandroid.coms.*
 import okhttp3.MultipartBody
 
@@ -114,7 +115,8 @@ class MypageProfileActivity : AppCompatActivity() {
                         nickname.setText(responseData.result.nickname)
                         var email = findViewById<TextView>(R.id.activity_mypage_profilelist_email)
                         email.setText(responseData.result.email)
-                        var profile_image = findViewById<ImageView>(R.id.activity_mypage_profilelist_profileimg)
+                        Glide.with(this@MypageProfileActivity).load(responseData.result.profile_image).into(findViewById(R.id.activity_mypage_profilelist_profileimg))
+
 
                     }
                     else{

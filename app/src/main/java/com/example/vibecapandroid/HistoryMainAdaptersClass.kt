@@ -27,7 +27,6 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
         return ItemHolder(itemHolder)
     }
 
-
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         var historyMainImage: HistoryMainImageClass = arrayList.get(position)
         //holder.images?.setImageURI((historyMainImage.image.toUri()))
