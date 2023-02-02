@@ -111,11 +111,11 @@ class CommonPostActivity  : AppCompatActivity() {
             title = viewBinding.commonPostTitle.text.toString()
             body  = viewBinding.commonPostBody.text.toString()
             callPostApi()
-            finish()
+
         }
         //x 버튼
         viewBinding.commonBackbtn.setOnClickListener{
-            finish()
+            super.finish()
         }
 
         //여기까지 커스텀 가능함
@@ -212,10 +212,11 @@ class CommonPostActivity  : AppCompatActivity() {
                             post_id = responseData.result
                             Log.d("레트로핏",responseData.result.toString())
                             Toast.makeText(applicationContext, "게시물 작성 완료", Toast.LENGTH_LONG).show();
-                            val nextIntent = Intent(this@CommonPostActivity, VibePostActivity::class.java)
+                            val nextIntent = Intent(this@CommonPostActivity, MypagePostActivity::class.java)
                             nextIntent.putExtra("post_id", post_id)
                             Log.d("postid",post_id.toString())
                             startActivity(nextIntent)
+                            this@CommonPostActivity.finish()
                         }
                         500 -> {
                             Log.d ("레트로핏","해당 바이브에 대한 접근 권한이 없습니다" )

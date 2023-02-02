@@ -22,11 +22,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.util.Base64.*
 import android.widget.ImageButton
 
+ public var historyMainAdapters:HistoryMainAdaptersClass ? = null
 
 class HistoryMainFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
     private var gridLayoutManager: GridLayoutManager? = null
-    private var historyMainAdapters:HistoryMainAdaptersClass ? = null
+
 
     private var Token:String= userToken
     private val memberId:Long=6
@@ -58,6 +59,7 @@ class HistoryMainFragment : Fragment() {
 
 
     }
+
 
 
 

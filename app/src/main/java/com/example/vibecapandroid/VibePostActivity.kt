@@ -41,7 +41,9 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
 
         getPost(postId, MEMBER_ID)
 
-        binding.vibePostBackBtn.setOnClickListener(this)
+        binding.vibePostBackBtn.setOnClickListener(){
+            super.finish()
+        }
         // 게시물 좋아요
         binding.vibePostLikeBtn.setOnClickListener {
             setLike(userToken, postId, memberId)

@@ -82,6 +82,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                 val nextIntent = Intent(this, CommonPostActivity::class.java)
                 //nextIntent.putExtra("video_id",video_id)
                 nextIntent.putExtra("vibe_id", vibe_id!!.toInt())
+
                 startActivity(nextIntent)
             }
             else{
@@ -150,7 +151,8 @@ class HomeCapturedActivity : AppCompatActivity() {
             in 3..5 -> result = "봄 "
             in 6..8 -> result = "여름 "
             in 9..11 -> result = "가을 "
-            else -> result = "몰라"
+            else -> result = ""
+            //아 자고 싶다 ㅅㅂ
         }
         val formatter2 = DateTimeFormatter.ofPattern("HH")
         val formatted2 = current.format(formatter2)
