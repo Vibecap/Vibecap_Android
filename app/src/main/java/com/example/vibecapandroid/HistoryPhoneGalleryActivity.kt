@@ -25,12 +25,10 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //내장 갤러리 사용
+
+        //저장소 읽기 쓰기 권환 획득 및 내장 갤러리 사용
         checkPermission(STORAGE, STORAGE_CODE)
 
-//        val itt = Intent(Intent.ACTION_PICK)
-//        itt.type = MediaStore.Images.Media.CONTENT_TYPE
-//        startActivityForResult(itt, STORAGE_CODE)
     }
 
     override fun onRequestPermissionsResult(
@@ -41,15 +39,13 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             STORAGE_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "저장소 권한을 승인완료", Toast.LENGTH_LONG).show()
-                    GetAlbum()
-                    Log.d("onRequestPermission","onRequestPermission")
+                    if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                        Toast.makeText(this, "저장소 권한 승인완료", Toast.LENGTH_LONG).show()
+                        GetAlbum()
                 }
             }
         }
     }
-
 
     fun checkPermission(permissions: Array<out String>, type: Int): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -60,7 +56,6 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
                     return false
                 }
                 else{
-                    Log.d("여기?","여기?")
                     GetAlbum()
                     return true
                 }
@@ -105,14 +100,11 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
 
     // 갤러리 취득
     fun GetAlbum() {
-        // if (checkPermission(STORAGE, STORAGE_CODE)) {
+            Log.d("getalbum","getalbum")
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            startActivityForResult(intent, STORAGE_CODE)
 
-        Log.d("getalbum","getalbum")
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        startActivityForResult(intent, STORAGE_CODE)
-
-        //}
-        //}
     }
 }
+

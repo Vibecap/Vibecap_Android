@@ -29,7 +29,7 @@ class HomeCameraActivity: AppCompatActivity() {
     // storage 권한 처리에 필요한 변수
     val CAMERA = arrayOf(Manifest.permission.CAMERA)
     val CAMERA_CODE = 98
-
+   
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,41 +81,41 @@ class HomeCameraActivity: AppCompatActivity() {
     }
 
     // 카메라 촬영 - 권한 처리
-    fun CallCamera() {
-        Log.d("callcamera","callcamera")
-        val itt = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(itt, CAMERA_CODE)
-    }
+     fun CallCamera() {
+               Log.d("callcamera","callcamera")
+                val itt = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(itt, CAMERA_CODE)
+     }
 
     // 결과
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            super.onActivityResult(requestCode, resultCode, data)
 
-        val imageView = findViewById<ImageView>(R.id.picture)
+            val imageView = findViewById<ImageView>(R.id.picture)
 
-        if (resultCode == Activity.RESULT_OK) {
-            when (requestCode) {
-                CAMERA_CODE -> {
-                    if (data?.extras?.get("data") != null) {
-                        val img = data?.extras?.get("data") as Bitmap
+            if (resultCode == Activity.RESULT_OK) {
+                when (requestCode) {
+                    CAMERA_CODE -> {
+                        if (data?.extras?.get("data") != null) {
+                            val img = data?.extras?.get("data") as Bitmap
 
-                        val nextIntent = Intent(this, HomeCapturedActivity::class.java)
-                        nextIntent.putExtra("imagebitmap", img)
-                        startActivity(nextIntent)
-                        finish()
+                            val nextIntent = Intent(this, HomeCapturedActivity::class.java)
+                            nextIntent.putExtra("imagebitmap", img)
+                            startActivity(nextIntent)
+                            finish()
+                        }
+
+
                     }
-
-
                 }
+            } else {
+                Log.d("촬영취소", "촬영취소")
+                finish()
             }
-        } else {
-            Log.d("촬영취소", "촬영취소")
-            finish()
+
+
         }
 
 
+
     }
-
-
-
-}
