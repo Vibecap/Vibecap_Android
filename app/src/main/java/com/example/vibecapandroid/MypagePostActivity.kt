@@ -352,20 +352,22 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         context: Context
     ) {
 
-        //수정하기
         val editBlockBtn =
         bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_edit)
         editBlockBtn.setOnClickListener {
+
             val vibeId=intent.extras!!.getInt("vibe_id")
             val intent = Intent(this,CommonEditActivity::class.java)
             intent.putExtra("post_id",postId)
             intent.putExtra("vibe_id",vibeId)
             startActivity(intent)
+
         }
         //삭제하기
         val deleteBlockBtn=
             bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_delete)
         deleteBlockBtn.setOnClickListener(){
+
             val postId = intent.getIntExtra("post_id", 0)
 
             var member_id = MEMBER_ID.toInt()
@@ -405,6 +407,7 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
                     }
 
                 })
+
 
         }
 

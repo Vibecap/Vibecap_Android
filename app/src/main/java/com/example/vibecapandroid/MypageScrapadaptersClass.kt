@@ -44,7 +44,7 @@ class MypageScrapadaptersClass(var context: Context, var arrayList: ArrayList<Ch
     }
 
     class ItemHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        var images = itemView.findViewById<ImageView>(R.id.image)
+        var images = itemView.findViewById<ImageView>(R.id.item_history_mypagescrap_all_posts_iv)
         init {
             itemView.setOnClickListener {
                 Log.d("Click", "Click")

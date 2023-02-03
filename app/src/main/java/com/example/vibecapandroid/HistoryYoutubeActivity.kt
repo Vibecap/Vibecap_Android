@@ -1,15 +1,18 @@
 package com.example.vibecapandroid
 
-import android.content.ContentValues
+import android.app.DownloadManager
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
+import android.database.Cursor
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
+import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Base64
+import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -21,8 +24,7 @@ import com.example.vibecapandroid.databinding.ActivityHistoryYoutubeBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.FileOutputStream
-import java.text.SimpleDateFormat
+import java.io.File
 import java.util.regex.Pattern
 
 
@@ -34,13 +36,32 @@ class HistoryYoutubeActivity:AppCompatActivity() {
     private var vibeId:Int?=null
     private var vibeKeyWords:String?=null
     private var videoID:String?=null
-    var imagebitmap:Bitmap? = null
+
+
+
+
+
+    private val TAG = "ImgFullActivity"
+
+
+    private val saveFolderName = "Vibecap"
+    // 다운받은 파일이 저장될 위치 설정
+    private val outputFilePath = Environment.getExternalStoragePublicDirectory(
+        Environment.DIRECTORY_DOWNLOADS + "/$saveFolderName"
+    ).toString()
+    private var mDownloadManager: DownloadManager? = null
+    private var mDownloadQueueId: Long? = null
+
+
+
+
 
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
-
+        var img = intent.extras!!.getString("vibe_image")!!
+        var uri = Uri.parse(img)
         vibeId=intent.extras!!.getInt("vibe_id")
         Log.d("vibe_id","${vibeId}")
         vibeKeyWords=intent.extras!!.getString("vibe_keywords")
@@ -48,14 +69,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         videoID=intent.extras!!.getString("video_id")
 
 
-        var Uri:Uri?=null
-        Uri= ("file://"+intent.extras!!.getString("vibe_image")!!).toUri()
-        Log.d("Uri","$Uri")
 
-        Thread {
-            imagebitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(getContentResolver(), Uri!!));
-        }.start()
-        Log.d("imagebitmap","$imagebitmap")
         val position=intent.extras!!.getInt("position")
         Youtubeplay()
 
@@ -90,63 +104,24 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         }
 
         viewBinding.btDownload.setOnClickListener(){
-            downloadPhoto()
+            URLDownloading(uri);
         }
 
     }
+    override fun onPostResume() {
+        super.onPostResume()
 
-    private fun downloadPhoto(){
-        //imagebitmap = intent.getParcelableExtra<Bitmap>("imagebitmap")
-        saveFile(RandomFileName(), "image/jpeg", imagebitmap!!) // 휴대폰 local db 에 저장
-        Log.d("파일", "파일저장 완료")
-        Toast.makeText(applicationContext, "사진 다운로드 성공", Toast.LENGTH_SHORT).show();
+        // 브로드캐스트 리시버 등록
+        // ACTION_DOWNLOAD_COMPLETE : 다운로드가 완료되었을 때 전달
+        val completeFilter = IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE)
+        registerReceiver(downloadCompleteReceiver, completeFilter)
     }
-    // 파일명을 날짜로 함수
-    private fun RandomFileName(): String {
-        val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
-        return fileName
+    override fun onPause() {
+        super.onPause()
+        unregisterReceiver(downloadCompleteReceiver)
     }
-    private fun StringToBitmap(encodedString: String?): Bitmap? {
-        return try {
-            val encodeByte: ByteArray = Base64.decode(encodedString, Base64.DEFAULT)
-            BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)
-        } catch (e: Exception) {
-            e.message
-            null
-        }
-    }
-    private fun saveFile(filename:String, mimeType:String, bitmap: Bitmap): Uri? {
 
-        var CV = ContentValues()
 
-        // MediaStore에 파일명, mimeType을 지정
-        CV.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
-        CV.put(MediaStore.Images.Media.MIME_TYPE, mimeType)
-
-        // 안정성 검사
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            CV.put(MediaStore.Images.Media.IS_PENDING, 1)
-        }
-
-        // MediaStore에 파일을 저장
-        val uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, CV)
-
-        if(uri != null){
-            var scriptor = contentResolver.openFileDescriptor(uri, "w")
-            val fos = FileOutputStream(scriptor?.fileDescriptor)
-
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, fos)
-            fos.close()
-
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-                CV.clear()
-                // IS_PENDING을 초기화
-                CV.put(MediaStore.Images.Media.IS_PENDING, 0)
-                contentResolver.update(uri, CV,null, null)
-            }
-        }
-        return uri
-    }
     override fun onRestart() {
         super.onRestart()
         YoutubePlayAgain()
@@ -226,5 +201,84 @@ class HistoryYoutubeActivity:AppCompatActivity() {
             .replace(R.id.history_youtube_you_tube_player_view, YoutubePlayerFragment)
             .commitNow()
     }
+
+    //스틱코드
+     open fun URLDownloading(url: Uri) {
+        Log.d(TAG, "태그 URLDownloading")
+        if (mDownloadManager == null) {
+            mDownloadManager =
+                this@HistoryYoutubeActivity.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+        }
+        val outputFile = File(outputFilePath)
+        if (!outputFile.getParentFile().exists()) {
+            outputFile.getParentFile().mkdirs()
+        }
+        // DownloadManager.Request을 설정하여 DownloadManager Queue에 등록하게 되면 큐에 들어간 순서대로 다운로드가 처리된다.
+        // DownloadManager.Request : Request 객체를 생성하며 인자로 다운로드할 파일의 URI를 전달한다.
+        val request = DownloadManager.Request(url)
+        val pathSegmentList = url.pathSegments
+        // setTitle : notification 제목
+        request.setTitle("다운로드 항목")
+        request.setDescription("Downloading Dev Summit") //setDescription: 노티피케이션에 보이는 디스크립션입니다.
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) // setNotificationVisibility : VISIBILITY_VISIBLE로 설정되면 notification에 보여진다.
+        request.setDestinationUri(Uri.fromFile(outputFile)) // setDestinationUri : 파일이 저장될 위치의 URI
+        request.setAllowedOverMetered(true)
+
+        // DownloadManager 객체 생성하여 다운로드 대기열에 URI 객체를 넣는다.
+        mDownloadQueueId = mDownloadManager!!.enqueue(request)
+    }
+
+    // 다운로드 상태조회
+    private val downloadCompleteReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent) {
+            val reference = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
+            if (mDownloadQueueId === reference) {
+                val query = DownloadManager.Query() // 다운로드 항목 조회에 필요한 정보 포함
+                query.setFilterById(reference)
+                val cursor: Cursor = mDownloadManager!!.query(query)
+                cursor.moveToFirst()
+                val columnIndex: Int = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
+                val columnReason: Int = cursor.getColumnIndex(DownloadManager.COLUMN_REASON)
+                val status: Int = cursor.getInt(columnIndex)
+                val reason: Int = cursor.getInt(columnReason)
+                cursor.close()
+                when (status) {
+                    DownloadManager.STATUS_SUCCESSFUL -> Toast.makeText(
+                        this@HistoryYoutubeActivity,
+                        "다운로드를 완료하였습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    DownloadManager.STATUS_PAUSED -> Toast.makeText(
+                        this@HistoryYoutubeActivity,
+                        "다운로드가 중단되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    DownloadManager.STATUS_FAILED -> Toast.makeText(
+                        this@HistoryYoutubeActivity,
+                        "다운로드가 취소되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    // 갤러리 갱신
+    private fun galleryAddPic(Image_Path: String) {
+        Log.d(TAG, "태그 갤러리 갱신 : $Image_Path")
+
+        // 이전 사용 방식
+        /*Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+    File f = new File(Image_Path);
+    Uri contentUri = Uri.fromFile(f);
+    mediaScanIntent.setData(contentUri);
+    this.context.sendBroadcast(mediaScanIntent);*/
+        val file = File(Image_Path)
+        MediaScannerConnection.scanFile(
+            this, arrayOf(file.toString()),
+            null, null
+        )
+    }
+
 
 }
