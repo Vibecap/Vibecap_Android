@@ -7,8 +7,8 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/vibe_main_add_fab"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="15dp"
         android:src="@drawable/ic_activity_vibe_main_add"
@@ -79,8 +79,8 @@
             android:id="@+id/vibe_main_nsv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:fillViewport="true"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:fillViewport="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -100,28 +100,27 @@
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/ViewPager_banner"
-                    android:background="@drawable/background_round"
                     android:layout_width="330dp"
                     android:layout_height="220dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
                     android:layout_marginLeft="30dp"
+                    android:layout_marginTop="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_marginBottom="10dp"/>
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/background_round" />
 
                 <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
                     android:id="@+id/dots_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:dotsColor="@color/back_txt"
                     android:layout_gravity="center"
+                    app:dotsColor="@color/back_txt"
                     app:dotsCornerRadius="8dp"
                     app:dotsSize="12dp"
                     app:dotsSpacing="3dp"
                     app:dotsWidthFactor="2.5"
-                    app:selectedDotColor="@color/purple_button"
                     app:progressMode="true"
-                    />
+                    app:selectedDotColor="@color/light_purple" />
 
 
                 <HorizontalScrollView
@@ -234,82 +233,79 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="해당 태그를 가진 게시물이 없습니다."
-                        android:textSize="15dp"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:visibility="gone"/>
+                        android:textSize="15dp"
+                        android:visibility="gone" />
 
                     <TableLayout
                         android:id="@+id/tableLayout_main"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
                         android:layout_gravity="center"
+                        android:layout_margin="5dp"
                         android:stretchColumns="*">
 
                         <TableRow
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/background_round"
-                            android:layout_marginBottom="10dp">
+                            android:layout_marginBottom="10dp"
+                            android:background="@drawable/background_round">
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imageButton_1"
                                 android:layout_width="60dp"
                                 android:layout_height="130dp"
-                                android:scaleType="centerCrop"
+                                android:layout_marginRight="10dp"
                                 android:background="@drawable/background_round"
-                                android:layout_marginRight="10dp" />
+                                android:scaleType="centerCrop" />
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imageButton_2"
                                 android:layout_width="60dp"
                                 android:layout_height="130dp"
-                                android:scaleType="centerCrop"
+                                android:layout_marginRight="10dp"
                                 android:background="@drawable/background_round"
 
-                                android:layout_marginRight="10dp" />
+                                android:scaleType="centerCrop" />
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imageButton_3"
                                 android:layout_width="60dp"
                                 android:layout_height="130dp"
-                                android:scaleType="centerCrop"
                                 android:background="@drawable/background_round"
+                                android:scaleType="centerCrop"
 
                                 />
                         </TableRow>
 
                         <TableRow
                             android:layout_width="match_parent"
-                            android:background="@drawable/background_round"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:background="@drawable/background_round">
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imageButton_4"
                                 android:layout_width="60dp"
                                 android:layout_height="130dp"
                                 android:layout_marginRight="10dp"
-                                android:scaleType="centerCrop"
                                 android:background="@drawable/background_round"
-                                />
+                                android:scaleType="centerCrop" />
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imageButton_5"
                                 android:layout_width="60dp"
                                 android:layout_height="130dp"
                                 android:layout_marginRight="10dp"
-                                android:scaleType="centerCrop"
                                 android:background="@drawable/background_round"
-                                />
+                                android:scaleType="centerCrop" />
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/imageButton_6"
                                 android:layout_width="60dp"
                                 android:layout_height="130dp"
-                                android:scaleType="centerCrop"
                                 android:background="@drawable/background_round"
-                                />
+                                android:scaleType="centerCrop" />
                         </TableRow>
 
                     </TableLayout>
@@ -346,12 +342,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="16dp"
-                        android:adjustViewBounds="true"
                         android:layout_marginTop="30dp"
-                        app:spanCount="2"
                         android:layout_marginBottom="20dp"
+                        android:adjustViewBounds="true"
                         android:nestedScrollingEnabled="false"
                         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                        app:spanCount="2"
                         tools:listitem="@layout/item_vibe_main_all_posts" />
 
                 </LinearLayout>

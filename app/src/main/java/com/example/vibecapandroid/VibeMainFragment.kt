@@ -3,7 +3,6 @@ package com.example.vibecapandroid
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,16 +14,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-
 import com.example.vibecapandroid.R.id.imageView_weekly_item1
-
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.FragmentVibeMainBinding
 import com.example.vibecapandroid.utils.getRetrofit
 import kotlinx.coroutines.*
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
-import java.lang.Runnable
+import java.util.*
+
 
 class VibeMainFragment : Fragment(), GetAllPostsView {
     private lateinit var viewBinding: FragmentVibeMainBinding
@@ -65,14 +63,14 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 
         val view = inflater.inflate(R.layout.fragment_vibe_main, container, false)
 
-        val tag1  = viewBinding.tvTag1
-        val tag2  = viewBinding.tvTag2
-        val tag3  = viewBinding.tvTag3
-        val tag4  = viewBinding.tvTag4
-        val tag5  = viewBinding.tvTag5
-        val tag6  = viewBinding.tvTag6
-        val tag7  = viewBinding.tvTag7
-        val tag8  = viewBinding.tvTag8
+        val tag1 = viewBinding.tvTag1
+        val tag2 = viewBinding.tvTag2
+        val tag3 = viewBinding.tvTag3
+        val tag4 = viewBinding.tvTag4
+        val tag5 = viewBinding.tvTag5
+        val tag6 = viewBinding.tvTag6
+        val tag7 = viewBinding.tvTag7
+        val tag8 = viewBinding.tvTag8
         val addView = viewBinding.btnAddview
 
 
@@ -93,10 +91,12 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             startActivity(intent)
         }
 
-        val addpost = viewBinding.vibeMainAddFab
-        addpost.setOnClickListener {
-            val intent = Intent(context, HistoryPostActivity::class.java)
-            startActivity(intent)
+        // 게시물 작성 Floating Action Button
+        viewBinding.vibeMainAddFab.setOnClickListener {
+            (context as MainActivity).supportFragmentManager.beginTransaction()
+//                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                .replace(R.id.container_fragment, HistoryMainFragment())
+                .commitAllowingStateLoss()
         }
 
 
@@ -107,7 +107,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         }
 
 
-        val mypage_profile2  = viewBinding.imageButtonProfile
+        val mypage_profile2 = viewBinding.imageButtonProfile
 
         mypage_profile2.setOnClickListener {
             val intent = Intent(context, MypageProfileActivity::class.java)
@@ -116,7 +116,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 
 
         val addview = viewBinding.btnAddview
-        addview.setOnClickListener{
+        addview.setOnClickListener {
 
             val intent = Intent(context, VibeDetailActivity::class.java)
             startActivity(intent)
@@ -259,14 +259,14 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 
 
     private fun defaultTag() {
-        val tag1  = viewBinding.tvTag1
-        val tag2  = viewBinding.tvTag2
-        val tag3  = viewBinding.tvTag3
-        val tag4  = viewBinding.tvTag4
-        val tag5  = viewBinding.tvTag5
-        val tag6  = viewBinding.tvTag6
-        val tag7  = viewBinding.tvTag7
-        val tag8  = viewBinding.tvTag8
+        val tag1 = viewBinding.tvTag1
+        val tag2 = viewBinding.tvTag2
+        val tag3 = viewBinding.tvTag3
+        val tag4 = viewBinding.tvTag4
+        val tag5 = viewBinding.tvTag5
+        val tag6 = viewBinding.tvTag6
+        val tag7 = viewBinding.tvTag7
+        val tag8 = viewBinding.tvTag8
         val addView = viewBinding.btnAddview
 
         tag1.setTextColor(Color.BLACK)
@@ -284,10 +284,12 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
     }
 
 
-
-
-    private fun getWeeklyList():  ArrayList<Int> {
-        return arrayListOf<Int>(R.drawable.ic_activity_vibe_main_weekly, R.drawable.ic_activity_vibe_main_weekly, R.drawable.ic_activity_vibe_main_weekly)
+    private fun getWeeklyList(): ArrayList<Int> {
+        return arrayListOf<Int>(
+            R.drawable.ic_activity_vibe_main_weekly,
+            R.drawable.ic_activity_vibe_main_weekly,
+            R.drawable.ic_activity_vibe_main_weekly
+        )
     }
 
 
@@ -328,7 +330,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             ) {
                 if (response.isSuccessful) {
                     val responseData = response.body()
-                    if(responseData != null){
+                    if (responseData != null) {
                         Log.d(
                             "WeeklyResult",
                             "WeeklyResult\n" +
@@ -338,17 +340,17 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                                     "result:${responseData.result[1].tag_name}\n"
                         )
 
-                        if(responseData.is_success){
-                            when(response.body()?.code){
+                        if (responseData.is_success) {
+                            when (response.body()?.code) {
                                 1000 -> {
                                     // 데이터 저장하기
-                                    weeklySaveData(0,responseData)
-                                    weeklySaveData(1,responseData)
-                                    weeklySaveData(2,responseData)
+                                    weeklySaveData(0, responseData)
+                                    weeklySaveData(1, responseData)
+                                    weeklySaveData(2, responseData)
                                 }
                             }
-                        }else{
-                            if (responseData.code == 3011){
+                        } else {
+                            if (responseData.code == 3011) {
                                 //Toast.makeText(this@VibeMainFragment,"해당 태그를 가진 게시물이 없습니다.", Toast.LENGTH_SHORT).show()
 
                             }
@@ -384,21 +386,21 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                                     "Code: ${responseData?.code} \n" +
                                     "Message:${responseData?.message} \n"
                         )
-                        if(responseData.is_success){
-                            when(response.body()?.code){
+                        if (responseData.is_success) {
+                            when (response.body()?.code) {
                                 1000 -> {
                                     // 데이터 저장하기
                                     viewBinding.tagAlert.visibility = View.GONE
                                     viewBinding.tableLayoutMain.visibility = View.VISIBLE
-                                    TagsaveData(tagName, responseData)
+//                                    TagsaveData(tagName, responseData)
                                 }
                                 3011 -> {
                                     viewBinding.tagAlert.visibility = View.VISIBLE
                                     viewBinding.tableLayoutMain.visibility = View.GONE
                                 }
                             }
-                        }else{
-                            if(responseData.code == 3011){
+                        } else {
+                            if (responseData.code == 3011) {
                                 // xml에 tvView 추가해서 문구 띄우기
                                 Log.d("TagResult", "해당 태그를 가진 게시물이 없습니다.\n")
                                 viewBinding.tagAlert.visibility = View.VISIBLE
@@ -447,10 +449,10 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
     // 태그별 저장
     private fun TagsaveData(tagName: String, responseData: PostTagResponse) {
 
-        if(tagName.isNullOrEmpty()){
+        if (tagName.isNullOrEmpty()) {
             // textView 추가하기
-            Log.d("tagEmpty","태그 이름 없음")
-        }else{
+            Log.d("tagEmpty", "태그 이름 없음")
+        } else {
             val defaultImage = R.drawable.image_ic_activity_history_album_list1
 
             // 1번째 post
@@ -473,7 +475,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_2 = responseData.result.content[1].post_id
             val member_id_2 = responseData.result.content[1].member_id
             val vibe_id_2 = responseData.result.content[1].vibe_id
-            val vibe_image_2 :String?= responseData.result.content[1].vibe_image
+            val vibe_image_2: String? = responseData.result.content[1].vibe_image
 
             val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
             imageView_2.clipToOutline = true
@@ -489,13 +491,13 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_3 = responseData.result.content[2].post_id
             val member_id_3 = responseData.result.content[2].member_id
             val vibe_id_3 = responseData.result.content[2].vibe_id
-            val vibe_image_3 :String?= responseData.result.content[2].vibe_image
+            val vibe_image_3: String? = responseData.result.content[2].vibe_image
 
             val imageView_3 = requireView().findViewById<ImageView>(R.id.imageButton_3)
             imageView_3.clipToOutline = true
             Glide.with(this@VibeMainFragment)
                 .load(vibe_image_3) // 불러올 이미지 url
-                .override(800,200)
+                .override(800, 200)
                 .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
                 .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                 .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
@@ -505,7 +507,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_4 = responseData.result.content[3].post_id
             val member_id_4 = responseData.result.content[3].member_id
             val vibe_id_4 = responseData.result.content[3].vibe_id
-            val vibe_image_4 :String?= responseData.result.content[3].vibe_image
+            val vibe_image_4: String? = responseData.result.content[3].vibe_image
 
             val imageView_4 = requireView().findViewById<ImageView>(R.id.imageButton_4)
             imageView_4.clipToOutline = true
@@ -520,7 +522,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_5 = responseData.result.content[4].post_id
             val member_id_5 = responseData.result.content[4].member_id
             val vibe_id_5 = responseData.result.content[4].vibe_id
-            val vibe_image_5 :String?= responseData.result.content[4].vibe_image
+            val vibe_image_5: String? = responseData.result.content[4].vibe_image
 
             val imageView_5 = requireView().findViewById<ImageView>(R.id.imageButton_5)
             imageView_5.clipToOutline = true
@@ -535,7 +537,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             val post_id_6 = responseData.result.content[5].post_id
             val member_id_6 = responseData.result.content[5].member_id
             val vibe_id_6 = responseData.result.content[5].vibe_id
-            val vibe_image_6:String? = responseData.result.content[5].vibe_image
+            val vibe_image_6: String? = responseData.result.content[5].vibe_image
 
             val imageView_6 = requireView().findViewById<ImageView>(R.id.imageButton_6)
             imageView_6.clipToOutline = true
@@ -546,7 +548,6 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                 .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                 .into(imageView_6) // 이미지를 넣을 뷰
         }
-
 
 
     }
@@ -590,7 +591,6 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 
 
     private fun setData(result: ArrayList<PostContentData>) {
-//        dtoList= intent.getSerializableExtra(EXTRA_TITLE) as ArrayList<PostContentData>
         dtoList = result as ArrayList<PostContentData>
         for (i in 0 until 8) {
             items.add(result[i])
@@ -606,69 +606,80 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
     }
 
     // 2. scroll이 끝에 닿으면 데이터에 null 추가 및 Adapter에 알림
-//    private fun initScrollListener() {
-//        viewBinding.vibeMainNsv.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-//            if (!isLoading) {
-//                if (!v.canScrollVertically(1)) {
-//                    moreItems()
+    private fun initScrollListener() {
+        viewBinding.vibeMainNsv.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+
+            if (!v.canScrollVertically(1)) {
+                Log.d("ddd", "최하단")
+                moreItems()
+                isLoading = true
+
+            }
+
+        }
+//        viewBinding.vibeMainAllPostsRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+////                super.onScrolled(recyclerView, dx, dy)
+//
+//                val lastVisibleItemPosition = (recyclerView.layoutManager as StaggeredGridLayoutManager?)!!.findLastCompletelyVisibleItemPositions(null)[0] // 화면에 보이는 마지막 아이템의 position
+//                val itemTotalCount = recyclerView.adapter!!.itemCount - 1 // 어댑터에 등록된 아이템의 총 개수 -1
+//                Log.d("lastVisibleItemPosition",lastVisibleItemPosition.toString())
+//                Log.d("itemTotalCount",itemTotalCount.toString())
+//
+//                // 스크롤이 끝에 도달했는지 확인
+//                if (isLastItemDisplaying(viewBinding.vibeMainAllPostsRv)) {
+////                    moreItems()
 //                    isLoading = true
 //                }
-//
-////                if ((viewBinding.vibeMainAllPostsRv.layoutManager as StaggeredGridLayoutManager)!!.findLastCompletelyVisibleItemPositions(
-////                        null
-////                    )[0] == items.size - 1
-////                ) {
-////                    Log.e("true", "True")
-////                    moreItems()
-////                    isLoading = true
-////                }
-//
 //            }
-//        }
-//    }
+//        })
+
+    }
 
     //3. null 제거 후 새로운 데이터 추가 및 Adapter에 알림
-//    fun moreItems() {
-//        mRecyclerView = viewBinding.vibeMainAllPostsRv
-//
-//        val runnable = Runnable {
-////            items.add()
+    fun moreItems() {
+        mRecyclerView = viewBinding.vibeMainAllPostsRv
+
+        viewBinding.vibeMainAllPostsRv.adapter = mListAdapter
+
+        val runnable = Runnable {
+//            items.add(null)
 //            mListAdapter.notifyItemInserted(items.size - 1)
-//        }
-//        mRecyclerView.post(runnable)
+        }
+        mRecyclerView.post(runnable)
 //
-//        CoroutineScope(mainDispatcher).launch {
-//            delay(2000)
-//            val runnable2 = Runnable {
-//                items.removeAt(items.size - 1)
-//                val scrollPosition = items.size
-//                mListAdapter.notifyItemRemoved(scrollPosition)
-//
-//                page++
-//                getAllPosts(page)
-//                var currentSize = scrollPosition
-//                var nextLimit = currentSize + 8
-//                Log.e("hello", "${nextLimit}")
-//                if (currentSize < dtoList.size - 8) {
-//                    while (currentSize - 1 < nextLimit) {
-//                        items.add(dtoList[currentSize])
-//                        currentSize++
-//                    }
-//                } else {
-//                    while (currentSize != dtoList.size) {
-//                        items.add(dtoList[currentSize])
-//                        currentSize++
-//                    }
-//                }
-//                mListAdapter.updateItem(items)
-//                isLoading = false
-//            }
-//            runnable2.run()
-//        }
-//    }
+        CoroutineScope(mainDispatcher).launch {
+            delay(2000)
+            val runnable2 = Runnable {
+                items.removeAt(items.size - 1)
+                val scrollPosition = items.size
+                mListAdapter.notifyItemRemoved(scrollPosition)
+
+                page++
+                getAllPosts(page)
+                var currentSize = scrollPosition
+                var nextLimit = currentSize + 8
+                Log.e("hello", "${nextLimit}")
+                if (currentSize < dtoList.size - 8) {
+                    while (currentSize - 1 < nextLimit) {
+                        items.add(dtoList[currentSize])
+                        currentSize++
+                    }
+                } else {
+                    while (currentSize != dtoList.size) {
+                        items.add(dtoList[currentSize])
+                        currentSize++
+                    }
+                }
+                mListAdapter.updateItem(items)
+                isLoading = false
+            }
+            runnable2.run()
+        }
+    }
 
     // Weekly 저장
-    private fun weeklySaveData(id: Int, responseData: PostWeeklyResponse){
+    private fun weeklySaveData(id: Int, responseData: PostWeeklyResponse) {
 
         val post_id = responseData.result[id].post_id
         val tag_name = responseData.result[id].tag_name
@@ -692,32 +703,47 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             // tag name 최대 3개
             when (tagList.size) {
                 1 -> {
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility = View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text = tagList[1]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv).visibility = View.GONE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv).visibility = View.GONE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility =
+                        View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text =
+                        tagList[1]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv).visibility =
+                        View.GONE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv).visibility =
+                        View.GONE
 
 
                 }
                 2 -> {
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility = View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text = tagList[0]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.visibility = View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.text = tagList[1]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv).visibility = View.GONE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility =
+                        View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text =
+                        tagList[0]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.visibility =
+                        View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.text =
+                        tagList[1]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv).visibility =
+                        View.GONE
                 }
                 3 -> {
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility = View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text = tagList[0]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.visibility = View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.text = tagList[1]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv)!!.visibility = View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv)!!.text = tagList[2]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility =
+                        View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text =
+                        tagList[0]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.visibility =
+                        View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.text =
+                        tagList[1]
+                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv)!!.visibility =
+                        View.VISIBLE
+                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv)!!.text =
+                        tagList[2]
                 }
             }
 
             // 이미지 설정
-            when (id){
+            when (id) {
                 0 -> {
                     val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
                     imageView.clipToOutline = true
@@ -759,7 +785,6 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                         .into(imageView) // 이미지를 넣을 뷰
                 }
             }
-
 
 
         }

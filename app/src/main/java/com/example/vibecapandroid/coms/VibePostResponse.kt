@@ -1,9 +1,6 @@
 package com.example.vibecapandroid.coms
 
 import com.google.gson.annotations.SerializedName
-import com.google.gson.internal.bind.ArrayTypeAdapter
-import java.sql.Blob
-import java.time.LocalDateTime
 
 // 게시물 전체 조회 (태그별)
 data class PostTagResponse(

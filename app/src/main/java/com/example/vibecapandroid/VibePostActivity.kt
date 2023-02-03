@@ -146,7 +146,8 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
         binding.vibePostPostBodyTv.text = result.body
         binding.vibePostNicknameTv.text = result.nickname
         if (!result.profileImg.isNullOrEmpty()) {
-            Glide.with(applicationContext).load(result.profileImg).circleCrop()
+            Glide.with(applicationContext).load(result.profileImg)
+                .placeholder(R.drawable.ic_activity_vibe_post_profile).circleCrop()
                 .into(binding.vibePostProfileIv)
         }
         // modifiedDate 설정
