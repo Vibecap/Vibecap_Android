@@ -176,6 +176,15 @@ class CommonPostActivity  : AppCompatActivity() {
 
         })
     }
+
+    fun sortTag(unsortedTag :String):String?{
+        val str=   unsortedTag?.split('"')
+        Log.d("str","$str")
+        val str2=str?.get(1)?.split(' ')
+        return str2?.get(2)
+    }
+
+
     fun callPostApi(){
         Log.d(
             "Input",
@@ -192,10 +201,10 @@ class CommonPostActivity  : AppCompatActivity() {
 
         Log.d("tagname ",feeling_tag.toString())
         Log.d("tagname",viewBinding.commonPostTagOwntype.text.toString())
-
+        val owntag=viewBinding.commonPostTagOwntype.text.toString()
         val apiService = retrofit.create(PostApiInterface::class.java)
         apiService.posting(
-            userToken,  PostRequest(member,title,body,vibe, "")
+            userToken,  PostRequest(member,title,body,vibe, "$owntag")
         ).enqueue(object : Callback<PostResponse> {
             override fun onResponse(call: Call<PostResponse>, response: Response<PostResponse>) {
                 val responseData = response.body()
@@ -217,6 +226,7 @@ class CommonPostActivity  : AppCompatActivity() {
                             Log.d("postid",post_id.toString())
                             startActivity(nextIntent)
                             this@CommonPostActivity.finish()
+
                         }
                         500 -> {
                             Log.d ("레트로핏","해당 바이브에 대한 접근 권한이 없습니다" )
@@ -261,8 +271,8 @@ class CommonPostActivity  : AppCompatActivity() {
                             )
                             if(responseData.is_success) {
                                 video_id=getYouTubeId(responseData.result.youtube_link)
-                                feeling_tag=responseData.result.vibe_keywords
-                                Log.d("responseData",responseData.result.vibe_keywords.toString())
+                                feeling_tag=sortTag(responseData.result.vibe_keywords)
+                                Log.d("responseData feeling",responseData.result.vibe_keywords.toString())
                                 //기분으로 태그 작성
                                 viewBinding.textViewTag1.setText("#"+feeling_tag)
                                 setYoutube()
