@@ -1,8 +1,5 @@
 package com.example.vibecapandroid.coms
 
-import android.telecom.Call
-import android.widget.ImageView
-import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface MypageApiInterface {
@@ -82,7 +79,7 @@ interface MypageApiInterface {
         @Header("X-AUTH-TOKEN") jwt: String,
         @Path("post_id") post_id: Int,
         @Body JsonBody: patchMypageEditPostInput
-    ):retrofit2.Call<postMypageEditResponse>
+    ):retrofit2.Call<patchMypageEditResponse>
 
     @DELETE("app/posts/{post_id}")
     fun deleteMypagePost(

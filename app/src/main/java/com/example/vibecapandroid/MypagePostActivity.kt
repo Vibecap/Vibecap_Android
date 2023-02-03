@@ -24,6 +24,8 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
     private lateinit var getPostView: GetPostView
     private lateinit var setLikeView: SetLikeView
     private lateinit var setScrapView: SetScrapView
+    private var postId:Int?=0
+    val memberId: MemberId = MemberId(MEMBER_ID)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +37,10 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         // 게시물 1개 조회
         /*** 전달 값은 postId */
         val intent = intent // 전달된 데이터를 받을 Intent
-        val postId = intent.getIntExtra("post_id", 0)
+        postId = intent.getIntExtra("post_id", 0)
         val memberId: MemberId = MemberId(MEMBER_ID)
 
-        getPost(postId, MEMBER_ID)
+        getPost(postId!!, MEMBER_ID)
 
         binding.vibePostBackBtn.setOnClickListener(){
 
@@ -46,11 +48,11 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         }
         // 게시물 좋아요
         binding.vibePostLikeBtn.setOnClickListener {
-            setLike(userToken, postId, memberId)
+            setLike(userToken, postId!!, memberId)
         }
         // 게시물 스크랩
         binding.vibePostScrapBtn.setOnClickListener {
-            setScrap(userToken, postId, memberId)
+            setScrap(userToken, postId!!, memberId)
         }
         // 댓글창
         binding.vibePostCommentBtn.setOnClickListener {
@@ -349,19 +351,61 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         dialog: BottomSheetDialog,
         context: Context
     ) {
-        // 게시물 차단하기
-        val editBlockBtn =
-            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_edit)
-        editBlockBtn.setOnClickListener {
-            Toast.makeText(context, "수정하기", Toast.LENGTH_SHORT).show()
-            // 차단 API
-        }
 
+        //수정하기
+        val editBlockBtn =
+        bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_edit)
+        editBlockBtn.setOnClickListener {
+            val vibeId=intent.extras!!.getInt("vibe_id")
+            val intent = Intent(this,CommonEditActivity::class.java)
+            intent.putExtra("post_id",postId)
+            intent.putExtra("vibe_id",vibeId)
+            startActivity(intent)
+        }
+        //삭제하기
         val deleteBlockBtn=
             bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_delete)
         deleteBlockBtn.setOnClickListener(){
-            Toast.makeText(context, "삭제하기", Toast.LENGTH_SHORT).show()
-            // 차단 API
+            val postId = intent.getIntExtra("post_id", 0)
+
+            var member_id = MEMBER_ID.toInt()
+            val apiService = retrofit.create(MypageApiInterface::class.java)
+            apiService.deleteMypagePost(userToken, postId, deleteMypagePostInput(member_id)).enqueue(object :
+                    Callback<deleteMypageResponse> {
+                    override fun onResponse(
+                        call: Call<deleteMypageResponse>,
+                        response: Response<deleteMypageResponse>
+                    ) {
+
+                        if (response.isSuccessful) {
+                            val responseData = response.body()
+
+                            if (responseData !== null) {
+                                Log.d(
+                                    "Retrofit",
+                                    "MypageNicknameResponse\n"+
+                                            "isSuccess:${responseData.is_success}" +
+                                            "Code:${responseData.code}"+
+                                            "Message:${responseData.message}"+
+                                            "Result:${responseData.result}"
+                                )
+
+
+                            }
+                            else{
+                                Log.d("Retrofit","Null data") }
+
+                        } else {
+                            Log.w("Retrofit", "Response Not Successful${response.code()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<deleteMypageResponse>, t: Throwable) {
+                        Log.e("Retrofit","Error",t)
+                    }
+
+                })
+
         }
 
 
