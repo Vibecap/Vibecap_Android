@@ -349,18 +349,17 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         dialog: BottomSheetDialog,
         context: Context
     ) {
-        // 게시물 차단하기
+        // 게시물 수정하기
         val editBlockBtn =
             bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_edit)
         editBlockBtn.setOnClickListener {
-            Toast.makeText(context, "수정하기", Toast.LENGTH_SHORT).show()
-            // 차단 API
+
         }
 
         val deleteBlockBtn=
             bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_delete)
         deleteBlockBtn.setOnClickListener(){
-            Toast.makeText(context, "삭제하기", Toast.LENGTH_SHORT).show()
+
             // 차단 API
         }
 
