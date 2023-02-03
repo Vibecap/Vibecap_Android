@@ -37,6 +37,7 @@ class MypageWritedadaptersClass(var context: Context, var arrayList: ArrayList<C
             ContextCompat.startActivity(holder.itemView.context,intent,null)
             Log.d("position","${position}")
             Log.d("post_id","${arrayList[position].post_id}")
+
         }
 
 

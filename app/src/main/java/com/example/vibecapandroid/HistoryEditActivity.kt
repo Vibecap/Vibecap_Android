@@ -1,6 +1,5 @@
 package com.example.vibecapandroid
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -8,7 +7,6 @@ import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import com.example.vibecapandroid.coms.*
@@ -72,7 +70,7 @@ class HistoryEditActivity : AppCompatActivity() {
         val apiService = retrofit.create(MypageApiInterface::class.java)
 
 
-
+/*
         if (postId != null) {
             apiService.patchMypageEditPost(
                 userToken, postId,
@@ -82,10 +80,10 @@ class HistoryEditActivity : AppCompatActivity() {
                     findViewById<EditText>(R.id.activity_history_post_text).text.toString()
                 )
             ).enqueue(object :
-                Callback<postMypageEditResponse> {
+                Callback<patchMypageEditResponse> {
                 override fun onResponse(
-                    call: Call<postMypageEditResponse>,
-                    response: Response<postMypageEditResponse>
+                    call: Call<patchMypageEditResponse>,
+                    response: Response<patchMypageEditResponse>
                 ) {
 
                     if (response.isSuccessful) {
@@ -118,7 +116,7 @@ class HistoryEditActivity : AppCompatActivity() {
                     }
                 }
 
-                override fun onFailure(call: Call<postMypageEditResponse>, t: Throwable) {
+                override fun onFailure(call: Call<patchMypageEditResponse>, t: Throwable) {
                     Log.e("Retrofit", "Error", t)
                 }
 
@@ -129,6 +127,6 @@ class HistoryEditActivity : AppCompatActivity() {
 
 
 
-
+*/
     }
 }
