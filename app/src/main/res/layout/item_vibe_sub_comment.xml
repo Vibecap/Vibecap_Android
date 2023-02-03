@@ -19,7 +19,7 @@
             android:background="@color/transparent"
             android:contentDescription="@string/profile_img"
             android:src="@drawable/image_activity_vibe_post_profile"
-            app:civ_border_color="#B1B1B1"
+            app:civ_border_color="@color/gray_300"
             app:civ_border_width="0.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -27,14 +27,15 @@
 
         <TextView
             android:id="@+id/item_vibe_sub_comment_nickname_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
+            android:layout_marginStart="8dp"
             android:text=""
             android:textColor="@color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/item_vibe_sub_comment_profile_img_iv"
+            app:layout_constraintEnd_toStartOf="@+id/item_vibe_sub_comment_menu_btn"
             app:layout_constraintStart_toEndOf="@+id/item_vibe_sub_comment_profile_img_iv"
             app:layout_constraintTop_toTopOf="@+id/item_vibe_sub_comment_profile_img_iv" />
 
@@ -55,19 +56,19 @@
         android:id="@+id/item_vibe_sub_comment_body_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="3dp"
         android:layout_marginEnd="21dp"
         android:text=""
         android:textColor="@color/black"
-        android:textSize="13sp"
+        android:textSize="12sp"
         app:layout_constraintTop_toBottomOf="@+id/item_vibe_sub_comment_profile_layout" />
 
     <TextView
         android:id="@+id/item_vibe_sub_comment_date_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="31dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="5dp"
         android:text="2022. 12. 26. 15:10"
         android:textSize="11sp"

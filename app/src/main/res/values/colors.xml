@@ -7,10 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- App Color Scheme -->
+    <color name="transparent">#00FF0000</color>
+    <color name="light_purple">#CBAEDA</color>
     <color name="back_txt">#AAACB0</color>
-    <color name="purple_button">#CBAEDA</color>
-    <color name="transparent">#00FFFFFF</color>
-    <color name="red">#FFDD0000</color>
     <color name="grey">#B1B1B1</color>
+    <color name="red">#FFDD0000</color>
+
+    <color name="gray_300">#B1B1B1</color>
+    <color name="gray_200">#D9D9D9</color>
+    <color name="gray_100">#F5F5F5</color>
 
 </resources>

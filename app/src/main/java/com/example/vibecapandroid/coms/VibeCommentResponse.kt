@@ -16,6 +16,7 @@ data class CommentsResult(
     @SerializedName("nickname") val nickname: String,
     @SerializedName("profile_image") val profileImg: String,
     @SerializedName("sub_comment") val subComment: ArrayList<SubCommentResult>,
+    @SerializedName("createdDate") val createdDate: String
 )
 
 data class SubCommentResult(
@@ -23,7 +24,8 @@ data class SubCommentResult(
     @SerializedName("comment_id") val commentId: Long,
     @SerializedName("sub_comment_body") val subCommentBody: String,
     @SerializedName("nickname") val nickname: String,
-    @SerializedName("profile_image") val profileImg: String
+    @SerializedName("profile_image") val profileImg: String,
+    @SerializedName("createdDate") val createdDate: String
 )
 
 //** Request **//

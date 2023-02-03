@@ -46,11 +46,16 @@ class VibeCommentRVAdapter(
     inner class ViewHolder(private val binding: ItemVibeCommentBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(commentsResult: CommentsResult) {
-            Glide.with(binding.root).load(commentsResult.profileImg).circleCrop()
+            Glide.with(binding.root).load(commentsResult.profileImg)
+                .placeholder(R.drawable.ic_activity_vibe_post_profile).circleCrop()
                 .into(binding.itemVibeCommentProfileImgIv)
             binding.itemVibeCommentNicknameTv.text = commentsResult.nickname
             binding.itemVibeCommentBodyTv.text = commentsResult.commentBody
-//            binding.itemVibeCommentDateTv.text = commentsResult.date // 생각해보니 서버에서 댓글 날짜 안 보냄...
+            // createdDate 설정
+            var createdDate = commentsResult.createdDate.replace("-", ". ").replace("T", ". ")
+            val dateLastIdx = createdDate.lastIndexOf(":")
+            createdDate = createdDate.removeRange(dateLastIdx, createdDate.length)
+            binding.itemVibeCommentDateTv.text = createdDate
 
             // 대댓글
             if (commentsResult.subComment.isEmpty()) {
