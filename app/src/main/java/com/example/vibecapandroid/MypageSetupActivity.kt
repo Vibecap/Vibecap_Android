@@ -60,7 +60,7 @@ class MypageSetupActivity : AppCompatActivity() {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 if(position==0){
                     val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
-                    val intent = Intent(this,MypageNicknameActivity::class.java)
+                    val intent = Intent(this,MypageProfileImageActivity::class.java)
                     intent.putExtra("프로필 변경",setupList1[position].profile_textview)
                     startActivity(intent)}
                 if(position==1){

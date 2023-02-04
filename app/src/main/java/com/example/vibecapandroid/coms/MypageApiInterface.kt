@@ -1,5 +1,6 @@
 package com.example.vibecapandroid.coms
 
+import okhttp3.MultipartBody
 import retrofit2.http.*
 
 interface MypageApiInterface {
@@ -50,7 +51,8 @@ interface MypageApiInterface {
     @PATCH("/app/my-page/profile-image")
     fun patchMypageImgChange(
         @Header("X-AUTH-TOKEN") jwt: String,
-        @Body JsonBody: patchMypageImgInput
+        @Part ("member_id") member_id: Long,
+        @Part profile_image: MultipartBody.Part
     ): retrofit2.Call<patchMypageImgResponse>
 
     @PATCH("/app/member/quit")
@@ -83,8 +85,8 @@ interface MypageApiInterface {
 
     @DELETE("app/posts/{post_id}")
     fun deleteMypagePost(
-        @Header("X-AUTH-TOKEN") jwt: String,
         @Path("post_id") post_id: Int,
+        @Header("X-AUTH-TOKEN") jwt: String,
         @Body JsonBody: deleteMypagePostInput
     ):retrofit2.Call<deleteMypageResponse>
 }

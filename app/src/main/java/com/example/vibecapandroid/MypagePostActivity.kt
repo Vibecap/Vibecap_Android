@@ -352,27 +352,30 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         context: Context
     ) {
 
+        //수정하기
         val editBlockBtn =
         bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_edit)
         editBlockBtn.setOnClickListener {
-
             val vibeId=intent.extras!!.getInt("vibe_id")
             val intent = Intent(this,CommonEditActivity::class.java)
             intent.putExtra("post_id",postId)
             intent.putExtra("vibe_id",vibeId)
             startActivity(intent)
-
+            this@MypagePostActivity.finish()
         }
         //삭제하기
         val deleteBlockBtn=
             bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_delete)
-        deleteBlockBtn.setOnClickListener(){
-
+        deleteBlockBtn.setOnClickListener{
             val postId = intent.getIntExtra("post_id", 0)
-
+            val vibeId = intent.extras!!.getInt("vibe_id")
             var member_id = MEMBER_ID.toInt()
+
+            Log.d("postId","${postId}")
+            Log.d("vibeId","${vibeId}")
+
             val apiService = retrofit.create(MypageApiInterface::class.java)
-            apiService.deleteMypagePost(userToken, postId, deleteMypagePostInput(member_id)).enqueue(object :
+            apiService.deleteMypagePost(postId,userToken, deleteMypagePostInput(member_id)).enqueue(object :
                     Callback<deleteMypageResponse> {
                     override fun onResponse(
                         call: Call<deleteMypageResponse>,
@@ -391,6 +394,22 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
                                             "Message:${responseData.message}"+
                                             "Result:${responseData.result}"
                                 )
+                                if (responseData?.is_success==true) {
+                                    when(response.body()?.code){
+                                        1000 ->{
+                                           val nextIntent = Intent(this@MypagePostActivity, MypageWritedActivity::class.java)
+                                            nextIntent.putExtra("post_id", postId)
+                                            startActivity(nextIntent)
+                                            this@MypagePostActivity.finish()
+                                        }
+                                        500 -> {
+                                            Log.d ("레트로핏","해당 바이브에 대한 접근 권한이 없습니다" )
+                                        }
+                                    }
+                                }
+                                else {
+                                    Log.d("레트로핏","Response Not Success ${response.code()}")
+                                }
 
 
                             }
@@ -407,7 +426,6 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
                     }
 
                 })
-
 
         }
 

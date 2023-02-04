@@ -84,12 +84,13 @@ data class patchMypageImgResponse(
     val message: String,
     val result: String
 )
+/*
 data class patchMypageImgInput(
     @SerializedName("member_id")
-    val member_id: Long,
+    val member_id: String,
     @SerializedName("profile_image")
     val profile_image:MultipartBody.Part
-)
+)*/
 data class patchMypageQuitInput(
     @SerializedName("memberID")
     val memberID : Long
@@ -223,9 +224,9 @@ data class patchMypageEditResponse(
 
 )
 data class patchMypageEditPostInput(
-    @SerializedName("member_id") val member_id: member,
-    @SerializedName("title") val title: String?,
-    @SerializedName("body") val body: String?
+    val member: member,
+    val title: String?,
+    val body: String?
 )
 
 data class EditRequest(
@@ -242,5 +243,5 @@ data class deleteMypageResponse(
 
 )
 data class deleteMypagePostInput(
-    @SerializedName("member_id") val member_id: Int
+    val member_id: Int
 )
