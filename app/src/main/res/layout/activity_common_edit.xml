@@ -40,7 +40,7 @@
             android:textColor="@color/black"
             android:textStyle="bold" />
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/common_post_finish"
+            android:id="@+id/common_edit_finish"
             android:layout_width="40dp"
             android:layout_height="28dp"
             android:layout_marginRight="15dp"

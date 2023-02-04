@@ -113,12 +113,9 @@ class HistoryYoutubeActivity:AppCompatActivity() {
             }
         }
 
-        viewBinding.btDownload.setOnClickListener(){
-            URLDownloading(uri);
-        }
 
     }
-    override fun onPostResume() {
+    /*override fun onPostResume() {
         super.onPostResume()
 
         // 브로드캐스트 리시버 등록
@@ -129,7 +126,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         unregisterReceiver(downloadCompleteReceiver)
-    }
+    }*/
 
 
     override fun onRestart() {
@@ -211,7 +208,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
             .replace(R.id.history_youtube_you_tube_player_view, YoutubePlayerFragment)
             .commitNow()
     }
-
+/*
     //스틱코드
      open fun URLDownloading(url: Uri) {
         Log.d(TAG, "태그 URLDownloading")
@@ -279,17 +276,17 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         Log.d(TAG, "태그 갤러리 갱신 : $Image_Path")
 
         // 이전 사용 방식
-        /*Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        *//*Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
     File f = new File(Image_Path);
     Uri contentUri = Uri.fromFile(f);
     mediaScanIntent.setData(contentUri);
-    this.context.sendBroadcast(mediaScanIntent);*/
+    this.context.sendBroadcast(mediaScanIntent);*//*
         val file = File(Image_Path)
         MediaScannerConnection.scanFile(
             this, arrayOf(file.toString()),
             null, null
         )
-    }
+    }*/
 
 
 }

@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                                 }
                                 else{
                                     arrayList!!.addAll(responseData.result.album.toMutableList())
-                                    Log.d("ArrayList is success 통신구문","${arrayList}")
+                                    historyMainAdapters?.notifyDataSetChanged()
                                 }
                             }
                         }
@@ -150,6 +150,20 @@ class MainActivity : AppCompatActivity() {
             selectedItemId=R.id.home_menu
         }
 
+        if(intent.extras?.getInt("frag_code")==3){
+            supportFragmentManager
+                .beginTransaction()
+                .replace(viewBinding.containerFragment.id , HistoryMainFragment())
+                .commitAllowingStateLoss()
+        }
+
+
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        setDataInList()
+    }
+
 
 }
