@@ -44,18 +44,6 @@ class HistoryMainAdaptersClass(var context: Context, var arrayList: ArrayList<Hi
                         val responseData=response.body()
                         if(response.isSuccessful){
                             if (responseData != null) {
-                                Log.d(
-                                    "getHistoryOneResponse",
-                                    "getHistoryOneResponse\n"+
-                                            "isSuccess:${responseData.is_success}\n " +
-                                            "Code: ${responseData.code} \n" +
-                                            "Message:${responseData.message} \n" +
-                                            "Result:${responseData.result.vibe_id}"+
-                                            "Result:${responseData.result.member_id}"+
-                                            "Result:${responseData.result.vibe_image}"+
-                                            "Result:${responseData.result.youtube_link}"+
-                                            "Result:${responseData.result.vibe_keywords}"
-                                )
                                 if(responseData.is_success) {
                                     //arrayList?.add(HistoryMainImageClass((responseData.result.album[0].vibe_image)))
                                     val intent = Intent(it.context, HistoryYoutubeActivity::class.java)
