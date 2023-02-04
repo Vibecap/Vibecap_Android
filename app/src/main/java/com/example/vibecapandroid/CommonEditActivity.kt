@@ -106,7 +106,7 @@ class CommonEditActivity : AppCompatActivity() {
             cancelDialog.setCancelable(true)
             cancelDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             cancelDialog.show()
-            cancelDialog.dismiss()
+
 
             val cancelBtn = dialogBinding.findViewById<Button>(R.id.dialog_postdedit_cancel)
             cancelBtn.setOnClickListener {
@@ -165,6 +165,7 @@ class CommonEditActivity : AppCompatActivity() {
     }
     fun callEditApi(){
         var vibe_id = intent.getIntExtra("vibe_id",0)
+        Log.d("vibe_id","${vibe_id}")
         Log.d(
             "Input",
             "\n"+
@@ -195,12 +196,10 @@ class CommonEditActivity : AppCompatActivity() {
                     when(response.body()?.code){
                         1000 ->{
                             //post_id 저장
-                            post_id = responseData.result.toInt()
-                            Log.d("레트로핏",responseData.result.toString())
                             Toast.makeText(applicationContext, "게시물 작성 완료", Toast.LENGTH_LONG).show();
                             val nextIntent = Intent(this@CommonEditActivity, MypagePostActivity::class.java)
-                            nextIntent.putExtra("post_id", post_id)
-                            Log.d("postid",post_id.toString())
+                            nextIntent.putExtra("post_id", postId)
+                            Log.d("postid",postId.toString())
                             startActivity(nextIntent)
                             this@CommonEditActivity.finish()
                         }
