@@ -241,6 +241,8 @@ class HomeCapturedActivity : AppCompatActivity() {
         val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
         return fileName
     }
+
+
     //사진 저장 함수
     private fun saveFile(filename:String, mimeType:String, bitmap: Bitmap): Uri? {
 
