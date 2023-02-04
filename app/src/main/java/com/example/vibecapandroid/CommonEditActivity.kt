@@ -91,7 +91,7 @@ class CommonEditActivity : AppCompatActivity() {
             })
 
         }
-        viewBinding.commonPostFinish.setOnClickListener{
+        viewBinding.commonEditFinish.setOnClickListener{
             title = viewBinding.commonPostTitle.text.toString()
             body  = viewBinding.commonPostBody.text.toString()
             callEditApi()

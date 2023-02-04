@@ -29,13 +29,7 @@
             android:name="com.google.android.actions"
             android:resource="@xml/filepaths" />
 
-        <activity
-            android:name=".MypageProfileImageActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".CommonEditActivity"
             android:exported="false">

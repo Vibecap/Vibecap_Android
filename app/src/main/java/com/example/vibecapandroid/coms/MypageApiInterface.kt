@@ -48,11 +48,11 @@ interface MypageApiInterface {
     ):retrofit2.Call<ChangeNicknameResponse>
 
     @Multipart
-    @PATCH("/app/my-page/profile-image")
+    @PATCH("app/my-page/profile-image")
     fun patchMypageImgChange(
         @Header("X-AUTH-TOKEN") jwt: String,
         @Part ("member_id") member_id: Long,
-        @Part profile_image: MultipartBody.Part
+        @Part  profile_image: MultipartBody.Part
     ): retrofit2.Call<patchMypageImgResponse>
 
     @PATCH("/app/member/quit")
