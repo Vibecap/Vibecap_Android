@@ -271,7 +271,7 @@ class CommonPostActivity  : AppCompatActivity() {
                             )
                             if(responseData.is_success) {
                                 video_id=getYouTubeId(responseData.result.youtube_link)
-                                if(responseData.result.vibe_keywords!=null) {
+                                if(responseData.result.vibe_keywords!=null && sortTag(responseData.result.vibe_keywords)!="") {
                                     feeling_tag = sortTag(responseData.result.vibe_keywords)
                                     viewBinding.textViewTag1.setText("#"+feeling_tag)
                                 }
