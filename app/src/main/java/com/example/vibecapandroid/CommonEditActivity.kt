@@ -29,10 +29,12 @@ class CommonEditActivity : AppCompatActivity() {
     var post_id : Int = 0
     var feeling_tag : String? = null
     var video_id: String?= null
+    var vibe_id:Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
+        vibe_id=intent.getIntExtra("vibe_id",0)
         setProfileData()
         getOneVibeInfo()
 
@@ -95,8 +97,6 @@ class CommonEditActivity : AppCompatActivity() {
             title = viewBinding.commonPostTitle.text.toString()
             body  = viewBinding.commonPostBody.text.toString()
             callEditApi()
-
-
         }
         viewBinding.commonBackbtn.setOnClickListener {
             val dialogBinding = layoutInflater.inflate(R.layout.activity_history_postedit_dialog_cancel,null)
@@ -110,16 +110,15 @@ class CommonEditActivity : AppCompatActivity() {
 
             val cancelBtn = dialogBinding.findViewById<Button>(R.id.dialog_postdedit_cancel)
             cancelBtn.setOnClickListener {
-                val intent = Intent(this, CommonEditActivity::class.java)
-                startActivity(intent)
+                cancelDialog.dismiss()
             }
             val okayBtn = dialogBinding.findViewById<Button>(R.id.dialog_postedit_ok)
             okayBtn.setOnClickListener {
-                val intent = Intent(this, MypageWritedActivity::class.java)
-                startActivity(intent)
+                if (cancelDialog != null && cancelDialog!!.isShowing) {
+                    cancelDialog!!.dismiss()
+                }
+                super.finish()
             }
-            super.finish()
-
 
         }
 
@@ -164,7 +163,6 @@ class CommonEditActivity : AppCompatActivity() {
         })
     }
     fun callEditApi(){
-        var vibe_id = intent.getIntExtra("vibe_id",0)
         Log.d("vibe_id","${vibe_id}")
         Log.d(
             "Input",
@@ -247,7 +245,6 @@ class CommonEditActivity : AppCompatActivity() {
     }
 
     private fun getOneVibeInfo(){
-        var vibe_id = intent.getIntExtra("vibe_id",0)
         val apiService=retrofit.create(HistoryApiInterface::class.java)
         apiService.getHistoryOne(userToken, vibe_id.toLong())
             .enqueue(object : Callback<HistoryOneResponse> {

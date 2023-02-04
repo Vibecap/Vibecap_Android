@@ -83,7 +83,8 @@ interface MypageApiInterface {
         @Body JsonBody: patchMypageEditPostInput
     ):retrofit2.Call<patchMypageEditResponse>
 
-    @DELETE("app/posts/{post_id}")
+   // @DELETE("app/posts/{post_id}")
+    @HTTP(method = "DELETE", path = "http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/app/posts/{post_id}", hasBody = true)
     fun deleteMypagePost(
         @Path("post_id") post_id: Int,
         @Header("X-AUTH-TOKEN") jwt: String,

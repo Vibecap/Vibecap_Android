@@ -20,12 +20,14 @@ import retrofit2.*
 class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrapView,
     View.OnClickListener {
 
+    private var postMenuBottomSheetDialog :BottomSheetDialog?=null
     lateinit var binding: ActivityVibePostBinding
     private lateinit var getPostView: GetPostView
     private lateinit var setLikeView: SetLikeView
     private lateinit var setScrapView: SetScrapView
     private var postId:Int?=0
     val memberId: MemberId = MemberId(MEMBER_ID)
+    private var fullvideoId:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +46,7 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
 
         binding.vibePostBackBtn.setOnClickListener(){
 
-            super.finish()
+            this@MypagePostActivity.finish()
         }
         // 게시물 좋아요
         binding.vibePostLikeBtn.setOnClickListener {
@@ -91,14 +93,14 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         // 게시물 메뉴 BottomSheet 설정
         val postMenuBottomSheetView =
             layoutInflater.inflate(R.layout.fragment_mypage_post_popup_edit, binding.root, false)
-        val postMenuBottomSheetDialog =
-            BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
+        postMenuBottomSheetDialog =
+            BottomSheetDialog(this@MypagePostActivity, R.style.CustomBottomSheetDialog)
 
-        postMenuBottomSheetDialog.setContentView(postMenuBottomSheetView)
-        setPostBottomSheetView(postMenuBottomSheetView, postMenuBottomSheetDialog, this)
+        postMenuBottomSheetDialog!!.setContentView(postMenuBottomSheetView)
+        setPostBottomSheetView(postMenuBottomSheetView, postMenuBottomSheetDialog!!, this)
 
         binding.vibePostMenuBtn.setOnClickListener {
-            postMenuBottomSheetDialog.show()
+            postMenuBottomSheetDialog!!.show()
         }
 
     }
@@ -106,6 +108,13 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
     override fun onClick(v: View?) {
         when (v) {
             binding.vibePostBackBtn -> finish()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(postMenuBottomSheetDialog!=null&&postMenuBottomSheetDialog!!.isShowing){
+            postMenuBottomSheetDialog!!.dismiss()
         }
     }
 
@@ -245,6 +254,7 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         }
 
         // youtube link 설정
+        fullvideoId=result.youtubeLink
         val beginIdx = result.youtubeLink.indexOf("watch?v=")
         val endIdx = result.youtubeLink.length
         val videoId = result.youtubeLink.substring(beginIdx + 8, endIdx)
@@ -361,7 +371,7 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
             intent.putExtra("post_id",postId)
             intent.putExtra("vibe_id",vibeId)
             startActivity(intent)
-            this@MypagePostActivity.finish()
+            //this@MypagePostActivity.finish()
         }
         //삭제하기
         val deleteBlockBtn=
@@ -397,8 +407,12 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
                                 if (responseData?.is_success==true) {
                                     when(response.body()?.code){
                                         1000 ->{
+                                            Toast.makeText(
+                                                applicationContext,
+                                                "게시글이 삭제되었습니다",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                            val nextIntent = Intent(this@MypagePostActivity, MypageWritedActivity::class.java)
-                                            nextIntent.putExtra("post_id", postId)
                                             startActivity(nextIntent)
                                             this@MypagePostActivity.finish()
                                         }
@@ -410,8 +424,6 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
                                 else {
                                     Log.d("레트로핏","Response Not Success ${response.code()}")
                                 }
-
-
                             }
                             else{
                                 Log.d("Retrofit","Null data") }
@@ -429,6 +441,16 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
 
         }
 
+        //공유하기
+        val shareBlockBtn=
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_share)
+        shareBlockBtn.setOnClickListener(){
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, fullvideoId)
+            }
+            startActivity(Intent.createChooser(intent, fullvideoId))
+        }
 
         // 상단 close bar 버튼 누르면 닫기
         val closeBtn =

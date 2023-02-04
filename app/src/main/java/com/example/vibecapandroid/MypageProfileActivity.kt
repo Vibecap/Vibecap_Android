@@ -76,7 +76,7 @@ class MypageProfileActivity : AppCompatActivity() {
         mypage_back.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            finish()
+            this@MypageProfileActivity.finish()
         })
 
 
@@ -213,7 +213,9 @@ class MypageProfileActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        super.finish()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        this@MypageProfileActivity.finish()
     }
 
     override fun onRestart() {

@@ -271,10 +271,12 @@ class CommonPostActivity  : AppCompatActivity() {
                             )
                             if(responseData.is_success) {
                                 video_id=getYouTubeId(responseData.result.youtube_link)
-                                feeling_tag=sortTag(responseData.result.vibe_keywords)
+                                if(responseData.result.vibe_keywords!=null) {
+                                    feeling_tag = sortTag(responseData.result.vibe_keywords)
+                                    viewBinding.textViewTag1.setText("#"+feeling_tag)
+                                }
                                 Log.d("responseData feeling",responseData.result.vibe_keywords.toString())
                                 //기분으로 태그 작성
-                                viewBinding.textViewTag1.setText("#"+feeling_tag)
                                 setYoutube()
                             }
                             else{Log.d("getHistoryOne 통신 Fail","Fail Data is null")}
