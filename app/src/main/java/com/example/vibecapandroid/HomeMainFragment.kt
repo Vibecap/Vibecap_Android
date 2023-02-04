@@ -49,11 +49,11 @@ class HomeMainFragment : Fragment() {
     ): View {
         viewBinding = FragmentHomeMainBinding.inflate(layoutInflater)
 
-        viewBinding.mainAlarm.setOnClickListener{
+        viewBinding.imageButtonAlarm.setOnClickListener{
             val intent = Intent(context, MypageAlarmActivity::class.java)
             startActivity(intent)
         }
-        viewBinding.mainProfile.setOnClickListener{
+        viewBinding.imageButtonProfile.setOnClickListener{
             val intent = Intent(context, MypageProfileActivity::class.java)
             startActivity(intent)
         }

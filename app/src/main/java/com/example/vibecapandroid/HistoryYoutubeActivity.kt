@@ -47,7 +47,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
     private val saveFolderName = "Vibecap"
     // 다운받은 파일이 저장될 위치 설정
     private val outputFilePath = Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_DOWNLOADS + "/$saveFolderName"
+        Environment.DIRECTORY_DOWNLOADS + "/$saveFolderName.jpg"
     ).toString()
     private var mDownloadManager: DownloadManager? = null
     private var mDownloadQueueId: Long? = null
@@ -68,7 +68,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         Log.d("vibe_keywords","$vibeKeyWords")
         videoID=intent.extras!!.getString("video_id")
 
-
+        var deleteCounter=0
 
         val position=intent.extras!!.getInt("position")
         Youtubeplay()
@@ -98,9 +98,19 @@ class HistoryYoutubeActivity:AppCompatActivity() {
 
         }
         viewBinding.btDelete.setOnClickListener{
-            arrayList!!.removeAt(position)
-            historyMainAdapters?.notifyItemRemoved(position)
-            deletePhoto()
+            if(deleteCounter==0) {
+                arrayList!!.removeAt(position)
+                historyMainAdapters?.notifyItemRemoved(position)
+                deletePhoto()
+                deleteCounter=1
+            }else if(deleteCounter==1){
+                Toast.makeText(
+                    applicationContext,
+                    "해당 사진이 이미 서버에서 삭제 되었습니다",
+                    Toast.LENGTH_SHORT
+                ).show()
+                deleteCounter=2
+            }
         }
 
         viewBinding.btDownload.setOnClickListener(){
@@ -223,7 +233,11 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED) // setNotificationVisibility : VISIBILITY_VISIBLE로 설정되면 notification에 보여진다.
         request.setDestinationUri(Uri.fromFile(outputFile)) // setDestinationUri : 파일이 저장될 위치의 URI
         request.setAllowedOverMetered(true)
-
+        Toast.makeText(
+            this@HistoryYoutubeActivity,
+            "다운로드를 완료하였습니다.",
+            Toast.LENGTH_SHORT
+        ).show()
         // DownloadManager 객체 생성하여 다운로드 대기열에 URI 객체를 넣는다.
         mDownloadQueueId = mDownloadManager!!.enqueue(request)
     }
@@ -243,11 +257,8 @@ class HistoryYoutubeActivity:AppCompatActivity() {
                 val reason: Int = cursor.getInt(columnReason)
                 cursor.close()
                 when (status) {
-                    DownloadManager.STATUS_SUCCESSFUL -> Toast.makeText(
-                        this@HistoryYoutubeActivity,
-                        "다운로드를 완료하였습니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    DownloadManager.STATUS_SUCCESSFUL -> {
+                        Log.d("HistoryYoutube","Download completede")}
                     DownloadManager.STATUS_PAUSED -> Toast.makeText(
                         this@HistoryYoutubeActivity,
                         "다운로드가 중단되었습니다.",
