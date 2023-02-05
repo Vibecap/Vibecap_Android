@@ -90,13 +90,14 @@
                 android:id="@+id/bottom_sheet_vibe_post_report_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="12.5dp"
                 android:text="@string/mypage_post_menu_delete"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@+id/bottom_sheet_vibe_post_report_iv"
                 app:layout_constraintStart_toEndOf="@+id/bottom_sheet_vibe_post_report_iv"
-                app:layout_constraintTop_toTopOf="@+id/bottom_sheet_vibe_post_report_iv" />
+                app:layout_constraintTop_toTopOf="@+id/bottom_sheet_vibe_post_report_iv"
+                app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

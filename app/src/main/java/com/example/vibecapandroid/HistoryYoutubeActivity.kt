@@ -36,22 +36,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
     private var vibeId:Int?=null
     private var vibeKeyWords:String?=null
     private var videoID:String?=null
-
-
-
-
-
-    private val TAG = "ImgFullActivity"
-
-
-    private val saveFolderName = "Vibecap"
-    // 다운받은 파일이 저장될 위치 설정
-    private val outputFilePath = Environment.getExternalStoragePublicDirectory(
-        Environment.DIRECTORY_DOWNLOADS + "/$saveFolderName.jpg"
-    ).toString()
-    private var mDownloadManager: DownloadManager? = null
-    private var mDownloadQueueId: Long? = null
-
+    private var position:Int?=0
 
 
 
@@ -67,10 +52,8 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         vibeKeyWords=intent.extras!!.getString("vibe_keywords")
         Log.d("vibe_keywords","$vibeKeyWords")
         videoID=intent.extras!!.getString("video_id")
-
         var deleteCounter=0
-
-        val position=intent.extras!!.getInt("position")
+        position=intent.extras!!.getInt("position")
         Youtubeplay()
 
         viewBinding.btWrite.setOnClickListener(){
@@ -85,7 +68,11 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         }
 
         viewBinding.btHome.setOnClickListener(){
-            finish()
+            val nextIntent = Intent(this, MainActivity::class.java)
+            val fragcode=3
+            nextIntent.putExtra("frag_code", fragcode)
+            startActivity(nextIntent)
+            super.finish()
         }
 
         //share button
@@ -99,8 +86,9 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         }
         viewBinding.btDelete.setOnClickListener{
             if(deleteCounter==0) {
-                arrayList!!.removeAt(position)
-                historyMainAdapters?.notifyItemRemoved(position)
+                Log.d("receive position","$position")
+                arrayList!!.removeAt(position!!)
+                historyMainAdapters?.notifyItemRemoved(position!!)
                 deletePhoto()
                 deleteCounter=1
             }else if(deleteCounter==1){
@@ -207,6 +195,13 @@ class HistoryYoutubeActivity:AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.history_youtube_you_tube_player_view, YoutubePlayerFragment)
             .commitNow()
+    }
+    override fun onBackPressed() {
+        val nextIntent = Intent(this, MainActivity::class.java)
+        val fragcode=3
+        nextIntent.putExtra("frag_code", fragcode)
+        startActivity(nextIntent)
+        super.finish()
     }
 /*
     //스틱코드

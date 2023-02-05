@@ -125,7 +125,7 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
     // 갤러리 취득
     fun GetAlbum() {
         Log.d("getalbum","getalbum")
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
         startActivityForResult(intent, STORAGE_CODE)
 

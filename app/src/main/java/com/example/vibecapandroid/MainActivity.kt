@@ -71,13 +71,6 @@ class MainActivity : AppCompatActivity() {
                     val responseData=response.body()
                     if(response.isSuccessful){
                         if (responseData != null) {
-                            Log.d(
-                                "getHistoryAllResponse",
-                                "getHistoryAllResponse\n"+
-                                        "isSuccess:${responseData.is_success}\n " +
-                                        "Code: ${responseData.code} \n" +
-                                        "Message:${responseData.message} \n" +
-                                        "Result:${responseData.result.album}")
                             if(responseData.is_success) {
                                 if(responseData.result.album.isEmpty()) {
                                     Log.d("찍은 사진 없음","찍은 사진 없음")
@@ -99,8 +92,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.Theme_VibecapAndroid)
-
         var isLoggedIn=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).getBoolean("isLoggedIn",false)
         if(!isLoggedIn){
             val intent = Intent(this,LoginActivity::class.java)
@@ -114,7 +105,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("Member_ID","${MEMBER_ID}")
             setDataInList()
         }
-
+        setTheme(R.style.Theme_VibecapAndroid)
         setContentView(viewBinding.root)
         supportFragmentManager
             .beginTransaction()
