@@ -194,7 +194,7 @@ class CommonEditActivity : AppCompatActivity() {
                     when(response.body()?.code){
                         1000 ->{
                             //post_id 저장
-                            Toast.makeText(applicationContext, "게시물 작성 완료", Toast.LENGTH_LONG).show();
+                            Toast.makeText(applicationContext, "게시물 수정 완료", Toast.LENGTH_LONG).show();
                             /*val nextIntent = Intent(this@CommonEditActivity, MypagePostActivity::class.java)
                             nextIntent.putExtra("post_id", postId)
                             Log.d("postid",postId.toString())
