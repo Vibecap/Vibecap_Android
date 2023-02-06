@@ -3,97 +3,105 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginHorizontal="15dp"
-    android:layout_marginBottom="7.5dp"
-    android:layout_marginTop="7.5dp">
+    android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/item_vibe_comment_profile_layout"
+        android:id="@+id/item_vibe_comment_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent">
+        android:paddingHorizontal="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/item_vibe_comment_profile_img_iv"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:background="@color/transparent"
-            android:src="@drawable/image_activity_vibe_post_profile"
-            app:civ_border_color="@color/gray_300"
-            app:civ_border_width="0.5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/item_vibe_comment_profile_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/item_vibe_comment_profile_img_iv"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@color/transparent"
+                android:src="@drawable/image_activity_vibe_post_profile"
+                app:civ_border_color="@color/gray_300"
+                app:civ_border_width="0.5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/item_vibe_comment_nickname_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text=""
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toStartOf="@+id/item_vibe_comment_menu_btn"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/item_vibe_comment_profile_img_iv"
+                app:layout_constraintStart_toEndOf="@+id/item_vibe_comment_profile_img_iv"
+                app:layout_constraintTop_toTopOf="@+id/item_vibe_comment_profile_img_iv" />
+
+            <ImageButton
+                android:id="@+id/item_vibe_comment_menu_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_activity_mypage_post_menu"
+                app:layout_constraintBottom_toBottomOf="@+id/item_vibe_comment_profile_img_iv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/item_vibe_comment_profile_img_iv"
+                android:contentDescription="@string/comment_menu" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/item_vibe_comment_nickname_tv"
-            android:layout_width="0dp"
+            android:id="@+id/item_vibe_comment_body_tv"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="21dp"
             android:text=""
             android:textColor="@color/black"
-            app:layout_constraintEnd_toStartOf="@+id/item_vibe_comment_menu_btn"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/item_vibe_comment_profile_img_iv"
-            app:layout_constraintStart_toEndOf="@+id/item_vibe_comment_profile_img_iv"
-            app:layout_constraintTop_toTopOf="@+id/item_vibe_comment_profile_img_iv" />
+            android:textSize="13sp"
+            app:layout_constraintTop_toBottomOf="@+id/item_vibe_comment_profile_layout" />
 
-        <ImageButton
-            android:id="@+id/item_vibe_comment_menu_btn"
+        <TextView
+            android:id="@+id/item_vibe_comment_date_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="5dp"
+            android:text="2022. 12. 26. 15:10"
+            android:textSize="11sp"
+            app:layout_constraintTop_toBottomOf="@+id/item_vibe_comment_body_tv" />
+
+        <TextView
+            android:id="@+id/item_vibe_comment_sub_comment_add_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:src="@drawable/ic_activity_mypage_post_menu"
-            app:layout_constraintBottom_toBottomOf="@+id/item_vibe_comment_profile_img_iv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/item_vibe_comment_profile_img_iv"
-            android:contentDescription="@string/comment_menu" />
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="7dp"
+            android:text="@string/vibe_comment_add_sub_comment"
+            android:textColor="#747474"
+            android:textSize="13sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_vibe_comment_date_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/item_vibe_comment_body_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginEnd="21dp"
-        android:text=""
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintTop_toBottomOf="@+id/item_vibe_comment_profile_layout" />
-
-    <TextView
-        android:id="@+id/item_vibe_comment_date_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="5dp"
-        android:text="2022. 12. 26. 15:10"
-        android:textSize="11sp"
-        app:layout_constraintTop_toBottomOf="@+id/item_vibe_comment_body_tv" />
-
-    <TextView
-        android:id="@+id/item_vibe_comment_sub_comment_add_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="7dp"
-        android:text="@string/vibe_comment_add_sub_comment"
-        android:textColor="#747474"
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_vibe_comment_date_tv" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/item_vibe_sub_comment_rv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="7dp"
+        android:paddingHorizontal="15dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@+id/item_vibe_comment_sub_comment_add_tv"
+        app:layout_constraintTop_toBottomOf="@+id/item_vibe_comment_layout"
         tools:listitem="@layout/item_vibe_sub_comment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

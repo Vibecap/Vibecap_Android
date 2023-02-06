@@ -1,5 +1,6 @@
 package com.example.vibecapandroid
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -21,8 +22,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import android.util.Base64.*
 import android.widget.ImageButton
+import androidx.core.view.WindowInsetsControllerCompat
+import com.example.vibecapandroid.databinding.FragmentHistoryMainBinding
 
- public var historyMainAdapters:HistoryMainAdaptersClass ? = null
+public var historyMainAdapters:HistoryMainAdaptersClass ? = null
 
 class HistoryMainFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
@@ -32,14 +35,22 @@ class HistoryMainFragment : Fragment() {
     private var Token:String= userToken
     private val memberId:Long=6
 
+    lateinit var binding: FragmentHistoryMainBinding
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        binding = FragmentHistoryMainBinding.inflate(layoutInflater)
+        // 상태바 설정
+        val windowController = WindowInsetsControllerCompat(requireActivity().window, requireActivity().window.decorView)
+        windowController.isAppearanceLightStatusBars = true
+        binding.historyMainLayout.setPadding(0,requireContext().statusBarHeight(), 0, 0)
+
         Log.d("arrayList","$arrayList")
         historyMainAdapters = HistoryMainAdaptersClass(requireContext(),arrayList!!)
-        return inflater.inflate(R.layout.fragment_history_main, container, false)
+        return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recyclerView = view?.findViewById(R.id.history_main_recyclerview)
@@ -60,7 +71,11 @@ class HistoryMainFragment : Fragment() {
 
     }
 
+    private fun Context.statusBarHeight(): Int {
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
 
-
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
+        else 0
+    }
 
 }

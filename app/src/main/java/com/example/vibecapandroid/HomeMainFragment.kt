@@ -14,14 +14,13 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
+import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import com.example.vibecapandroid.WheelView.WheelView
 import com.example.vibecapandroid.WheelView.adapter.WheelAdapter
@@ -49,6 +48,19 @@ class HomeMainFragment : Fragment() {
     ): View {
         viewBinding = FragmentHomeMainBinding.inflate(layoutInflater)
 
+        // 상태바 설정
+        WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)
+        val windowController = WindowInsetsControllerCompat(requireActivity().window, requireActivity().window.decorView)
+        windowController.isAppearanceLightStatusBars = false
+
+        requireActivity().window.apply {
+            requireActivity().window.decorView.systemUiVisibility =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
+                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            statusBarColor = Color.TRANSPARENT
+        }
+
+
         viewBinding.mainAlarm.setOnClickListener{
             val intent = Intent(context, MypageAlarmActivity::class.java)
             startActivity(intent)
@@ -61,11 +73,9 @@ class HomeMainFragment : Fragment() {
 
 
 
-
         val vibrator = requireContext().getSystemService(VIBRATOR_SERVICE) as Vibrator
         val layout: ConstraintLayout = viewBinding.wheelMain
         layout.setBackgroundResource(R.raw.bg_img_sinna)
-
 
         
         wheelView = viewBinding.wheelview
@@ -185,9 +195,6 @@ class HomeMainFragment : Fragment() {
         /* return view*/
 
     }
-
-
-
 
 }
 

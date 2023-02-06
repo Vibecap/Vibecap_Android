@@ -9,8 +9,13 @@ import android.os.Bundle
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.util.Base64
 import android.util.Log
+import android.view.View
+import android.view.WindowManager
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import com.example.vibecapandroid.coms.HistoryAllResponse
 import com.example.vibecapandroid.coms.HistoryApiInterface
 import com.example.vibecapandroid.databinding.ActivityMainBinding
@@ -101,6 +106,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setTheme(R.style.Theme_VibecapAndroid)
 
+        // 상태바 설정
+        window.apply {
+            clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+                statusBarColor = Color.TRANSPARENT
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+                decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
+        }
+
+        val windowController = WindowInsetsControllerCompat(this.window, this.window.decorView)
+        windowController.isAppearanceLightStatusBars = true
+        WindowCompat.setDecorFitsSystemWindows(this.window, true)
+
+
         var isLoggedIn=getSharedPreferences("sharedprefs", Context.MODE_PRIVATE).getBoolean("isLoggedIn",false)
         if(!isLoggedIn){
             val intent = Intent(this,LoginActivity::class.java)
@@ -127,19 +150,34 @@ class MainActivity : AppCompatActivity() {
                 when(it.itemId){
                     R.id.home_menu->{
                         supportFragmentManager
-                            .beginTransaction()
+                            .beginTransaction().setCustomAnimations(
+                                R.anim.fade_in,
+                                R.anim.fade_out,
+                                R.anim.fade_in,
+                                R.anim.fade_out
+                            )
                             .replace(viewBinding.containerFragment.id , HomeMainFragment())
                             .commitAllowingStateLoss()
                     }
                     R.id.vibe_menu->{
                         supportFragmentManager
-                            .beginTransaction()
+                            .beginTransaction().setCustomAnimations(
+                                R.anim.fade_in,
+                                R.anim.fade_out,
+                                R.anim.fade_in,
+                                R.anim.fade_out
+                            )
                             .replace(viewBinding.containerFragment.id , VibeMainFragment())
                             .commitAllowingStateLoss()
                     }
                     R.id.history_menu->{
                         supportFragmentManager
-                            .beginTransaction()
+                            .beginTransaction().setCustomAnimations(
+                                R.anim.fade_in,
+                                R.anim.fade_out,
+                                R.anim.fade_in,
+                                R.anim.fade_out
+                            )
                             .replace(viewBinding.containerFragment.id , HistoryMainFragment())
                             .commitAllowingStateLoss()
                     }
