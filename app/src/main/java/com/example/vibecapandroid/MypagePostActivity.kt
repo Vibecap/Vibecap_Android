@@ -370,6 +370,9 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
             val intent = Intent(this,CommonEditActivity::class.java)
             intent.putExtra("post_id",postId)
             intent.putExtra("vibe_id",vibeId)
+            if(postMenuBottomSheetDialog!=null&&postMenuBottomSheetDialog!!.isShowing){
+                postMenuBottomSheetDialog!!.dismiss()
+            }
             startActivity(intent)
             //this@MypagePostActivity.finish()
         }
@@ -524,6 +527,15 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
     override fun onSetScrapFailure(code: Int, message: String) {
         Log.d("[VIBE] SET_SCRAP/FAILURE", "$code / $message")
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        setPostView(this, this, this)
+
+
+        getPost(postId!!, MEMBER_ID)
+    }
+
 
 
 }
