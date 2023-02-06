@@ -1,6 +1,7 @@
 package com.example.vibecapandroid
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -9,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -50,6 +52,11 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         savedInstanceState: Bundle?
     ): View {
         viewBinding = FragmentVibeMainBinding.inflate(layoutInflater)
+
+        // 상태바 설정
+        val windowController = WindowInsetsControllerCompat(requireActivity().window, requireActivity().window.decorView)
+        windowController.isAppearanceLightStatusBars = true
+        viewBinding.vibeMainLayout.setPadding(0,requireContext().statusBarHeight(), 0, 0)
 
         setAllPostsView(this)
 
@@ -242,7 +249,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             callTagAPI("심심한")
         }
 
-        requestWeeklyAPI()
+//        requestWeeklyAPI()
 
 
         // 뷰페이저 적용
@@ -585,6 +592,11 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 //        initScrollListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getAllPosts(page)
+    }
+
     override fun onGetAllPostsFailure(code: Int, message: String) {
         Log.d("[VIBE] GET_ALL_POSTS/FAILURE", "$code / $message")
     }
@@ -789,6 +801,12 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 
         }
 
+    }
+    fun Context.statusBarHeight(): Int {
+        val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
+
+        return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)
+        else 0
     }
 }
 

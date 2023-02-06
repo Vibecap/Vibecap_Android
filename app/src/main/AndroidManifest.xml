@@ -60,6 +60,7 @@
         </activity>
         <activity
             android:name=".VibeCommentActivity"
+            android:parentActivityName=".VibePostActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

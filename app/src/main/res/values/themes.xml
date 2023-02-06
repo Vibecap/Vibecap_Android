@@ -10,10 +10,16 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+<!--        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>-->
+        <item name="android:statusBarColor">@color/transparent</item>
+        <item name="android:windowLightStatusBar">true</item>
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item><!--상단바 없애기-->
         <item name="colorControlNormal">@color/black</item> <!--홈/뒤로가기 버튼의 색상-->
+        <item name="android:textCursorDrawable">@color/light_purple</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item> <!-- 시스템바를 백그라운드에 그림 -->
 
     </style>
     

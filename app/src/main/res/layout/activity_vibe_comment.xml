@@ -80,8 +80,8 @@
             android:id="@+id/vibe_comment_post_body_layout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/vibe_comment_writer_nickname_tv"
             app:layout_constraintTop_toBottomOf="@+id/vibe_comment_writer_profile_iv">
 
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="@color/black"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -99,8 +99,8 @@
             android:id="@+id/vibe_comment_writer_date_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="2022. 12. 26. 15:10"
+            android:layout_marginTop="8dp"
+            android:text=""
             android:textColor="#BBBFC7"
             android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -120,7 +120,6 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingTop="7.5dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/vibe_comment_add_layout"
         app:layout_constraintTop_toBottomOf="@+id/vibe_comment_post_line_view"
@@ -153,12 +152,14 @@
             android:background="@drawable/et_activity_vibe_comment_input_background"
             android:hint="@string/vibe_comment_add_message"
             android:importantForAutofill="no"
-            android:inputType="none"
             android:paddingHorizontal="12dp"
             android:paddingVertical="9dp"
+            android:privateImeOptions="defaultInputmode=korean"
             android:textColor="@color/black"
             android:textColorHint="#ACACAC"
-            android:textSize="11sp"
+            android:maxLines="5"
+            android:textCursorDrawable="@drawable/et_cursor_drawable"
+            android:textSize="13sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/vibe_comment_add_btn"
             app:layout_constraintStart_toStartOf="parent"
@@ -178,7 +179,7 @@
             android:stateListAnimator="@null"
             android:text="@string/vibe_comment_add"
             android:textColor="#979797"
-            android:textSize="11sp"
+            android:textSize="13sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/vibe_comment_add_et"
             app:layout_constraintEnd_toEndOf="parent"

@@ -16,9 +16,9 @@ interface VibeCommentApiInterface {
     @POST("/app/comments/{post_id}")
     fun writeComment(
         @Header("X-AUTH-TOKEN") jwt: String,
-        @Path("post_id") postId: Long,
+        @Path("post_id") postId: Int,
         @Body writeCommentReq: WriteCommentReq
-    )
+    ): Call<WriteCommentResponse>
 
     // 댓글 삭제
     @DELETE("/app/comments/{post_id}/{comment_id}")
@@ -33,9 +33,9 @@ interface VibeCommentApiInterface {
     @POST("/app/sub/comments/{comment_id}")
     fun writeSubComment(
         @Header("X-AUTH-TOKEN") jwt: String,
-        @Path("comment_id") commentId: Long,
+        @Path("comment_id") commentId: Int,
         @Body writeSubCommentReq: WriteSubCommentReq
-    )
+    ): Call<WriteSubCommentResponse>
 
     // 대댓글 삭제
     @DELETE("/app/sub/comments/{sub_comment_id}")

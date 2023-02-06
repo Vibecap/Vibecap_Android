@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="31dp"
-    android:layout_marginTop="15dp">
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/item_vibe_sub_comment_profile_layout"
@@ -61,7 +62,7 @@
         android:layout_marginEnd="21dp"
         android:text=""
         android:textColor="@color/black"
-        android:textSize="12sp"
+        android:textSize="13sp"
         app:layout_constraintTop_toBottomOf="@+id/item_vibe_sub_comment_profile_layout" />
 
     <TextView
