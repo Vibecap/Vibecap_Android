@@ -1,32 +1,32 @@
 package com.example.vibecapandroid
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import com.example.vibecapandroid.coms.CheckMypageResponse
-import com.example.vibecapandroid.coms.MypageApiInterface
-import com.example.vibecapandroid.coms.patchMypageQuitInput
-import com.example.vibecapandroid.coms.patchMypageQuitResponse
+import com.example.vibecapandroid.coms.*
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.ByteArrayOutputStream
 
 class MypageSetupActivity : AppCompatActivity() {
 
@@ -46,7 +46,14 @@ class MypageSetupActivity : AppCompatActivity() {
         MypageSetupClass(R.drawable.ic_activity_mypage_setup_inquiry,"문의하기/신고하기",R.drawable.ic_activity_mypage_profile_next),
         MypageSetupClass(R.drawable.ic_activity_mypage_setup_list,"오픈소스 라이센스",R.drawable.ic_activity_mypage_profile_next)
     )
+    val STORAGE_CODE = 99
+    fun GetAlbum() {
+        Log.d("getalbum","getalbum")
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, STORAGE_CODE)
 
+    }
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +67,8 @@ class MypageSetupActivity : AppCompatActivity() {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 if(position==0){
                     val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
-                    val intent = Intent(this,MypageNicknameActivity::class.java)
-                    intent.putExtra("프로필 변경",setupList1[position].profile_textview)
-                    startActivity(intent)}
+                    GetAlbum()
+                }
                 if(position==1){
                     val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
                     val intent = Intent(this,MypageNicknameActivity::class.java)
@@ -84,8 +90,6 @@ class MypageSetupActivity : AppCompatActivity() {
             AdapterView.OnItemClickListener { parent, view, position, id ->
                 if(position==0){
                     val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
-
-
                 }
                 if (position == 1) {
                     /*val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
@@ -242,8 +246,70 @@ class MypageSetupActivity : AppCompatActivity() {
 
                 val mypage_back = findViewById<ImageView>(R.id.activity_mypage_nickname_close)
                 mypage_back.setOnClickListener(View.OnClickListener {
-                    val intent = Intent(this, MypageProfileActivity::class.java)
-                    startActivity(intent)
+                    finish()
                 })
             }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                STORAGE_CODE -> {
+                    val selectedImageUri: Uri? = data?.data
+                    val imagebitmap = MediaStore.Images.Media.getBitmap(
+                        applicationContext.getContentResolver(),
+                        selectedImageUri
+                    )
+                    if (selectedImageUri != null) {
+                        val fileName = "VibeCap_Photo" + ".jpg"
+                        val stream = ByteArrayOutputStream()
+                        imagebitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+                        val byteArray = stream.toByteArray()
+                        val body = RequestBody.create(MediaType.parse("image/*"), byteArray, 0, byteArray.size)
+                        val image: MultipartBody.Part = MultipartBody.Part.createFormData("profile_image", fileName ,body)
+
+                        val apiService = retrofit.create(MypageApiInterface::class.java)
+                        apiService.patchMypageImgChange(userToken, MEMBER_ID, image).enqueue(object :
+                            Callback<patchMypageImgResponse> {
+                            @SuppressLint("ResourceType")
+                            override fun onResponse(
+                                call: Call<patchMypageImgResponse>,
+                                response: Response<patchMypageImgResponse>
+
+                            ) {
+                                val responseData = response.body()
+                                Log.d(
+                                    "Retrofit",
+                                    "MypageResponse\n"+
+                                            "isSuccess:${responseData?.is_success}" +
+                                            "Code:${responseData?.code}"+
+                                            "Message:${responseData?.message}"+
+                                            "Result:${responseData?.result}"
+                                )
+                                if (response.isSuccessful) {
+                                    Toast.makeText(this@MypageSetupActivity,
+                                        "프로필 사진 변경이 완료되었습니다.",
+                                        Toast.LENGTH_SHORT).show()
+                                } else {
+                                    Log.w("Retrofit_notsuccess", "Response Not Successful${response.code()}")
+                                }
+                            }
+                            override fun onFailure(call: Call<patchMypageImgResponse>, t: Throwable) {
+                                Log.e("Retrofitfail","Error",t)
+                            }
+                        })
+                    } else {
+                        Toast.makeText(this, "사진을 가져오지 못했습니다.", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        } else {
+            Log.d("촬영취소", "촬영취소")
+            finish()
+        }
+    }
+}

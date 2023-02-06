@@ -7,11 +7,12 @@
     <uses-feature android:name="android.hardware.camera.any" />
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- 저장소 읽기 권한 -->
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <!--진동 권한-->
-    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 진동 권한 -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +25,18 @@
         android:theme="@style/Theme.VibecapAndroid"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.actions"
+            android:resource="@xml/filepaths" />
 
+
+        <activity
+            android:name=".CommonEditActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".MypagePostScrapActivity"
             android:exported="false">
@@ -78,6 +90,14 @@
         </activity>
         <activity
             android:name=".VibePopupCommentActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".TestActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -217,13 +237,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".HomeAlbumActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".MypageSetupActivity"
             android:exported="false">
             <meta-data
@@ -265,8 +278,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-         <activity
+        <activity
             android:name=".HistoryPhoneGalleryActivity"
             android:exported="false">
             <meta-data
@@ -275,19 +287,19 @@
         </activity>
         <activity
             android:name=".CommonPostActivity"
-            android:windowSoftInputMode="adjustPan"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -295,6 +307,16 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.vibecapandroid.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
     </application>
 
 </manifest>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".CommonPostActivity">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CommonEditActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout_top"
@@ -34,13 +34,13 @@
             android:layout_marginRight="0dp"
             android:layout_weight="3"
             android:paddingLeft="13dp"
-            android:text="게시글 작성"
+            android:text="수정하기"
             android:textAlignment="center"
             android:textSize="18dp"
             android:textColor="@color/black"
             android:textStyle="bold" />
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/common_post_finish"
+            android:id="@+id/common_edit_finish"
             android:layout_width="40dp"
             android:layout_height="28dp"
             android:layout_marginRight="15dp"
@@ -160,7 +160,8 @@
             android:textAlignment="center"
             android:text="0/140"
             app:layout_constraintStart_toEndOf="@+id/common_post_body"
-            app:layout_constraintTop_toTopOf="@+id/common_post_body" />
+            app:layout_constraintTop_toTopOf="@+id/common_post_body"
+            tools:ignore="RtlCompat" />
 
         <LinearLayout
             android:id="@+id/tag_linear_layout"
@@ -191,7 +192,6 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/transparent"
-                android:text="#"
                 android:hint="#직접입력"
                 android:textSize="15dp"
                 android:textColorHint="@color/black"
@@ -202,7 +202,4 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-

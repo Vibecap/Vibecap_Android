@@ -1,6 +1,5 @@
 package com.example.vibecapandroid.coms
 
-import android.icu.text.LocaleDisplayNames
 import com.google.gson.annotations.SerializedName
 import okhttp3.MultipartBody
 import java.time.LocalDateTime
@@ -85,12 +84,13 @@ data class patchMypageImgResponse(
     val message: String,
     val result: String
 )
+/*
 data class patchMypageImgInput(
     @SerializedName("member_id")
-    val member_id: Long,
+    val member_id: String,
     @SerializedName("profile_image")
     val profile_image:MultipartBody.Part
-)
+)*/
 data class patchMypageQuitInput(
     @SerializedName("memberID")
     val memberID : Long
@@ -216,7 +216,7 @@ data class postMypageScrapInput(
     @SerializedName("modified_date") val modified_data: LocalDateTime
 )
 
-data class postMypageEditResponse(
+data class patchMypageEditResponse(
     val is_success: Boolean,
     val code: Int,
     val message: String,
@@ -224,9 +224,15 @@ data class postMypageEditResponse(
 
 )
 data class patchMypageEditPostInput(
-    @SerializedName("member_id") val member_id: Int,
-    @SerializedName("title") val title: String,
-    @SerializedName("body") val body: String,
+    val member: member,
+    val title: String?,
+    val body: String?
+)
+
+data class EditRequest(
+    val member : member,
+    val title : String?,
+    val body : String?
 )
 
 data class deleteMypageResponse(
@@ -237,5 +243,5 @@ data class deleteMypageResponse(
 
 )
 data class deleteMypagePostInput(
-    @SerializedName("body") val body: String
+    val member_id: Int
 )

@@ -1,10 +1,14 @@
 package com.example.vibecapandroid
 
 import android.Manifest
+import android.R
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,7 +17,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+
 
 class HistoryPhoneGalleryActivity : AppCompatActivity() {
 
@@ -22,6 +27,7 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
         Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
     val STORAGE_CODE = 99
+    var realUri:Uri?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,9 +45,9 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             STORAGE_CODE -> {
-                    if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(this, "저장소 권한 승인완료", Toast.LENGTH_LONG).show()
-                        GetAlbum()
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "저장소 권한 승인완료", Toast.LENGTH_LONG).show()
+                    GetAlbum()
                 }
             }
         }
@@ -71,24 +77,12 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
         if (resultCode == Activity.RESULT_OK) {
             when (requestCode) {
                 STORAGE_CODE -> {
-                    //uri 얻고 bitmap 으로 변경
-                    val uri = data?.data
-                    val imagebitmap = MediaStore.Images.Media.getBitmap(
-                        applicationContext.getContentResolver(),
-                        uri
-                    )
-//                    val stream = ByteArrayOutputStream()
-//                    imagebitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
-//                    val byteArray = stream.toByteArray()
-                    //감정 없음
                     feeling = " "
-
-                    Log.d("imagebitmap", "imagebitmap")
-
-                    //intent로 bitmap 넘겨주고 다음 activity 실행
-                    val nextIntent = Intent(this, HomeCapturedActivity::class.java)
-                    nextIntent.putExtra("imagebitmap", imagebitmap)
-                    startActivity(nextIntent)
+                    val uri = data?.data
+                    val intent = Intent(this, HomeCapturedActivity::class.java)
+                    intent.putExtra("image_uri", uri)
+                    intent.putExtra("frag_code",3)
+                    startActivity(intent)
                     finish()
                 }
             }
@@ -97,14 +91,43 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
             finish()
         }
     }
+    //원본 이미지를 저장할 Uri를 MediaStore(데이터베이스)에 생성하는 메소드
+    fun createImageUri(filename:String,mimeType:String) : Uri?{
+        val values= ContentValues()
+        values.put(MediaStore.Images.Media.DISPLAY_NAME,filename)
+        values.put(MediaStore.Images.Media.MIME_TYPE,mimeType)
+
+        return contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,values)
+    }
+
+    //파일 이름을 생성하는 메서드
+    fun newFileName():String{
+        val sdf= SimpleDateFormat("yyyyMMdd_HHmmss")
+        val filename=sdf.format(System.currentTimeMillis())
+        return "${filename}.jpg"
+    }
+
+
+  /*  //bitmap scaleDown (사이즈만 조절) (퀄리티는 같음)
+    fun scaleDown(bitmap : Bitmap): Bitmap {
+//        val quality = if(bitmap.width > 2048 && bitmap.height > 2048) {
+//            0.3
+//        }else if(bitmap.width > 1024 && bitmap.height > 1024){
+//            0.5
+//        }else{
+//            0.8
+//        }
+        val scaleDown = Bitmap.createScaledBitmap(bitmap, 160, 160, true)
+        return scaleDown
+    }*/
+
 
     // 갤러리 취득
     fun GetAlbum() {
-            Log.d("getalbum","getalbum")
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            startActivityForResult(intent, STORAGE_CODE)
+        Log.d("getalbum","getalbum")
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, STORAGE_CODE)
 
     }
 }
-

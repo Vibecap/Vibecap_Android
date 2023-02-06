@@ -702,7 +702,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 
         // tag name 설정
         if (tag_name.isNullOrEmpty()) {
-            requireView().findViewById<TextView>(R.id.weeklyTagLinear).visibility = View.GONE
+          //  requireView().findViewById<TextView>(R.id.weeklyTagLinear).visibility = View.GONE
         } else {
             // tag name 을 공백으로 구분
             val tagList = tag_name.split(buildString {

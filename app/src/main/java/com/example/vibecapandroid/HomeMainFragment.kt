@@ -48,6 +48,7 @@ class HomeMainFragment : Fragment() {
     ): View {
         viewBinding = FragmentHomeMainBinding.inflate(layoutInflater)
 
+
         // 상태바 설정
         WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)
         val windowController = WindowInsetsControllerCompat(requireActivity().window, requireActivity().window.decorView)
@@ -61,11 +62,12 @@ class HomeMainFragment : Fragment() {
         }
 
 
-        viewBinding.mainAlarm.setOnClickListener{
+
+        viewBinding.imageButtonAlarm.setOnClickListener{
             val intent = Intent(context, MypageAlarmActivity::class.java)
             startActivity(intent)
         }
-        viewBinding.mainProfile.setOnClickListener{
+        viewBinding.imageButtonProfile.setOnClickListener{
             val intent = Intent(context, MypageProfileActivity::class.java)
             startActivity(intent)
         }
@@ -138,17 +140,18 @@ class HomeMainFragment : Fragment() {
 
                 }
                 else if((angler>=80 && angler<120)||(angler>=-280 && angler <-240 )){
-                    layout.setBackgroundResource(R.raw.bg_img_sunsun)
-                    textView.text = "선선한"
-                    feeling = textView.text as String
-                    wheelView!!.setWheelDrawable(R.drawable.wheel_sunsun)
-                    //Log.d("angle", angle.toString())
-                }
-                else if((angler>=120 && angler<160)||(angler>=-240 && angler <-200 )){
                     layout.setBackgroundResource(R.raw.bg_img_nangman)
                     textView.text = "낭만적인"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_nangman)
+                    //Log.d("angle", angle.toString())
+                }
+                else if((angler>=120 && angler<160)||(angler>=-240 && angler <-200 )){
+
+                    layout.setBackgroundResource(R.raw.bg_img_simsim)
+                    textView.text = "심심한"
+                    feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_simsim)
                     //Log.d("angle", angle.toString())
                 }
                 else if((angler>=160 && angler<200)||(angler>=-200 && angler <-160 )){
@@ -171,10 +174,10 @@ class HomeMainFragment : Fragment() {
                     wheelView!!.setWheelDrawable(R.drawable.wheel_gonghe)
                 }
                 else if((angler>=280 && angler<320)||(angler>=-80 && angler <-40 )){
-                    layout.setBackgroundResource(R.raw.bg_img_simsim)
-                    textView.text = "심심한"
+                    layout.setBackgroundResource(R.raw.bg_img_sunsun)
+                    textView.text = "선선한"
                     feeling = textView.text as String
-                    wheelView!!.setWheelDrawable(R.drawable.wheel_simsim)
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_sunsun)
                 }
             }
 

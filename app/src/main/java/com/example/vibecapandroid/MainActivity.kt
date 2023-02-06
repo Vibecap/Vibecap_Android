@@ -12,10 +12,14 @@ import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.util.Base64
 import android.util.Log
+
 import android.view.View
 import android.view.WindowManager
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+
+import android.widget.Toast
+
 import com.example.vibecapandroid.coms.HistoryAllResponse
 import com.example.vibecapandroid.coms.HistoryApiInterface
 import com.example.vibecapandroid.databinding.ActivityMainBinding
@@ -63,6 +67,7 @@ val retrofit: Retrofit = Retrofit.Builder()
 
 class MainActivity : AppCompatActivity() {
     val apiService=retrofit.create(HistoryApiInterface::class.java)
+    private var waitTime = 0L
     private val viewBinding: ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -76,20 +81,13 @@ class MainActivity : AppCompatActivity() {
                     val responseData=response.body()
                     if(response.isSuccessful){
                         if (responseData != null) {
-                            Log.d(
-                                "getHistoryAllResponse",
-                                "getHistoryAllResponse\n"+
-                                        "isSuccess:${responseData.is_success}\n " +
-                                        "Code: ${responseData.code} \n" +
-                                        "Message:${responseData.message} \n" +
-                                        "Result:${responseData.result.album}")
                             if(responseData.is_success) {
                                 if(responseData.result.album.isEmpty()) {
                                     Log.d("찍은 사진 없음","찍은 사진 없음")
                                 }
                                 else{
                                     arrayList!!.addAll(responseData.result.album.toMutableList())
-                                    Log.d("ArrayList is success 통신구문","${arrayList}")
+                                    historyMainAdapters?.notifyDataSetChanged()
                                 }
                             }
                         }
@@ -137,7 +135,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("Member_ID","${MEMBER_ID}")
             setDataInList()
         }
-
+        setTheme(R.style.Theme_VibecapAndroid)
         setContentView(viewBinding.root)
         supportFragmentManager
             .beginTransaction()
@@ -188,6 +186,30 @@ class MainActivity : AppCompatActivity() {
             selectedItemId=R.id.home_menu
         }
 
+        if(intent.extras?.getInt("frag_code")==3){
+            supportFragmentManager
+                .beginTransaction()
+                .replace(viewBinding.containerFragment.id , HistoryMainFragment())
+                .commitAllowingStateLoss()
+        }
+
+
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        setDataInList()
+    }
+
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
+        } else {
+            finish() // 액티비티 종료
+        }
+    }
+
+
 
 }

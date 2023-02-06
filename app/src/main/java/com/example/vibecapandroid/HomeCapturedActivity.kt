@@ -2,16 +2,18 @@ package com.example.vibecapandroid
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import android.webkit.RenderProcessGoneDetail
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.ActivityHomeCapturedBinding
 import com.google.android.youtube.player.YouTubeIntents.createPlayVideoIntent
@@ -33,12 +35,11 @@ class HomeCapturedActivity : AppCompatActivity() {
     var video_id:String? = null
     var imagebitmap:Bitmap? = null
     var youtube_link: String? = null
+     var realUri:Uri?=null
 
     private val viewBinding: ActivityHomeCapturedBinding by lazy{
         ActivityHomeCapturedBinding.inflate(layoutInflater)
     }
-
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -48,6 +49,7 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         //button youtube GONE
         viewBinding.btYoutube.visibility= View.GONE
+
         //progress bar start
         showProgressbar(true)
 
@@ -63,9 +65,11 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         //home button
         viewBinding.btHome.setOnClickListener{
-            val i = Intent(this, MainActivity::class.java)
-            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(i)
+            val nextIntent = Intent(this, MainActivity::class.java)
+            val fragcode=intent.extras?.getInt("frag_code")
+            nextIntent.putExtra("frag_code", fragcode)
+            startActivity(nextIntent)
+            super.finish()
         }
         //share button
         viewBinding.btShare.setOnClickListener{
@@ -89,10 +93,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "서버에 저장되어있는 사진이 없습니다", Toast.LENGTH_SHORT).show();
             }
         }
-        //download button
-        viewBinding.btDownload.setOnClickListener{
-            downloadPhoto()
-        }
+
         //delete button
         viewBinding.btDelete.setOnClickListener{
             deletePhoto()
@@ -105,6 +106,14 @@ class HomeCapturedActivity : AppCompatActivity() {
     override fun onRestart() {
         super.onRestart()
         youtubefragmentshow()
+    }
+
+    override fun onBackPressed() {
+        val nextIntent = Intent(this, MainActivity::class.java)
+        val fragcode=intent.extras?.getInt("frag_code")
+        nextIntent.putExtra("frag_code", fragcode)
+        startActivity(nextIntent)
+        super.finish()
     }
 
     private fun youtubefragmentshow(){
@@ -130,7 +139,6 @@ class HomeCapturedActivity : AppCompatActivity() {
             viewBinding.btDelete.visibility=View.VISIBLE
             viewBinding.btYoutube.visibility= View.VISIBLE
             viewBinding.btShare.visibility=View.VISIBLE
-            viewBinding.btDownload.visibility=View.VISIBLE
             viewBinding.btWrite.visibility =View.VISIBLE
 
         }
@@ -183,12 +191,12 @@ class HomeCapturedActivity : AppCompatActivity() {
 //        return result!!
 //    }
 
-    private fun downloadPhoto(){
+  /*  private fun downloadPhoto(){
         //imagebitmap = intent.getParcelableExtra<Bitmap>("imagebitmap")
         saveFile(RandomFileName(), "image/jpeg", imagebitmap!!) // 휴대폰 local db 에 저장
         Log.d("파일", "파일저장 완료")
         Toast.makeText(applicationContext, "사진 다운로드 성공", Toast.LENGTH_SHORT).show();
-    }
+    }*/
 
     private fun deletePhoto(){
         //base url 설정
@@ -229,12 +237,14 @@ class HomeCapturedActivity : AppCompatActivity() {
         })
 
     }
-    // 파일명을 날짜로 함수
+    /*// 파일명을 날짜로 함수
     fun RandomFileName(): String {
         val fileName = SimpleDateFormat("yyyyMMddHHmmss").format(System.currentTimeMillis())
         return fileName
-    }
-    //사진 저장 함수
+    }*/
+
+
+    /*//사진 저장 함수
     private fun saveFile(filename:String, mimeType:String, bitmap: Bitmap): Uri? {
 
         var CV = ContentValues()
@@ -266,16 +276,39 @@ class HomeCapturedActivity : AppCompatActivity() {
             }
         }
         return uri
+    }*/
+    //원본 이미지를 불러오는 메소드
+    fun loadBitmap(photoUri:Uri):Bitmap?{
+        var image:Bitmap?=null
+        try{
+            if(Build.VERSION.SDK_INT>Build.VERSION_CODES.O_MR1){
+                val source= ImageDecoder.createSource(contentResolver,photoUri)
+                image=  ImageDecoder.decodeBitmap(source)
+            }else{
+                image= MediaStore.Images.Media.getBitmap(contentResolver,photoUri)
+            }
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+        Log.d("imageload","$image")
+        return image
     }
+
+
+
     //유튜브 출력
     @RequiresApi(Build.VERSION_CODES.O)
     private fun Youtubeplay(){
+        realUri=intent.getParcelableExtra("image_uri")
+        Log.d("RealURI","$realUri")
+        imagebitmap=loadBitmap(realUri!!)
 
-        imagebitmap = intent.getParcelableExtra<Bitmap>("imagebitmap")
+        Log.d("imageBitMAP","$imagebitmap")
         val fileName = "VibeCap_Photo" + ".jpg"
         Log.d("imagebitmap",imagebitmap.toString())
         val stream = ByteArrayOutputStream()
         imagebitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+
         val byteArray = stream.toByteArray()
         val body = RequestBody.create(MediaType.parse("image/*"), byteArray, 0, byteArray.size)
         var image: MultipartBody.Part = MultipartBody.Part.createFormData("image_file", fileName ,body)

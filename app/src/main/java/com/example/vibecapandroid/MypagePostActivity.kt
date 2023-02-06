@@ -20,10 +20,14 @@ import retrofit2.*
 class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrapView,
     View.OnClickListener {
 
+    private var postMenuBottomSheetDialog :BottomSheetDialog?=null
     lateinit var binding: ActivityVibePostBinding
     private lateinit var getPostView: GetPostView
     private lateinit var setLikeView: SetLikeView
     private lateinit var setScrapView: SetScrapView
+    private var postId:Int?=0
+    val memberId: MemberId = MemberId(MEMBER_ID)
+    private var fullvideoId:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,22 +39,22 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         // 게시물 1개 조회
         /*** 전달 값은 postId */
         val intent = intent // 전달된 데이터를 받을 Intent
-        val postId = intent.getIntExtra("post_id", 0)
+        postId = intent.getIntExtra("post_id", 0)
         val memberId: MemberId = MemberId(MEMBER_ID)
 
-        getPost(postId, MEMBER_ID)
+        getPost(postId!!, MEMBER_ID)
 
         binding.vibePostBackBtn.setOnClickListener(){
 
-            super.finish()
+            this@MypagePostActivity.finish()
         }
         // 게시물 좋아요
         binding.vibePostLikeBtn.setOnClickListener {
-            setLike(userToken, postId, memberId)
+            setLike(userToken, postId!!, memberId)
         }
         // 게시물 스크랩
         binding.vibePostScrapBtn.setOnClickListener {
-            setScrap(userToken, postId, memberId)
+            setScrap(userToken, postId!!, memberId)
         }
         // 댓글창
         binding.vibePostCommentBtn.setOnClickListener {
@@ -89,14 +93,14 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         // 게시물 메뉴 BottomSheet 설정
         val postMenuBottomSheetView =
             layoutInflater.inflate(R.layout.fragment_mypage_post_popup_edit, binding.root, false)
-        val postMenuBottomSheetDialog =
-            BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
+        postMenuBottomSheetDialog =
+            BottomSheetDialog(this@MypagePostActivity, R.style.CustomBottomSheetDialog)
 
-        postMenuBottomSheetDialog.setContentView(postMenuBottomSheetView)
-        setPostBottomSheetView(postMenuBottomSheetView, postMenuBottomSheetDialog, this)
+        postMenuBottomSheetDialog!!.setContentView(postMenuBottomSheetView)
+        setPostBottomSheetView(postMenuBottomSheetView, postMenuBottomSheetDialog!!, this)
 
         binding.vibePostMenuBtn.setOnClickListener {
-            postMenuBottomSheetDialog.show()
+            postMenuBottomSheetDialog!!.show()
         }
 
     }
@@ -104,6 +108,13 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
     override fun onClick(v: View?) {
         when (v) {
             binding.vibePostBackBtn -> finish()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if(postMenuBottomSheetDialog!=null&&postMenuBottomSheetDialog!!.isShowing){
+            postMenuBottomSheetDialog!!.dismiss()
         }
     }
 
@@ -243,6 +254,7 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         }
 
         // youtube link 설정
+        fullvideoId=result.youtubeLink
         val beginIdx = result.youtubeLink.indexOf("watch?v=")
         val endIdx = result.youtubeLink.length
         val videoId = result.youtubeLink.substring(beginIdx + 8, endIdx)
@@ -349,21 +361,99 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         dialog: BottomSheetDialog,
         context: Context
     ) {
-        // 게시물 차단하기
-        val editBlockBtn =
-            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_edit)
-        editBlockBtn.setOnClickListener {
-            Toast.makeText(context, "수정하기", Toast.LENGTH_SHORT).show()
-            // 차단 API
-        }
 
+        //수정하기
+        val editBlockBtn =
+        bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_edit)
+        editBlockBtn.setOnClickListener {
+            val vibeId=intent.extras!!.getInt("vibe_id")
+            val intent = Intent(this,CommonEditActivity::class.java)
+            intent.putExtra("post_id",postId)
+            intent.putExtra("vibe_id",vibeId)
+            if(postMenuBottomSheetDialog!=null&&postMenuBottomSheetDialog!!.isShowing){
+                postMenuBottomSheetDialog!!.dismiss()
+            }
+            startActivity(intent)
+            //this@MypagePostActivity.finish()
+        }
+        //삭제하기
         val deleteBlockBtn=
             bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_delete)
-        deleteBlockBtn.setOnClickListener(){
-            Toast.makeText(context, "삭제하기", Toast.LENGTH_SHORT).show()
-            // 차단 API
+        deleteBlockBtn.setOnClickListener{
+            val postId = intent.getIntExtra("post_id", 0)
+            val vibeId = intent.extras!!.getInt("vibe_id")
+            var member_id = MEMBER_ID.toInt()
+
+            Log.d("postId","${postId}")
+            Log.d("vibeId","${vibeId}")
+
+            val apiService = retrofit.create(MypageApiInterface::class.java)
+            apiService.deleteMypagePost(postId,userToken, deleteMypagePostInput(member_id)).enqueue(object :
+                    Callback<deleteMypageResponse> {
+                    override fun onResponse(
+                        call: Call<deleteMypageResponse>,
+                        response: Response<deleteMypageResponse>
+                    ) {
+
+                        if (response.isSuccessful) {
+                            val responseData = response.body()
+
+                            if (responseData !== null) {
+                                Log.d(
+                                    "Retrofit",
+                                    "MypageNicknameResponse\n"+
+                                            "isSuccess:${responseData.is_success}" +
+                                            "Code:${responseData.code}"+
+                                            "Message:${responseData.message}"+
+                                            "Result:${responseData.result}"
+                                )
+                                if (responseData?.is_success==true) {
+                                    when(response.body()?.code){
+                                        1000 ->{
+                                            Toast.makeText(
+                                                applicationContext,
+                                                "게시글이 삭제되었습니다",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                           val nextIntent = Intent(this@MypagePostActivity, MypageWritedActivity::class.java)
+                                            startActivity(nextIntent)
+                                            this@MypagePostActivity.finish()
+                                        }
+                                        500 -> {
+                                            Log.d ("레트로핏","해당 바이브에 대한 접근 권한이 없습니다" )
+                                        }
+                                    }
+                                }
+                                else {
+                                    Log.d("레트로핏","Response Not Success ${response.code()}")
+                                }
+                            }
+                            else{
+                                Log.d("Retrofit","Null data") }
+
+                        } else {
+                            Log.w("Retrofit", "Response Not Successful${response.code()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<deleteMypageResponse>, t: Throwable) {
+                        Log.e("Retrofit","Error",t)
+                    }
+
+                })
+
         }
 
+        //공유하기
+        val shareBlockBtn=
+            bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_share)
+        shareBlockBtn.setOnClickListener(){
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, fullvideoId)
+            }
+            startActivity(Intent.createChooser(intent, fullvideoId))
+        }
 
         // 상단 close bar 버튼 누르면 닫기
         val closeBtn =
@@ -437,6 +527,15 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
     override fun onSetScrapFailure(code: Int, message: String) {
         Log.d("[VIBE] SET_SCRAP/FAILURE", "$code / $message")
     }
+
+    override fun onRestart() {
+        super.onRestart()
+        setPostView(this, this, this)
+
+
+        getPost(postId!!, MEMBER_ID)
+    }
+
 
 
 }

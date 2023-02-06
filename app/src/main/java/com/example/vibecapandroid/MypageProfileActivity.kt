@@ -29,7 +29,7 @@ class MypageProfileActivity : AppCompatActivity() {
 
 
 
-
+    private val apiService = retrofit.create(MypageApiInterface::class.java)
 
 
 
@@ -76,20 +76,13 @@ class MypageProfileActivity : AppCompatActivity() {
         mypage_back.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
-            finish()
+            this@MypageProfileActivity.finish()
         })
 
 
 
 
-        //웹 브라우저 창 열기
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
 
-        //어떤 주소로 들어갈지 입력
-        val apiService = retrofit.create(MypageApiInterface::class.java)
 
         Log.d("userToken","$userToken")
         //입력한 주소중 하나로 연결 시도
@@ -116,8 +109,6 @@ class MypageProfileActivity : AppCompatActivity() {
                         var email = findViewById<TextView>(R.id.activity_mypage_profilelist_email)
                         email.setText(responseData.result.email)
                         Glide.with(this@MypageProfileActivity).load(responseData.result.profile_image).into(findViewById(R.id.activity_mypage_profilelist_profileimg))
-
-
                     }
                     else{
                         Log.d("Retrofit","Null data") }
@@ -131,6 +122,7 @@ class MypageProfileActivity : AppCompatActivity() {
             }
 
         })
+
 
 
 /*
@@ -219,11 +211,58 @@ class MypageProfileActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        this@MypageProfileActivity.finish()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        apiService.getMypageCheck(userToken, MEMBER_ID).enqueue(object :Callback<CheckMypageResponse> {
+            override fun onResponse(
+                call: Call<CheckMypageResponse>,
+                response: Response<CheckMypageResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseData = response.body()
+                    if (responseData !== null) {
+                        Log.d(
+                            "Retrofit",
+                            "MypageResponse\n"+
+                                    "isSuccess:${responseData.is_success}" +
+                                    "Code:${responseData.code}"+
+                                    "Message:${responseData.message}"+
+                                    "Result:${responseData.result.email}"+
+                                    "Result:${responseData.result.profile_image}"+
+                                    "Result:${responseData.result.nickname}"
+                        )
+                        var nickname = findViewById<TextView>(R.id.activity_mypage_profilelist_nickname)
+                        nickname.setText(responseData.result.nickname)
+                        var email = findViewById<TextView>(R.id.activity_mypage_profilelist_email)
+                        email.setText(responseData.result.email)
+                        Glide.with(this@MypageProfileActivity).load(responseData.result.profile_image).into(findViewById(R.id.activity_mypage_profilelist_profileimg))
+                    }
+                    else{
+                        Log.d("Retrofit","Null data") }
+
+                } else {
+                    Log.w("Retrofit", "Response Not Successful${response.code()}")
+                }
+            }
+            override fun onFailure(call: Call<CheckMypageResponse>, t: Throwable) {
+                Log.e("Retrofit","Error",t)
+            }
+
+        })
+    }
 
 
 
 
-        }
+
+}
 
 
 

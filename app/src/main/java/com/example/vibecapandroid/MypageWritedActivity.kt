@@ -52,6 +52,7 @@ class MypageWritedActivity : AppCompatActivity() {
         mypage_back.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, MypageProfileActivity::class.java)
             startActivity(intent)
+            this@MypageWritedActivity.finish()
         })
 
         //웹 브라우저 창 열기
@@ -126,6 +127,13 @@ class MypageWritedActivity : AppCompatActivity() {
 
         })
 
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, MypageProfileActivity::class.java)
+        startActivity(intent)
+        this@MypageWritedActivity.finish()
     }
 
 }

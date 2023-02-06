@@ -33,10 +33,11 @@ class MypageWritedadaptersClass(var context: Context, var arrayList: ArrayList<C
             val intent= Intent(holder.itemView.context,MypagePostActivity::class.java)
 
             intent.putExtra("post_id",arrayList[position].post_id.toInt())
-
+            intent.putExtra("vibe_id",arrayList[position].vibe_id.toInt())
             ContextCompat.startActivity(holder.itemView.context,intent,null)
             Log.d("position","${position}")
             Log.d("post_id","${arrayList[position].post_id}")
+
         }
 
 
@@ -48,7 +49,7 @@ class MypageWritedadaptersClass(var context: Context, var arrayList: ArrayList<C
     }
 
     class ItemHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        var images = itemView.findViewById<ImageView>(R.id.image)
+        var images = itemView.findViewById<ImageView>(R.id.item_history_mypagewrited_all_posts_iv)
         init {
             itemView.setOnClickListener {
                 Log.d("Click", "Click")
