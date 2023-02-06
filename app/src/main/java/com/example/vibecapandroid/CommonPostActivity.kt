@@ -223,6 +223,7 @@ class CommonPostActivity  : AppCompatActivity() {
                             Toast.makeText(applicationContext, "게시물 작성 완료", Toast.LENGTH_LONG).show();
                             val nextIntent = Intent(this@CommonPostActivity, MypagePostActivity::class.java)
                             nextIntent.putExtra("post_id", post_id)
+                            nextIntent.putExtra("vibe_id",vibe_id)
                             Log.d("postid",post_id.toString())
                             startActivity(nextIntent)
                             this@CommonPostActivity.finish()

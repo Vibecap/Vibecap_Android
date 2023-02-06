@@ -11,6 +11,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import android.util.Log
+import android.widget.Toast
 import com.example.vibecapandroid.coms.HistoryAllResponse
 import com.example.vibecapandroid.coms.HistoryApiInterface
 import com.example.vibecapandroid.databinding.ActivityMainBinding
@@ -58,6 +59,7 @@ val retrofit: Retrofit = Retrofit.Builder()
 
 class MainActivity : AppCompatActivity() {
     val apiService=retrofit.create(HistoryApiInterface::class.java)
+    private var waitTime = 0L
     private val viewBinding: ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
     }
@@ -155,6 +157,16 @@ class MainActivity : AppCompatActivity() {
         super.onRestart()
         setDataInList()
     }
+
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
+        } else {
+            finish() // 액티비티 종료
+        }
+    }
+
 
 
 }
