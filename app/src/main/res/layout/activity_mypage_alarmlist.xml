@@ -16,7 +16,7 @@
         app:srcCompat="@drawable/ic_activity_mypage_alarm_rectangle" />
 
     <ImageView
-        android:id="@+id/activity_mypage_alarm_imageview"
+        android:id="@+id/activity_mypage_alarm_icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="24dp"
@@ -36,12 +36,12 @@
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/activity_mypage_alarm_imageview"
+        app:layout_constraintStart_toEndOf="@+id/activity_mypage_alarm_icon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="내가 작성한 게시물을 좋아요 했습니다" />
 
     <TextView
-        android:id="@+id/activity_mypage_alarm_id"
+        android:id="@+id/activity_mypage_alarm_userid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="user123"
@@ -55,8 +55,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:text="님의 좋아요"
-        app:layout_constraintBottom_toBottomOf="@+id/activity_mypage_alarm_id"
-        app:layout_constraintStart_toEndOf="@+id/activity_mypage_alarm_id"
+        app:layout_constraintBottom_toBottomOf="@+id/activity_mypage_alarm_userid"
+        app:layout_constraintStart_toEndOf="@+id/activity_mypage_alarm_userid"
         app:layout_constraintTop_toBottomOf="@+id/activity_mypage_alarm_title" />
 
 

@@ -187,7 +187,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MypageAlarmsetupActivity"
+            android:name=".MypageNoticeSetupActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
