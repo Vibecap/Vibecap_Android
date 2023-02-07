@@ -1,11 +1,15 @@
 package com.example.vibecapandroid
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.vibecapandroid.coms.PostweeklyData
 
-class ViewPagerAdapter(weeklyList: ArrayList<Int>) : RecyclerView.Adapter<ViewPagerAdapter.PagerViewHolder>() {
+
+class ViewPagerAdapter(var context: Context, weeklyList: Array<PostweeklyData>?) : RecyclerView.Adapter<ViewPagerAdapter.PagerViewHolder>() {
     var item = weeklyList
 
     inner class PagerViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder
@@ -15,11 +19,15 @@ class ViewPagerAdapter(weeklyList: ArrayList<Int>) : RecyclerView.Adapter<ViewPa
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PagerViewHolder((parent))
 
-    override fun getItemCount(): Int = item.size
+    override fun getItemCount(): Int = item!!.size
 
     override fun onBindViewHolder(holder: PagerViewHolder, position: Int) {
-        holder.weekly.setImageResource(item[position])
+        holder.apply{
+            Glide.with(context).load(item?.get(position)?.vibe_image).into(weekly)
+        }
+
     }
+
 
 
 }

@@ -15,7 +15,9 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.bumptech.glide.Glide
+import com.example.vibecapandroid.coms.PostContentData
 import com.example.vibecapandroid.coms.PostTagResponse
 import com.example.vibecapandroid.coms.VibePostApiInterface
 import com.example.vibecapandroid.coms.VibePostTagInterface
@@ -34,7 +36,7 @@ class VibeSearchActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_search)
+        setContentView(viewBinding.root)
 
 
         // 툴바
@@ -45,12 +47,11 @@ class VibeSearchActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         //searchAPI()
-        findViewById<ImageButton>(R.id.imageButton_tagsearch11).setOnClickListener {
+        viewBinding.etSearchTag.setOnClickListener {
             Toast.makeText(applicationContext, "search success", Toast.LENGTH_SHORT).show()
-
-            // 검색 API 추가
-            searchAPI()
-            // 검색 결과 출력
+            val tagname = viewBinding.etSearchTag.toString()
+            // 검색 API
+            searchAPI("신나는")
         }
 
     }
@@ -69,50 +70,35 @@ class VibeSearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun searchAPI() {
-        val tagName = findViewById<EditText>(R.id.et_search_tag).toString()
-        tagName == "신나는 "
-        searchRetrofitObject.getApiService().postAllCheck(tagName).enqueue(object :
+    private fun searchAPI(tagname:String) {
+        searchRetrofitObject.getApiService().postAllCheck(tagname).enqueue(object :
             Callback<PostTagResponse> {
             // api 호출 성공시
             override fun onResponse(call: Call<PostTagResponse>, response: Response<PostTagResponse>) {
                 if (response.isSuccessful){
-                    val responseData = response.body()
-                    if (responseData != null){
-                        //Toast.makeText(applicationContext, "success", Toast.LENGTH_SHORT).show()
+                    val respData = response.body()
+                    val respDataResult = respData?.result?.content
+                    if (respData != null){
                         Log.d(
                             "searchResult",
                             "searchResult\n"+
-                                    "isSuccess:${responseData?.is_success}\n " +
-                                    "Code: ${responseData?.code} \n" +
-                                    "Message:${responseData?.message} \n"
+                                    "isSuccess:${respData?.is_success}\n " +
+                                    "Code: ${respData?.code} \n" +
+                                    "Message:${respData?.message} \n"
                         )
-                        if(responseData.is_success){
-                            //val editor = getSharedPreferences(
-                                //"sharecropped",
-                                //MODE_PRIVATE
-                            //).edit()
-                            //editor.putInt("post_id",responseData.result)
-                            //editor.putInt("member_id",responseData.result[0].content[0].member_id)
-                            //editor.putInt("vibe_id",responseData.result[0].content[0].vibe_id)
-                            //editor.putString("vibe_image",responseData.result[1].vibe_image)
-                            //editor.apply()
-                            //stringToBitmap(editor.putString("vibe_image",responseData.result[1].vibe_image).toString())
-                            val imageView = viewBinding.imageViewMain1
-                            val defaultImage = R.drawable.image_ic_activity_history_album_list1
-                            //val url = editor.putString("vibe_image",responseData.result[0].content[0].vibe_image)
-                            val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
-                            Glide.with(this@VibeSearchActivity)
-                                .load(url) // 불러올 이미지 url
-                                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                                .into(imageView) // 이미지를 넣을 뷰
-                        }else{
-                            if(responseData.code == 3011){
-                                // xml에 tvView 추가해서 문구 띄우기
-                                Toast.makeText(applicationContext,"해당 태그를 가진 게시물이 없습니다.", Toast.LENGTH_SHORT).show()
+                        if(respData.is_success){
+                            when(respData?.code){
+                                1000-> {
+                                    Log.d("tagSearchResult",
+                                    "result : ${respDataResult}\n")
 
+                                    //데이터 저장하기
+                                    SearchSaveData(tagname,respDataResult)
+                                }
+                                3011 -> {
+                                    Toast.makeText(applicationContext,"해당 태그를 가진 게시물이 없습니다.", Toast.LENGTH_SHORT).show()
+
+                                }
                             }
                         }
                     }
@@ -124,6 +110,26 @@ class VibeSearchActivity : AppCompatActivity() {
                 Log.e("retrofit Search onFailure2", "${t.message.toString()}")
             }
         })
+    }
+
+    private fun SearchSaveData(tagname: String, respData: List<PostContentData>?) {
+        if (tagname.isNullOrEmpty()){
+            Log.d("tagEmpty","태그 이름 없음")
+        }else{
+            val vibeSearchAdapterClass = VibeSearchAdapterClass(respData as ArrayList<PostContentData>)
+            val layoutManager = StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+            viewBinding.vibeSearchMainRv.layoutManager = layoutManager
+            viewBinding.vibeSearchMainRv.adapter = vibeSearchAdapterClass
+
+            vibeSearchAdapterClass.setMyItemClickListener(object :
+                VibeSearchAdapterClass.MyItemClickListener{
+                override fun onItemClick(postContentData: PostContentData) {
+                    //val intent = Intent(context, VibePostActivity::class.java)
+                    //intent.putExtra("post_id",postContentData.post_id)
+                }
+                }
+            )
+        }
     }
 
 
