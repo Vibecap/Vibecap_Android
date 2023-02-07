@@ -2,22 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/vibe_main_layout"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/vibe_main_add_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:layout_marginBottom="15dp"
-        android:src="@drawable/ic_activity_vibe_main_add"
-        app:backgroundTint="#CBAEDA"
-        app:fabCustomSize="52dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:tint="@color/white" />
 
     <LinearLayout
         android:id="@+id/linearLayout_top"
@@ -332,27 +319,22 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/vibe_main_all_posts_rv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_main">
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:adjustViewBounds="true"
+                    android:layoutAnimation="@anim/item_layout_animation"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout_main"
+                    app:spanCount="2"
+                    tools:listitem="@layout/item_vibe_main_all_posts" />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/vibe_main_all_posts_rv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="16dp"
-                        android:layout_marginTop="30dp"
-                        android:layoutAnimation="@anim/item_layout_animation"
-                        android:layout_marginBottom="20dp"
-                        android:adjustViewBounds="true"
-                        android:nestedScrollingEnabled="false"
-                        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-                        app:spanCount="2"
-                        tools:listitem="@layout/item_vibe_main_all_posts" />
-
-                </LinearLayout>
 
             </LinearLayout>
 

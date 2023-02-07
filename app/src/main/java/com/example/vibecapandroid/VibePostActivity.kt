@@ -29,6 +29,7 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
     var writerMemberId = 0
 
     var postMenuBottomSheetDialog: BottomSheetDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityVibePostBinding.inflate(layoutInflater)
@@ -142,7 +143,7 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
         binding.vibePostPostBodyTv.text = result.body
         binding.vibePostNicknameTv.text = result.nickname
         if (!result.profileImg.isNullOrEmpty()) {
-            Glide.with(applicationContext).load(result.profileImg)
+            Glide.with(this).load(result.profileImg)
                 .placeholder(R.drawable.ic_activity_vibe_post_profile).circleCrop()
                 .into(binding.vibePostProfileIv)
         }
@@ -520,8 +521,8 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
         postMenuBottomSheetDialog =
             BottomSheetDialog(this, R.style.CustomBottomSheetDialog)
 
-        postMenuBottomSheetDialog!!.setContentView(postMenuBottomSheetView)
-        setPostBottomSheetView(postMenuBottomSheetView, postMenuBottomSheetDialog!!, this)
+        postMenuBottomSheetDialog!!.setContentView(postMenuBottomSheetView!!)
+        setPostBottomSheetView(postMenuBottomSheetView!!, postMenuBottomSheetDialog!!, this)
 
         binding.vibePostMenuBtn.setOnClickListener {
             postMenuBottomSheetDialog!!.show()
