@@ -50,15 +50,6 @@
             android:textColor="@color/back_txt"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/testTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""
-            android:textColor="@color/black"
-            android:textSize="12dp">
-
-        </TextView>
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/imageButton_tagsearch11"
@@ -95,101 +86,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/toolBar_top"
                 android:orientation="vertical">
 
-                <TableLayout
-                    android:layout_width="wrap_content"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/vibe_search_main_rv"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:layout_gravity="center"
-                    android:stretchColumns="*">
-
-                    <TableRow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain1"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp"
-                            android:layout_marginRight="10dp"
-                            />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain2"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp"
-                            />
-                    </TableRow>
-
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="10dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain3"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp"
-                            android:layout_marginRight="10dp"
-                             />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain4"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp"
-                             />
-                    </TableRow>
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="10dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain5"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp"
-                            android:layout_marginRight="10dp"
-                             />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain6"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp" />
-                    </TableRow>
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="10dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain7"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp"
-                            android:layout_marginRight="10dp" />
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain8"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp" />
-                    </TableRow>
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="10dp">
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain9"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp"
-                            android:layout_marginRight="10dp"/>
-
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/imageViewMain10"
-                            android:layout_width="50dp"
-                            android:layout_height="200dp"/>
-                    </TableRow>
-                </TableLayout>
-
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="30dp"
+                    android:layoutAnimation="@anim/item_layout_animation"
+                    android:layout_marginBottom="20dp"
+                    android:adjustViewBounds="true"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                    app:spanCount="2"
+                    tools:listitem="@layout/item_vibe_main_all_posts"
+                    />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

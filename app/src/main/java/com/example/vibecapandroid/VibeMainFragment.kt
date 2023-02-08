@@ -17,11 +17,12 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_NONE
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
-import com.example.vibecapandroid.R.id.imageView_weekly_item1
+import com.example.vibecapandroid.R.id.*
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.FragmentVibeMainBinding
 import com.example.vibecapandroid.utils.getRetrofit
 import kotlinx.coroutines.*
+import me.relex.circleindicator.CircleIndicator3
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
@@ -30,22 +31,15 @@ import kotlin.collections.ArrayList
 
 class VibeMainFragment : Fragment(), GetAllPostsView {
     private lateinit var viewBinding: FragmentVibeMainBinding
-
-    private var viewPager: ViewPager2? = null
     private lateinit var getAllPostsView: GetAllPostsView
-
     private var dtoList: ArrayList<PostContentData> = ArrayList()
     private var items: ArrayList<PostContentData> = ArrayList()
-
     private lateinit var mMapLayoutManager: StaggeredGridLayoutManager
     private lateinit var mListAdapter: VibeMainAllPostRVAdapter
     private lateinit var mRecyclerView: RecyclerView
-
     val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
     private var isLoading = false
-
     var page: Int = 0
-
 
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
@@ -71,7 +65,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         }
 
 
-//        getAllPosts(page)
+        getAllPosts(page)
+
 
         val view = inflater.inflate(R.layout.fragment_vibe_main, container, false)
 
@@ -110,22 +105,14 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             startActivity(intent)
         }
 
-
         val mypage_profile2 = viewBinding.imageButtonProfile
-
         mypage_profile2.setOnClickListener {
             val intent = Intent(context, MypageProfileActivity::class.java)
             startActivity(intent)
         }
 
-
         val addview = viewBinding.btnAddview
-        addview.setOnClickListener {
-
-            val intent = Intent(context, VibeDetailActivity::class.java)
-            startActivity(intent)
-        }
-        defaultTag()
+        defaultTag() // 신나는 defaultTag 설정
         tag1.setOnClickListener {
             tag1.setTextColor(Color.BLACK)
             tag2.setTextColor(Color.GRAY)
@@ -139,6 +126,11 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             addView.text = "#신나는 더보기"
             //api
             callTagAPI("신나는")
+            addview.setOnClickListener {
+                val intent = Intent(context, VibeDetailActivity::class.java)
+                intent.putExtra("tagname", "신나는")
+                startActivity(intent)
+            }
         }
 
         tag2.setOnClickListener {
@@ -154,6 +146,11 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             addView.text = "#포근한 더보기"
             //api
             callTagAPI("포근한")
+            addview.setOnClickListener {
+                val intent = Intent(context, VibeDetailActivity::class.java)
+                intent.putExtra("tagname", "포근한")
+                startActivity(intent)
+            }
         }
 
         tag3.setOnClickListener {
@@ -169,6 +166,11 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             addView.text = "#선선한 더보기"
             //api
             callTagAPI("선선한")
+            addview.setOnClickListener {
+                val intent = Intent(context, VibeDetailActivity::class.java)
+                intent.putExtra("tagname", "선선한")
+                startActivity(intent)
+            }
         }
 
         tag4.setOnClickListener {
@@ -184,6 +186,11 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             addView.text = "#낭만적인 더보기"
             //api
             callTagAPI("낭만적인")
+            addview.setOnClickListener {
+                val intent = Intent(context, VibeDetailActivity::class.java)
+                intent.putExtra("tagname", "낭만적인")
+                startActivity(intent)
+            }
         }
 
         tag5.setOnClickListener {
@@ -199,6 +206,11 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             addView.text = "#잔잔한 더보기"
             //api
             callTagAPI("잔잔한")
+            addview.setOnClickListener {
+                val intent = Intent(context, VibeDetailActivity::class.java)
+                intent.putExtra("tagname", "잔잔한")
+                startActivity(intent)
+            }
         }
 
         tag6.setOnClickListener {
@@ -214,6 +226,11 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             addView.text = "#우울한 더보기"
             //api
             callTagAPI("우울한")
+            addview.setOnClickListener {
+                val intent = Intent(context, VibeDetailActivity::class.java)
+                intent.putExtra("tagname", "우울한")
+                startActivity(intent)
+            }
         }
 
         tag7.setOnClickListener {
@@ -229,6 +246,11 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             addView.text = "#공허한 더보기"
             //api
             callTagAPI("공허한")
+            addview.setOnClickListener {
+                val intent = Intent(context, VibeDetailActivity::class.java)
+                intent.putExtra("tagname", "공허한")
+                startActivity(intent)
+            }
         }
 
         tag8.setOnClickListener {
@@ -244,19 +266,16 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             addView.text = "#심심한 더보기"
             //api
             callTagAPI("심심한")
+
+            addview.setOnClickListener {
+                val intent = Intent(context, VibeDetailActivity::class.java)
+                intent.putExtra("tagname", "심심한")
+                startActivity(intent)
+            }
         }
+        requestWeeklyAPI()
 
-//        requestWeeklyAPI()
 
-
-        // 뷰페이저 적용
-        viewBinding.ViewPagerBanner.adapter = ViewPagerAdapter(getWeeklyList()) // 어댑터 생성
-        viewBinding.ViewPagerBanner.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
-        val wormDotsIndicator = viewBinding.dotsIndicator
-        val viewPager = viewBinding.ViewPagerBanner
-        val adapter = ViewPagerAdapter(getWeeklyList())
-        viewPager.adapter = adapter
-        wormDotsIndicator.attachTo(viewPager)
 
         return viewBinding.root
     }
@@ -285,19 +304,14 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         addView.text = "#신나는 더보기"
         //api
         callTagAPI("신나는")
+        addView.setOnClickListener {
+            val intent = Intent(context, VibeDetailActivity::class.java)
+            intent.putExtra("tagname", "신나는")
+            startActivity(intent)
+        }
     }
 
-
-    private fun getWeeklyList(): ArrayList<Int> {
-        return arrayListOf<Int>(
-            R.drawable.ic_activity_vibe_main_weekly,
-            R.drawable.ic_activity_vibe_main_weekly,
-            R.drawable.ic_activity_vibe_main_weekly
-        )
-    }
-
-
-    // api
+    // baseUrl api
     object TagRetrofitObject {
         private fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
@@ -341,16 +355,28 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                                     "isSuccess:${responseData?.is_success}\n " +
                                     "Code: ${responseData?.code} \n" +
                                     "Message:${responseData?.message} \n" +
-                                    "result:${responseData.result[1].tag_name}\n"
+                                    "result:${responseData.result}\n"
                         )
 
                         if (responseData.is_success) {
                             when (response.body()?.code) {
                                 1000 -> {
                                     // 데이터 저장하기
-                                    weeklySaveData(0, responseData)
-                                    weeklySaveData(1, responseData)
-                                    weeklySaveData(2, responseData)
+                                    //weeklySaveData(0,responseData)
+                                    //weeklySaveData(1,responseData)
+                                    //weeklySaveData(2,responseData)
+
+                                    val weeklyarray=responseData.result
+                                    viewBinding.ViewPagerBanner.adapter = ViewPagerAdapter(requireContext(),weeklyarray.toTypedArray()) // 어댑터 생성
+                                    viewBinding.ViewPagerBanner.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
+
+                                    // 인디케이터 적용
+                                    val viewpager: ViewPager2 = view!!.findViewById(R.id.ViewPager_banner)
+                                    viewpager.adapter = ViewPagerAdapter(requireContext(),weeklyarray.toTypedArray())
+
+                                    val indicator: CircleIndicator3 =
+                                        view!!.findViewById(R.id.dots_indicator)
+                                    indicator.setViewPager(viewpager)
                                 }
                             }
                         } else {
@@ -370,6 +396,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
             }
         })
     }
+
+
 
     // 태그별 API
     private fun callTagAPI(tagName: String) {
@@ -396,7 +424,8 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                                     // 데이터 저장하기
                                     viewBinding.tagAlert.visibility = View.GONE
                                     viewBinding.tableLayoutMain.visibility = View.VISIBLE
-//                                    TagsaveData(tagName, responseData)
+                                    TagsaveData(tagName, responseData)
+
                                 }
                                 3011 -> {
                                     viewBinding.tagAlert.visibility = View.VISIBLE
@@ -405,8 +434,6 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                             }
                         } else {
                             if (responseData.code == 3011) {
-                                // xml에 tvView 추가해서 문구 띄우기
-                                Log.d("TagResult", "해당 태그를 가진 게시물이 없습니다.\n")
                                 viewBinding.tagAlert.visibility = View.VISIBLE
                             }
                         }
@@ -416,7 +443,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 
             // api 호출 실패시
             override fun onFailure(call: Call<PostTagResponse>, t: Throwable) {
-                Log.e("retrofit onFailure2", "${t.message.toString()}")
+                Log.e("retrofit Tag onFailure2", "${t.message.toString()}")
             }
         })
     }
@@ -450,105 +477,371 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 
     // 태그별 저장
     private fun TagsaveData(tagName: String, responseData: PostTagResponse) {
-
         if (tagName.isNullOrEmpty()) {
-            // textView 추가하기
             Log.d("tagEmpty", "태그 이름 없음")
         } else {
             val defaultImage = R.drawable.image_ic_activity_history_album_list1
+            when(responseData.result.content.size){
+                0 -> {
+                    Log.d("tagEmpty", "태그 게시물 없음")
+                }
+                1 -> {
+                    // 1번째 post
+                    //val post_id_1 = responseData.result.content[0].post_id
+                    //val member_id_1 = responseData.result.content[0].member_id
+                    //val vibe_id_1 = responseData.result.content[0].vibe_id
+                    val vibe_image_1 = responseData.result.content[0].vibe_image
 
-            // 1번째 post
-            val post_id_1 = responseData.result.content[0].post_id
-            val member_id_1 = responseData.result.content[0].member_id
-            val vibe_id_1 = responseData.result.content[0].vibe_id
-            val vibe_image_1: String? = responseData.result.content[0].vibe_image
+                    val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
+                    imageView_1.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_1) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_1) // 이미지를 넣을 뷰
 
-            val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
-            imageView_1.clipToOutline = true
-            Glide.with(this@VibeMainFragment)
-                .load(vibe_image_1) // 불러올 이미지 url
-                .fitCenter()
-                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                .into(imageView_1) // 이미지를 넣을 뷰
+                    viewBinding.imageButton2.visibility = View.GONE
+                    viewBinding.imageButton3.visibility = View.GONE
+                    viewBinding.imageButton4.visibility = View.GONE
+                    viewBinding.imageButton5.visibility = View.GONE
+                    viewBinding.imageButton6.visibility = View.GONE
+                }
+                2 -> {
+                    // 1번째 post
+                    //val post_id_1 = responseData.result.content[0].post_id
+                    //val member_id_1 = responseData.result.content[0].member_id
+                    //val vibe_id_1 = responseData.result.content[0].vibe_id
+                    val vibe_image_1 = responseData.result.content[0].vibe_image
 
-            // 2번째 post
-            val post_id_2 = responseData.result.content[1].post_id
-            val member_id_2 = responseData.result.content[1].member_id
-            val vibe_id_2 = responseData.result.content[1].vibe_id
-            val vibe_image_2: String? = responseData.result.content[1].vibe_image
+                    val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
+                    imageView_1.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_1) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_1) // 이미지를 넣을 뷰
 
-            val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
-            imageView_2.clipToOutline = true
-            Glide.with(this@VibeMainFragment)
-                .load(vibe_image_2) // 불러올 이미지 url
-                .fitCenter()
-                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                .into(imageView_2) // 이미지를 넣을 뷰
+                    // 2번째 post
+                    //val post_id_2 = responseData.result.content[1].post_id
+                    //val member_id_2 = responseData.result.content[1].member_id
+                    //val vibe_id_2 = responseData.result.content[1].vibe_id
+                    val vibe_image_2 = responseData.result.content[1].vibe_image
 
-            // 3번째 post
-            val post_id_3 = responseData.result.content[2].post_id
-            val member_id_3 = responseData.result.content[2].member_id
-            val vibe_id_3 = responseData.result.content[2].vibe_id
-            val vibe_image_3: String? = responseData.result.content[2].vibe_image
+                    val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
+                    imageView_2.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_2) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_2) // 이미지를 넣을 뷰
 
-            val imageView_3 = requireView().findViewById<ImageView>(R.id.imageButton_3)
-            imageView_3.clipToOutline = true
-            Glide.with(this@VibeMainFragment)
-                .load(vibe_image_3) // 불러올 이미지 url
-                .override(800, 200)
-                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                .into(imageView_3) // 이미지를 넣을 뷰
+                    viewBinding.imageButton3.visibility = View.GONE
+                    viewBinding.imageButton4.visibility = View.GONE
+                    viewBinding.imageButton5.visibility = View.GONE
+                    viewBinding.imageButton6.visibility = View.GONE
+                }
+                3 -> {
+                    // 1번째 post
+                    //val post_id_1 = responseData.result.content[0].post_id
+                    //val member_id_1 = responseData.result.content[0].member_id
+                    //val vibe_id_1 = responseData.result.content[0].vibe_id
+                    val vibe_image_1 = responseData.result.content[0].vibe_image
 
-            // 4번째 post
-            val post_id_4 = responseData.result.content[3].post_id
-            val member_id_4 = responseData.result.content[3].member_id
-            val vibe_id_4 = responseData.result.content[3].vibe_id
-            val vibe_image_4: String? = responseData.result.content[3].vibe_image
+                    val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
+                    imageView_1.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_1) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_1) // 이미지를 넣을 뷰
 
-            val imageView_4 = requireView().findViewById<ImageView>(R.id.imageButton_4)
-            imageView_4.clipToOutline = true
-            Glide.with(this@VibeMainFragment)
-                .load(vibe_image_4) // 불러올 이미지 url
-                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                .into(imageView_4) // 이미지를 넣을 뷰
+                    // 2번째 post
+                    //val post_id_2 = responseData.result.content[1].post_id
+                    //val member_id_2 = responseData.result.content[1].member_id
+                    //val vibe_id_2 = responseData.result.content[1].vibe_id
+                    val vibe_image_2 = responseData.result.content[1].vibe_image
 
-            // 5번째 post
-            val post_id_5 = responseData.result.content[4].post_id
-            val member_id_5 = responseData.result.content[4].member_id
-            val vibe_id_5 = responseData.result.content[4].vibe_id
-            val vibe_image_5: String? = responseData.result.content[4].vibe_image
+                    val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
+                    imageView_2.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_2) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_2) // 이미지를 넣을 뷰
 
-            val imageView_5 = requireView().findViewById<ImageView>(R.id.imageButton_5)
-            imageView_5.clipToOutline = true
-            Glide.with(this@VibeMainFragment)
-                .load(vibe_image_5) // 불러올 이미지 url
-                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                .into(imageView_5) // 이미지를 넣을 뷰
+                    // 3번째 post
+                    //val post_id_3 = responseData.result.content[2].post_id
+                    //val member_id_3 = responseData.result.content[2].member_id
+                    //val vibe_id_3 = responseData.result.content[2].vibe_id
+                    val vibe_image_3 = responseData.result.content[2].vibe_image
 
-            // 6번째 post
-            val post_id_6 = responseData.result.content[5].post_id
-            val member_id_6 = responseData.result.content[5].member_id
-            val vibe_id_6 = responseData.result.content[5].vibe_id
-            val vibe_image_6: String? = responseData.result.content[5].vibe_image
+                    val imageView_3 = requireView().findViewById<ImageView>(R.id.imageButton_3)
+                    imageView_3.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_3) // 불러올 이미지 url
+                        .override(800, 200)
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_3) // 이미지를 넣을 뷰
 
-            val imageView_6 = requireView().findViewById<ImageView>(R.id.imageButton_6)
-            imageView_6.clipToOutline = true
-            Glide.with(this@VibeMainFragment)
-                .load(vibe_image_6) // 불러올 이미지 url
-                .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                .into(imageView_6) // 이미지를 넣을 뷰
+                    viewBinding.imageButton4.visibility = View.GONE
+                    viewBinding.imageButton5.visibility = View.GONE
+                    viewBinding.imageButton6.visibility = View.GONE
+                }
+                4 -> {
+                    // 1번째 post
+                    //val post_id_1 = responseData.result.content[0].post_id
+                    //val member_id_1 = responseData.result.content[0].member_id
+                    //val vibe_id_1 = responseData.result.content[0].vibe_id
+                    val vibe_image_1 = responseData.result.content[0].vibe_image
+
+                    val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
+                    imageView_1.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_1) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_1) // 이미지를 넣을 뷰
+
+                    // 2번째 post
+                    //val post_id_2 = responseData.result.content[1].post_id
+                    //val member_id_2 = responseData.result.content[1].member_id
+                    //val vibe_id_2 = responseData.result.content[1].vibe_id
+                    val vibe_image_2 = responseData.result.content[1].vibe_image
+
+                    val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
+                    imageView_2.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_2) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_2) // 이미지를 넣을 뷰
+
+                    // 3번째 post
+                    //val post_id_3 = responseData.result.content[2].post_id
+                    //val member_id_3 = responseData.result.content[2].member_id
+                    //val vibe_id_3 = responseData.result.content[2].vibe_id
+                    val vibe_image_3 = responseData.result.content[2].vibe_image
+
+                    val imageView_3 = requireView().findViewById<ImageView>(R.id.imageButton_3)
+                    imageView_3.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_3) // 불러올 이미지 url
+                        .override(800, 200)
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_3) // 이미지를 넣을 뷰
+
+                    // 4번째 post
+                    //val post_id_4 = responseData.result.content[3].post_id
+                    // val member_id_4 = responseData.result.content[3].member_id
+                    //val vibe_id_4 = responseData.result.content[3].vibe_id
+                    val vibe_image_4 = responseData.result.content[3].vibe_image
+
+                    val imageView_4 = requireView().findViewById<ImageView>(R.id.imageButton_4)
+                    imageView_4.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_4) // 불러올 이미지 url
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_4) // 이미지를 넣을 뷰
+
+                    viewBinding.imageButton5.visibility = View.GONE
+                    viewBinding.imageButton6.visibility = View.GONE
+                }
+                5 -> {
+                    // 1번째 post
+                    //val post_id_1 = responseData.result.content[0].post_id
+                    //val member_id_1 = responseData.result.content[0].member_id
+                    //val vibe_id_1 = responseData.result.content[0].vibe_id
+                    val vibe_image_1 = responseData.result.content[0].vibe_image
+
+                    val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
+                    imageView_1.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_1) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_1) // 이미지를 넣을 뷰
+
+                    // 2번째 post
+                    //val post_id_2 = responseData.result.content[1].post_id
+                    //val member_id_2 = responseData.result.content[1].member_id
+                    //val vibe_id_2 = responseData.result.content[1].vibe_id
+                    val vibe_image_2 = responseData.result.content[1].vibe_image
+
+                    val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
+                    imageView_2.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_2) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_2) // 이미지를 넣을 뷰
+
+                    // 3번째 post
+                    //val post_id_3 = responseData.result.content[2].post_id
+                    //val member_id_3 = responseData.result.content[2].member_id
+                    //val vibe_id_3 = responseData.result.content[2].vibe_id
+                    val vibe_image_3 = responseData.result.content[2].vibe_image
+
+                    val imageView_3 = requireView().findViewById<ImageView>(R.id.imageButton_3)
+                    imageView_3.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_3) // 불러올 이미지 url
+                        .override(800, 200)
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_3) // 이미지를 넣을 뷰
+
+                    // 4번째 post
+                    //val post_id_4 = responseData.result.content[3].post_id
+                    // val member_id_4 = responseData.result.content[3].member_id
+                    //val vibe_id_4 = responseData.result.content[3].vibe_id
+                    val vibe_image_4 = responseData.result.content[3].vibe_image
+
+                    val imageView_4 = requireView().findViewById<ImageView>(R.id.imageButton_4)
+                    imageView_4.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_4) // 불러올 이미지 url
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_4) // 이미지를 넣을 뷰
+
+                    // 5번째 post
+                    //val post_id_5 = responseData.result.content[4].post_id
+                    //val member_id_5 = responseData.result.content[4].member_id
+                    // val vibe_id_5 = responseData.result.content[4].vibe_id
+                    val vibe_image_5 = responseData.result.content[4].vibe_image
+
+                    val imageView_5 = requireView().findViewById<ImageView>(R.id.imageButton_5)
+                    imageView_5.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_5) // 불러올 이미지 url
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_5) // 이미지를 넣을 뷰
+
+                    viewBinding.imageButton6.visibility = View.GONE
+                }
+                6 -> {
+                    // 1번째 post
+                    //val post_id_1 = responseData.result.content[0].post_id
+                    //val member_id_1 = responseData.result.content[0].member_id
+                    //val vibe_id_1 = responseData.result.content[0].vibe_id
+                    val vibe_image_1 = responseData.result.content[0].vibe_image
+
+                    val imageView_1 = requireView().findViewById<ImageView>(R.id.imageButton_1)
+                    imageView_1.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_1) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_1) // 이미지를 넣을 뷰
+
+                    // 2번째 post
+                    //val post_id_2 = responseData.result.content[1].post_id
+                    //val member_id_2 = responseData.result.content[1].member_id
+                    //val vibe_id_2 = responseData.result.content[1].vibe_id
+                    val vibe_image_2 = responseData.result.content[1].vibe_image
+
+                    val imageView_2 = requireView().findViewById<ImageView>(R.id.imageButton_2)
+                    imageView_2.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_2) // 불러올 이미지 url
+                        .fitCenter()
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_2) // 이미지를 넣을 뷰
+
+                    // 3번째 post
+                    //val post_id_3 = responseData.result.content[2].post_id
+                    //val member_id_3 = responseData.result.content[2].member_id
+                    //val vibe_id_3 = responseData.result.content[2].vibe_id
+                    val vibe_image_3 = responseData.result.content[2].vibe_image
+
+                    val imageView_3 = requireView().findViewById<ImageView>(R.id.imageButton_3)
+                    imageView_3.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_3) // 불러올 이미지 url
+                        .override(800, 200)
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_3) // 이미지를 넣을 뷰
+
+                    // 4번째 post
+                    //val post_id_4 = responseData.result.content[3].post_id
+                    // val member_id_4 = responseData.result.content[3].member_id
+                    //val vibe_id_4 = responseData.result.content[3].vibe_id
+                    val vibe_image_4 = responseData.result.content[3].vibe_image
+
+                    val imageView_4 = requireView().findViewById<ImageView>(R.id.imageButton_4)
+                    imageView_4.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_4) // 불러올 이미지 url
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_4) // 이미지를 넣을 뷰
+
+                    // 5번째 post
+                    //val post_id_5 = responseData.result.content[4].post_id
+                    //val member_id_5 = responseData.result.content[4].member_id
+                    // val vibe_id_5 = responseData.result.content[4].vibe_id
+                    val vibe_image_5 = responseData.result.content[4].vibe_image
+
+                    val imageView_5 = requireView().findViewById<ImageView>(R.id.imageButton_5)
+                    imageView_5.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_5) // 불러올 이미지 url
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_5) // 이미지를 넣을 뷰
+
+                    // 6번째 post
+                    // val post_id_6 = responseData.result.content[5].post_id
+                    //val member_id_6 = responseData.result.content[5].member_id
+                    //val vibe_id_6 = responseData.result.content[5].vibe_id
+                    val vibe_image_6 = responseData.result.content[5].vibe_image
+
+                    val imageView_6 = requireView().findViewById<ImageView>(R.id.imageButton_6)
+                    imageView_6.clipToOutline = true
+                    Glide.with(this@VibeMainFragment)
+                        .load(vibe_image_6) // 불러올 이미지 url
+                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
+                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
+                        .into(imageView_6) // 이미지를 넣을 뷰
+                }
+            }
         }
 
 
@@ -743,7 +1036,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
     }
 
     // Weekly 저장
-    private fun weeklySaveData(id: Int, responseData: PostWeeklyResponse) {
+    private fun weeklySaveData(id:Int,responseData: PostWeeklyResponse) {
 
         val post_id = responseData.result[id].post_id
         val tag_name = responseData.result[id].tag_name
@@ -813,8 +1106,6 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                     imageView.clipToOutline = true
                     val defaultImage = R.drawable.ic_activity_vibe_main_banner
                     val url = vibe_image
-
-                    //val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
                     Glide.with(this@VibeMainFragment)
                         .load(url) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
@@ -827,7 +1118,6 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                     imageView.clipToOutline = true
                     val defaultImage = R.drawable.ic_activity_vibe_main_banner
                     val url = vibe_image
-                    //val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
                     Glide.with(this@VibeMainFragment)
                         .load(url) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
@@ -840,7 +1130,6 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                     imageView.clipToOutline = true
                     val defaultImage = R.drawable.ic_activity_vibe_main_banner
                     val url = vibe_image
-                    //val url = "https://firebasestorage.googleapis.com/v0/b/vibecap-ee692.appspot.com/o/b9bf7d74-88f3-4b06-952b-dc9c59f8090ajpg?alt=media"
                     Glide.with(this@VibeMainFragment)
                         .load(url) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
