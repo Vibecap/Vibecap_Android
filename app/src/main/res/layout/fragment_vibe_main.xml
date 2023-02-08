@@ -326,15 +326,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
                     android:layout_marginTop="30dp"
-                    android:layout_marginBottom="20dp"
                     android:adjustViewBounds="true"
+                    android:clipToPadding="false"
                     android:layoutAnimation="@anim/item_layout_animation"
-                    android:nestedScrollingEnabled="false"
+                    android:paddingBottom="20dp"
                     app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout_main"
                     app:spanCount="2"
                     tools:listitem="@layout/item_vibe_main_all_posts" />
-
 
             </LinearLayout>
 

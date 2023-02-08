@@ -15,9 +15,10 @@
     <color name="grey">#B1B1B1</color>
     <color name="red">#FFDD0000</color>
 
-    <color name="gray_300">#B1B1B1</color>
-    <color name="gray_200">#D9D9D9</color>
     <color name="gray_100">#F5F5F5</color>
+    <color name="gray_200">#D9D9D9</color>
+    <color name="gray_300">#C2C2C2</color>
+    <color name="gray_400">#B1B1B1</color>
 
     <color name="purple_100">#FDF7FF</color>
     <color name="purple_150">#B392C5</color>
