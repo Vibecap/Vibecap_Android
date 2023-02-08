@@ -25,10 +25,10 @@ data class PostAllData(
 )
 
 data class PostContentData(
-    @SerializedName("post_id") val post_id: Int,
-    @SerializedName("member_id") val member_id: Int,
-    @SerializedName("vibe_id") val vibe_id: Int,
-    @SerializedName("vibe_image") val vibe_image: String
+    @SerializedName("post_id") val post_id: Int?,
+    @SerializedName("member_id") val member_id: Int?,
+    @SerializedName("vibe_id") val vibe_id: Int?,
+    @SerializedName("vibe_image") val vibe_image: String?
 )
 
 data class PostPageableData(

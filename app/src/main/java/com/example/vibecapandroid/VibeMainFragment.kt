@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager.GAP_HANDLING_NONE
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.example.vibecapandroid.R.id.*
@@ -25,6 +26,7 @@ import me.relex.circleindicator.CircleIndicator3
 import retrofit2.*
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class VibeMainFragment : Fragment(), GetAllPostsView {
@@ -48,18 +50,23 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         viewBinding = FragmentVibeMainBinding.inflate(layoutInflater)
 
         // 상태바 설정
-        val windowController = WindowInsetsControllerCompat(requireActivity().window, requireActivity().window.decorView)
+        val windowController = WindowInsetsControllerCompat(
+            requireActivity().window,
+            requireActivity().window.decorView
+        )
         windowController.isAppearanceLightStatusBars = true
-        viewBinding.vibeMainLayout.setPadding(0,requireContext().statusBarHeight(), 0, 0)
+        viewBinding.vibeMainLayout.setPadding(0, requireContext().statusBarHeight(), 0, 0)
 
         setAllPostsView(this)
 
         viewBinding.apply {
-//            lifecycleOwner = this@VibeMainFragment
-//            activity = this@VibeMainFragment
+//            this.root.lifecycleOwner = this@MainActivity
+//            activity = this@MainActivity
         }
 
+
         getAllPosts(page)
+
 
         val view = inflater.inflate(R.layout.fragment_vibe_main, container, false)
 
@@ -89,14 +96,6 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         search.setOnClickListener {
             val intent = Intent(context, VibeSearchActivity::class.java)
             startActivity(intent)
-        }
-
-        // 게시물 작성 Floating Action Button
-        viewBinding.vibeMainAddFab.setOnClickListener {
-            (context as MainActivity).supportFragmentManager.beginTransaction()
-//                .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                .replace(R.id.container_fragment, HistoryMainFragment())
-                .commitAllowingStateLoss()
         }
 
 
@@ -461,8 +460,6 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
                 ) {
                     Log.d("[VIBE] GET_ALL_POSTS/SUCCESS", response.toString())
                     val resp: PostTagResponse = response.body()!!
-
-                    Log.d("[VIBE] GET_ALL_POSTS/CODE", resp.code.toString())
 
                     // 서버 response 중 code 값에 따른 결과
                     when (resp.code) {
@@ -862,30 +859,68 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
      */
     override fun onGetAllPostsSuccess(result: PostAllData) {
         // 게시물 전체 조회 rv 설정
-        val vibeMainAllPostRVAdapter =
-            VibeMainAllPostRVAdapter(result.content as ArrayList<PostContentData>)
-        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        viewBinding.vibeMainAllPostsRv.layoutManager = layoutManager
+//        val vibeMainAllPostRVAdapter =
+//            VibeMainAllPostRVAdapter(result.content as ArrayList<PostContentData>)
+//        val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+//        viewBinding.vibeMainAllPostsRv.layoutManager = layoutManager
+//
+//        viewBinding.vibeMainAllPostsRv.adapter = vibeMainAllPostRVAdapter
+//
+//        vibeMainAllPostRVAdapter.setMyItemClickListener(object :
+//            VibeMainAllPostRVAdapter.MyItemClickListener {
+//            override fun onItemClick(postContentData: PostContentData) {
+//                val intent = Intent(context, VibePostActivity::class.java)
+//                intent.putExtra("post_id", postContentData.post_id)
+//                startActivity(intent)
+//            }
+//        })
 
-        viewBinding.vibeMainAllPostsRv.adapter = vibeMainAllPostRVAdapter
+        /*
+        setData(result.content as ArrayList<PostContentData>)
+        initAdapter()
+        initScrollListener(result.totalPages)
+         */
 
-        vibeMainAllPostRVAdapter.setMyItemClickListener(object :
+        //1. 게시물 데이터 받아오기
+        dtoList = result.content as ArrayList<PostContentData>
+        for (i in 0 until dtoList.size) {
+            items.add(dtoList[i])
+            Log.e("item first", "${items.size}")
+        }
+
+        //2. RecyclerView 생성
+        mListAdapter = VibeMainAllPostRVAdapter(items)
+        mMapLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        viewBinding.vibeMainAllPostsRv.adapter = mListAdapter
+
+        mListAdapter.setMyItemClickListener(object :
             VibeMainAllPostRVAdapter.MyItemClickListener {
             override fun onItemClick(postContentData: PostContentData) {
                 val intent = Intent(context, VibePostActivity::class.java)
                 intent.putExtra("post_id", postContentData.post_id)
                 startActivity(intent)
             }
-
         })
-//        setData(result.content)
-//        initAdapter()
-//        initScrollListener()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        getAllPosts(page)
+        //3. scroll이 끝에 닿으면 데이터에 null 추가 및 Adapter에 알림
+        viewBinding.vibeMainNsv.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            if(!isLoading) {
+                if (!v.canScrollVertically(1)) {
+                    Log.d("ddd", "최하단")
+//                page++
+//                Log.d("ddd: ", "${page}")
+                    isLoading = true
+
+//                    if (page == result.totalPages - 1) {
+//                        page = 0
+//                    }
+                    moreItems(result.totalPages)
+                }
+            }
+
+
+        }
+
     }
 
     override fun onGetAllPostsFailure(code: Int, message: String) {
@@ -893,30 +928,44 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
     }
 
 
+    //1. 게시물 데이터 받아오기
     private fun setData(result: ArrayList<PostContentData>) {
         dtoList = result as ArrayList<PostContentData>
-        for (i in 0 until 8) {
+        for (i in 0 until result.size) {
             items.add(result[i])
         }
     }
 
-    //1. RecyclerView 생성
+    //2. RecyclerView 생성
     private fun initAdapter() {
         mListAdapter = VibeMainAllPostRVAdapter(items)
         mMapLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         viewBinding.vibeMainAllPostsRv.adapter = mListAdapter
 
+        mListAdapter.setMyItemClickListener(object :
+            VibeMainAllPostRVAdapter.MyItemClickListener {
+            override fun onItemClick(postContentData: PostContentData) {
+                val intent = Intent(context, VibePostActivity::class.java)
+                intent.putExtra("post_id", postContentData.post_id)
+                startActivity(intent)
+            }
+        })
     }
 
-    // 2. scroll이 끝에 닿으면 데이터에 null 추가 및 Adapter에 알림
-    private fun initScrollListener() {
+    //3. scroll이 끝에 닿으면 데이터에 null 추가 및 Adapter에 알림
+    private fun initScrollListener(totalPages: Int) {
         viewBinding.vibeMainNsv.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
 
             if (!v.canScrollVertically(1)) {
                 Log.d("ddd", "최하단")
-                moreItems()
+//                page++
+//                Log.d("ddd: ", "${page}")
+                if (page == totalPages - 1) {
+                    page = 0
+                    return@setOnScrollChangeListener
+                }
+                moreItems(totalPages)
                 isLoading = true
-
             }
 
         }
@@ -940,41 +989,46 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
     }
 
     //3. null 제거 후 새로운 데이터 추가 및 Adapter에 알림
-    fun moreItems() {
+    fun moreItems(totalPages: Int) {
         mRecyclerView = viewBinding.vibeMainAllPostsRv
 
-        viewBinding.vibeMainAllPostsRv.adapter = mListAdapter
-
         val runnable = Runnable {
-//            items.add(null)
-//            mListAdapter.notifyItemInserted(items.size - 1)
+            items.add(PostContentData(null, null, null, null))
+            mListAdapter.notifyItemInserted(items.size - 1)
         }
+        Log.d("itemSize", "${items.size}")
         mRecyclerView.post(runnable)
-//
+
         CoroutineScope(mainDispatcher).launch {
-            delay(2000)
+            delay(1000)
             val runnable2 = Runnable {
                 items.removeAt(items.size - 1)
                 val scrollPosition = items.size
-                mListAdapter.notifyItemRemoved(scrollPosition)
+                mListAdapter.notifyItemRemoved(items.size - 1)
 
-                page++
-                getAllPosts(page)
+                if (page < totalPages - 1) {
+                    page++
+                    getAllPosts(page)
+                } else return@Runnable
+
                 var currentSize = scrollPosition
+                currentSize = 0 //////////
                 var nextLimit = currentSize + 8
+
                 Log.e("hello", "${nextLimit}")
-                if (currentSize < dtoList.size - 8) {
-                    while (currentSize - 1 < nextLimit) {
-                        items.add(dtoList[currentSize])
-                        currentSize++
-                    }
-                } else {
-                    while (currentSize != dtoList.size) {
-                        items.add(dtoList[currentSize])
-                        currentSize++
-                    }
-                }
-                mListAdapter.updateItem(items)
+
+//                if (currentSize < dtoList.size - 8) {
+//                    while (currentSize - 1 < nextLimit) {
+//                        items.add(dtoList[currentSize])
+//                        currentSize++
+//                    }
+//                } else {
+//                    while (currentSize != dtoList.size) {
+//                        items.add(dtoList[currentSize])
+//                        currentSize++
+//                    }
+//                }
+//                mListAdapter.updateItem(items)
                 isLoading = false
             }
             runnable2.run()
@@ -993,7 +1047,7 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
 
         // tag name 설정
         if (tag_name.isNullOrEmpty()) {
-          //  requireView().findViewById<TextView>(R.id.weeklyTagLinear).visibility = View.GONE
+            //  requireView().findViewById<TextView>(R.id.weeklyTagLinear).visibility = View.GONE
         } else {
             // tag name 을 공백으로 구분
             val tagList = tag_name.split(buildString {
@@ -1089,6 +1143,13 @@ class VibeMainFragment : Fragment(), GetAllPostsView {
         }
 
     }
+
+    override fun onStart() {
+        super.onStart()
+        getAllPosts(page)
+    }
+
+    // 상태바 높이 구하기
     fun Context.statusBarHeight(): Int {
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
 
