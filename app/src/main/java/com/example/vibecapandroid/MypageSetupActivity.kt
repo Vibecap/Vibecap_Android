@@ -3,8 +3,6 @@ package com.example.vibecapandroid
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
@@ -16,7 +14,6 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import com.example.vibecapandroid.coms.*
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -76,7 +73,7 @@ class MypageSetupActivity : AppCompatActivity() {
                     startActivity(intent)}
                 if (position == 2) {
                     val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
-                    val intent = Intent(this, MypageAlarmsetupActivity::class.java)
+                    val intent = Intent(this, MypageNoticeSetupActivity::class.java)
                     intent.putExtra("알림 설정", setupList1[position].profile_textview)
                     startActivity(intent)
                 }

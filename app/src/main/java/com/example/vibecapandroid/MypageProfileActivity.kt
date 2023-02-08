@@ -108,8 +108,17 @@ class MypageProfileActivity : AppCompatActivity() {
                         nickname.setText(responseData.result.nickname)
                         var email = findViewById<TextView>(R.id.activity_mypage_profilelist_email)
                         email.setText(responseData.result.email)
-                        Glide.with(this@MypageProfileActivity).load(responseData.result.profile_image).into(findViewById(R.id.activity_mypage_profilelist_profileimg))
-                    }
+                        if(responseData.result.profile_image==null){
+                            Glide.with(this@MypageProfileActivity)
+                                .load(R.drawable.wheel_main)
+                                .into(findViewById(R.id.activity_mypage_profilelist_profileimg))
+                        }
+                        else {
+                            Glide.with(this@MypageProfileActivity)
+                                .load(responseData.result.profile_image)
+                                .into(findViewById(R.id.activity_mypage_profilelist_profileimg))
+                            }
+                        }
                     else{
                         Log.d("Retrofit","Null data") }
 

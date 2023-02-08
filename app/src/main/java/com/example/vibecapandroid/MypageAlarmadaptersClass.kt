@@ -30,7 +30,7 @@ class MypageAlarmadaptersClass(var alarmList: ArrayList<MypageAlarmClass>):
     class CustomViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var image = itemView.findViewById<ImageView>(R.id.activity_mypage_alarm_imageview)
         var title = itemView.findViewById<TextView>(R.id.activity_mypage_alarm_title)
-        var id = itemView.findViewById<TextView>(R.id.activity_mypage_alarm_id)
+        var id = itemView.findViewById<TextView>(R.id.activity_mypage_alarm_icon)
         var text = itemView.findViewById<TextView>(R.id.activity_mypage_alarm_text)
     }
 }

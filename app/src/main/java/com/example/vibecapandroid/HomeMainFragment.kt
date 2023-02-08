@@ -188,7 +188,7 @@ class HomeMainFragment : Fragment() {
             if (position!=null) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(500, 100))
+                    vibrator.vibrate(VibrationEffect.createOneShot(50, 10))
 
 
                 }

@@ -245,3 +245,19 @@ data class deleteMypageResponse(
 data class deleteMypagePostInput(
     val member_id: Int
 )
+
+data class getAlarmHistoryResponse(
+    val is_success: Boolean,
+    val code: Int,
+    val message: String,
+    val result: List<notice>
+)
+
+data class notice(
+    val notice_id:Long,
+    val event:String,
+    val time:String,
+    val sender:String,
+    val summary:String //이벤트가 like인 경우 null 반환
+)
+
