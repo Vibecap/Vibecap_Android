@@ -131,7 +131,7 @@ class VibeMainFragment : Fragment() {
         }
 
         defaultTag()
-
+        val addview = viewBinding.btnAddview
         tag1.setOnClickListener {
             tag1.setTextColor(Color.BLACK)
             tag2.setTextColor(Color.GRAY)
