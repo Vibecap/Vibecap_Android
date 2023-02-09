@@ -15,6 +15,7 @@
     <string name="close">닫기</string>
     <string name="cancel">취소</string>
     <string name="ok">확인</string>
+    <string name="search">검색</string>
 
     <!-- [VIBE] 게시물 메뉴 -->
     <string name="vibe_post_menu_block">게시물 차단하기</string>
@@ -41,10 +42,15 @@
     <string name="vibe_comment_add_sub_comment">답글 달기</string>
     <string name="vibe_comment_add_subcomment">대댓글을 작성하시겠습니까?</string>
 
+    <!-- [VIBE] 검색 -->
+    <string name="vibe_search_empty_result">검색 결과가 없습니다</string>
+    <string name="vibe_search_hashtag">#해시태그 검색</string>
+
     <!--[마이페이지] 메뉴-->
     <string name="mypage_post_menu_edit">수정하기</string>
     <string name="mypage_post_menu_delete">삭제하기</string>
     <string name="mypage_post_menu_share">게시물 공유하기</string>
+    <string name="vibe_detail_no_posts">게시물이 없습니다.</string>
 
 
 </resources>
