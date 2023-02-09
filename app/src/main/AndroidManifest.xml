@@ -195,8 +195,7 @@
         </activity>
         <activity
             android:name=".VibeSearchActivity"
-            android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
