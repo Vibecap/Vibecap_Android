@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/activity_mypage_alarm_imageview"
+        app:layout_constraintStart_toEndOf="@+id/activity_mypage_alarm_icon"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_activity_mypage_alarm_rectangle" />
 

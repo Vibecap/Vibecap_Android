@@ -362,7 +362,7 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         context: Context
     ) {
 
-        //수정하기
+        //`수정`하기
         val editBlockBtn =
         bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_mypage_post_edit)
         editBlockBtn.setOnClickListener {
