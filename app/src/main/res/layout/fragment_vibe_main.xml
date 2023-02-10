@@ -113,8 +113,8 @@
                         app:ci_height="10dp"
                         app:ci_width="10dp"
                         app:ci_gravity="center" />
-                </FrameLayout>
 
+                </FrameLayout>
 
                 <HorizontalScrollView
                     android:layout_width="match_parent"
