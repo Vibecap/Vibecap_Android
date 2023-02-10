@@ -126,7 +126,6 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
                 ) {
                     Log.d("[VIBE] GET_POST/SUCCESS", response.toString())
                     val resp: PostDetailResponse = response.body()!!
-
                     // 서버 response 중 code 값에 따른 결과
                     when (resp.code) {
                         1010, 1011, 1012, 1013 -> getPostView.onGetPostSuccess(
