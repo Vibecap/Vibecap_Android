@@ -21,6 +21,13 @@ interface VibePostWeeklyInterface{
 
 
 interface VibePostApiInterface {
+    // 게시물 전체 조회 (태그별) - 검색
+    @GET("app/posts")
+    fun postAllCheckWithTag(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Query("tagName") tagName:String,
+        @Query("page") page: Int
+    ): Call<PostTagResponse>
 
     // 게시물 전체 조회 (태그 X)
     @GET("/app/posts")

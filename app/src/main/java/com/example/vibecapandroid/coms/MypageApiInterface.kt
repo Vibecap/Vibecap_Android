@@ -1,5 +1,6 @@
 package com.example.vibecapandroid.coms
 
+import okhttp3.Call
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
@@ -90,4 +91,10 @@ interface MypageApiInterface {
         @Header("X-AUTH-TOKEN") jwt: String,
         @Body JsonBody: deleteMypagePostInput
     ):retrofit2.Call<deleteMypageResponse>
+
+    @GET("app/notice/{member_id}")
+    fun getAlarmHistory(
+        @Header("X-AUTH-TOKEN") jwt:String,
+        @Path("member_id") member_id:Long
+    ):retrofit2.Call<getAlarmHistoryResponse>
 }

@@ -20,7 +20,7 @@
             android:background="@color/transparent"
             android:contentDescription="@string/profile_img"
             android:src="@drawable/image_activity_vibe_post_profile"
-            app:civ_border_color="@color/gray_300"
+            app:civ_border_color="@color/gray_400"
             app:civ_border_width="0.5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
