@@ -27,6 +27,7 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
     private lateinit var setScrapView: SetScrapView
     var postId = 0
     var writerMemberId = 0
+    private var vibeId:Int?=0
 
     var postMenuBottomSheetDialog: BottomSheetDialog? = null
 
@@ -125,7 +126,6 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
                 ) {
                     Log.d("[VIBE] GET_POST/SUCCESS", response.toString())
                     val resp: PostDetailResponse = response.body()!!
-
                     // 서버 response 중 code 값에 따른 결과
                     when (resp.code) {
                         1010, 1011, 1012, 1013 -> getPostView.onGetPostSuccess(
@@ -163,14 +163,15 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
         if (result.tagName.isNullOrEmpty()) {
             binding.vibePostTagLayout.visibility = View.GONE
         } else {
+            Log.d("Tag set","${result.tagName}")
             // tag name 을 공백으로 구분
             val tagList = result.tagName.split(buildString {
                 append("\\s")
             }.toRegex()).toTypedArray()
+            Log.d("Tag List","${tagList}")
             // tag name 앞에 # 붙여주기
-            for (i in tagList.indices) {
-                tagList[i] = "#" + tagList[i]
-            }
+            tagList[1] = "#" + tagList[1]
+            tagList[1]=tagList[1].substring(0,tagList[1].length-1)
             // tag name 최대 6개라고 가정하고 View visibility 설정
             binding.vibePostTagLayout.visibility = View.VISIBLE
             when (tagList.size) {
@@ -404,8 +405,9 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
             val postBlockBtn =
                 bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_block_layout)
             postBlockBtn.setOnClickListener {
-                val intent = Intent(this, MypagePosteditActivity::class.java)
+                val intent = Intent(this, CommonEditActivity::class.java)
                 intent.putExtra("post_id", postId)
+                intent.putExtra("vibe_id",vibeId)
                 startActivity(intent)
             }
 
@@ -516,6 +518,7 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
     override fun onGetPostSuccess(code: Int, result: PostDetailData) {
         setPost(code, result)
         writerMemberId = result.memberId
+        vibeId=result.vibeId
 
         // 게시물 메뉴 BottomSheet 설정
         val postMenuBottomSheetView =

@@ -184,18 +184,7 @@
                 android:background="@color/transparent"
                 android:textColor="@color/black" />
 
-            <EditText
-                android:id="@+id/common_post_tag_owntype"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/transparent"
-                android:hint="#직접입력"
-                android:textSize="15dp"
-                android:textColorHint="@color/black"
-                android:textColor="@color/black" />
+
         </LinearLayout>
 
 

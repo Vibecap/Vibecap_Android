@@ -14,6 +14,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.ActivityCommonEditBinding
+import com.example.vibecapandroid.utils.getRetrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,8 +36,11 @@ class CommonEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
         vibe_id=intent.getIntExtra("vibe_id",0)
+        post_id = intent.extras!!.getInt("post_id")
         setProfileData()
         getOneVibeInfo()
+        getPost(post_id, MEMBER_ID)
+
 
         with(viewBinding){
             commonPostTitle.addTextChangedListener(object : TextWatcher {
@@ -177,10 +181,10 @@ class CommonEditActivity : AppCompatActivity() {
         var member = member(MEMBER_ID.toInt())
         var vibe = vibe(vibe_id)
 
-        var postId = intent.extras!!.getInt("post_id")
+
         val apiService = retrofit.create(MypageApiInterface::class.java)
         apiService.patchMypageEditPost(
-            userToken,  postId, patchMypageEditPostInput(member,title,body)
+            userToken,  post_id, patchMypageEditPostInput(member,title,body)
         ).enqueue(object : Callback<patchMypageEditResponse> {
             override fun onResponse(call: Call<patchMypageEditResponse>, response: Response<patchMypageEditResponse>) {
                 val responseData = response.body()
@@ -267,10 +271,10 @@ class CommonEditActivity : AppCompatActivity() {
                             )
                             if(responseData.is_success) {
                                 video_id=getYouTubeId(responseData.result.youtube_link)
-                                feeling_tag=responseData.result.vibe_keywords
+                                //feeling_tag=responseData.result.vibe_keywords
                                 Log.d("responseData",responseData.result.vibe_keywords.toString())
                                 //기분으로 태그 작성
-                                viewBinding.textViewTag1.setText("#"+feeling_tag)
+                              //  viewBinding.textViewTag1.setText("#"+feeling_tag)
                                 setYoutube()
                             }
                             else{Log.d("getHistoryOne 통신 Fail","Fail Data is null")}
@@ -278,6 +282,37 @@ class CommonEditActivity : AppCompatActivity() {
                     } else{ Log.d("getHistoryOne","getHistoryOne Response Response Not Success") }
                 } override fun onFailure(call: Call<HistoryOneResponse>, t: Throwable) { Log.d("getHistoryOne","${t.toString()}")}
             })
+    }
+    /*** 게시물 1개 조회 */
+    private fun getPost(postId: Int, memberId: Long) {
+        val vibePostService = getRetrofit().create(VibePostApiInterface::class.java)
+        vibePostService.postDetailCheck(userToken, postId, memberId)
+            .enqueue(object : Callback<PostDetailResponse> {
+                override fun onResponse(
+                    call: Call<PostDetailResponse>,
+                    response: Response<PostDetailResponse>
+                ) {
+                    Log.d("[VIBE] GET_POST/SUCCESS", response.toString())
+                    val resp: PostDetailResponse = response.body()!!
+
+                    Log.d("[VIBE] GET_POST/CODE", resp.code.toString())
+
+                    // 서버 response 중 code 값에 따른 결과
+                    when (resp.code) {
+                        1010, 1011, 1012, 1013 -> {
+                         viewBinding.commonPostTitle.setText(resp.result.title)
+                            viewBinding.commonPostBody.setText(resp.result.body)
+
+                        }
+                        else -> Log.d("EditPost Search Fail","Fail" )
+                    }
+                }
+
+                override fun onFailure(call: Call<PostDetailResponse>, t: Throwable) {
+                    Log.d("[VIBE] GET_POST/FAILURE", t.message.toString())
+                }
+            })
+        Log.d("[VIBE] GET_POST", "HELLO")
     }
 
 

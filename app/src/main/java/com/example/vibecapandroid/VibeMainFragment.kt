@@ -399,6 +399,7 @@ class VibeMainFragment : Fragment() {
                             }
                         } else {
                             if (responseData.code == 3011) {
+                                //Toast.makeText(this@VibeMainFragment,"해당 태그를 가진 게시물이 없습니다.", Toast.LENGTH_SHORT).show()
                                 Log.d("WeeklyResult","WeeklyResult 실패")
                             }
                         }
@@ -478,7 +479,7 @@ class VibeMainFragment : Fragment() {
         if (tagName.isNullOrEmpty()) {
             Log.d("tagEmpty", "태그 이름 없음")
         } else {
-            val defaultImage = R.drawable.image_ic_activity_history_album_list1
+            val defaultImage = null
             when(responseData.result.content.size){
                 0 -> {
                     Log.d("tagEmpty", "태그 게시물 없음")
@@ -496,7 +497,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_1) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                       // .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_1) // 이미지를 넣을 뷰
 
@@ -526,7 +527,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_1) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                       // .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_1) // 이미지를 넣을 뷰
 
@@ -542,7 +543,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_2) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                      //  .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_2) // 이미지를 넣을 뷰
 
@@ -576,7 +577,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_1) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                     //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_1) // 이미지를 넣을 뷰
 
@@ -592,7 +593,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_2) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                     //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_2) // 이미지를 넣을 뷰
 
@@ -608,7 +609,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_3) // 불러올 이미지 url
                         .override(800, 200)
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                      //  .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_3) // 이미지를 넣을 뷰
 
@@ -646,7 +647,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_1) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                        //.error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_1) // 이미지를 넣을 뷰
 
@@ -662,7 +663,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_2) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                     //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_2) // 이미지를 넣을 뷰
 
@@ -678,7 +679,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_3) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                     //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_3) // 이미지를 넣을 뷰
 
@@ -693,7 +694,7 @@ class VibeMainFragment : Fragment() {
                     Glide.with(this@VibeMainFragment)
                         .load(vibe_image_4) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                     //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_4) // 이미지를 넣을 뷰
 
@@ -735,7 +736,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_1) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                      //  .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_1) // 이미지를 넣을 뷰
 
@@ -751,7 +752,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_2) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                       // .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_2) // 이미지를 넣을 뷰
 
@@ -767,7 +768,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_3) // 불러올 이미지 url
                         .override(800, 200)
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                      //  .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_3) // 이미지를 넣을 뷰
 
@@ -782,7 +783,7 @@ class VibeMainFragment : Fragment() {
                     Glide.with(this@VibeMainFragment)
                         .load(vibe_image_4) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                      //  .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_4) // 이미지를 넣을 뷰
 
@@ -797,7 +798,7 @@ class VibeMainFragment : Fragment() {
                     Glide.with(this@VibeMainFragment)
                         .load(vibe_image_5) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                       // .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_5) // 이미지를 넣을 뷰
 
@@ -843,7 +844,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_1) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                    //    .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_1) // 이미지를 넣을 뷰
 
@@ -859,7 +860,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_2) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                     //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_2) // 이미지를 넣을 뷰
 
@@ -875,7 +876,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_3) // 불러올 이미지 url
                         .override(800, 200)
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                     //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_3) // 이미지를 넣을 뷰
 
@@ -890,7 +891,7 @@ class VibeMainFragment : Fragment() {
                     Glide.with(this@VibeMainFragment)
                         .load(vibe_image_4) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                  //      .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_4) // 이미지를 넣을 뷰
 
@@ -905,7 +906,7 @@ class VibeMainFragment : Fragment() {
                     Glide.with(this@VibeMainFragment)
                         .load(vibe_image_5) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                    //    .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_5) // 이미지를 넣을 뷰
 
@@ -920,7 +921,7 @@ class VibeMainFragment : Fragment() {
                     Glide.with(this@VibeMainFragment)
                         .load(vibe_image_6) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                     //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_6) // 이미지를 넣을 뷰
 
@@ -969,7 +970,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_1) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                     //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_1) // 이미지를 넣을 뷰
 
@@ -985,7 +986,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_2) // 불러올 이미지 url
                         .fitCenter()
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                    //    .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_2) // 이미지를 넣을 뷰
 
@@ -1001,7 +1002,7 @@ class VibeMainFragment : Fragment() {
                         .load(vibe_image_3) // 불러올 이미지 url
                         .override(800, 200)
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                    //    .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_3) // 이미지를 넣을 뷰
 
@@ -1016,7 +1017,7 @@ class VibeMainFragment : Fragment() {
                     Glide.with(this@VibeMainFragment)
                         .load(vibe_image_4) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                    //    .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_4) // 이미지를 넣을 뷰
 
@@ -1031,7 +1032,7 @@ class VibeMainFragment : Fragment() {
                     Glide.with(this@VibeMainFragment)
                         .load(vibe_image_5) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                    //    .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_5) // 이미지를 넣을 뷰
 
@@ -1046,7 +1047,7 @@ class VibeMainFragment : Fragment() {
                     Glide.with(this@VibeMainFragment)
                         .load(vibe_image_6) // 불러올 이미지 url
                         .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
+                    //    .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_6) // 이미지를 넣을 뷰
 

@@ -30,7 +30,54 @@ class RegisterPasswordActivity:AppCompatActivity() {
 
         viewBinding.activityRegisterPasswordSet.addTextChangedListener(object :TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(s!=null) {
+                    when {
+                        s.isEmpty()->{
+                            viewBinding.activityRegisterPassword812.text = "비밀번호를 입력해주세요"
+                        }
+                        s.isNotEmpty() -> {
+                            when {
+                                viewBinding.activityRegisterPasswordSetcheck.text.toString() != ""
+                                        && viewBinding.activityRegisterPasswordSetcheck.text.toString() != viewBinding.activityRegisterPasswordSet.text.toString() -> {
+                                    viewBinding.activityRegisterPasswordAgaintype.setTextColor(Color.RED)
+                                    viewBinding.activityRegisterPasswordAgaintype.text =
+                                        "비밀번호가 일치하지 않습니다"
+                                    check = false
+                                }
+                                else -> {
+                                    viewBinding.activityRegisterPasswordAgaintype.setTextColor(Color.BLACK)
+                                    viewBinding.activityRegisterPasswordAgaintype.text =
+                                        "비밀번호가 일치합니다."
+                                    check = true
+                                    if(patterncheck) {
+                                        viewBinding.activityRegisterPasswordNext.setOnClickListener() {
+                                            val intent = Intent(
+                                                this@RegisterPasswordActivity,
+                                                RegisterNicknameActivity::class.java
+                                            )
+                                            intent.putExtra(
+                                                "Password",
+                                                viewBinding.activityRegisterPasswordSetcheck.text.toString()
+                                            )
+                                            intent.putExtra("Email", email)
+                                            startActivity(intent)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (check&&patterncheck) {
+                        viewBinding.activityRegisterPasswordNext.setTextColor(Color.BLACK)
+                        viewBinding.activityRegisterPasswordNext.isEnabled = true
+
+                    } else {
+                        viewBinding.activityRegisterPasswordNext.setTextColor(Color.GRAY)
+                        viewBinding.activityRegisterPasswordNext.isEnabled = false
+                    }
+                }
+            }
             override fun afterTextChanged(s: Editable?) {
                 if(s!=null) {
                     when {
