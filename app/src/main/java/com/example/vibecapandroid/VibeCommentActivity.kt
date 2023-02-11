@@ -272,8 +272,8 @@ class VibeCommentActivity : AppCompatActivity(), GetCommentsView, WriteCommentVi
         }
 
 
-        val softKeyboardDectector = SoftKeyboardDetectorView(mContext)
-        addContentView(softKeyboardDectector, FrameLayout.LayoutParams(-1, -1))
+        val softKeyboardDetector = SoftKeyboardDetectorView(mContext)
+        addContentView(softKeyboardDetector, FrameLayout.LayoutParams(-1, -1))
 
         vibeCommentRVAdapter.setMyItemClickListener(object :
             VibeCommentRVAdapter.MyItemClickListener {
@@ -307,7 +307,7 @@ class VibeCommentActivity : AppCompatActivity(), GetCommentsView, WriteCommentVi
                     isSubCommentAddClicked = true
                     commentPosition = position
                     // 키보드 사라질 때
-                    softKeyboardDectector.setOnHiddenKeyboard(object : OnHiddenKeyboardListener {
+                    softKeyboardDetector.setOnHiddenKeyboard(object : OnHiddenKeyboardListener {
                         override fun onHiddenSoftKeyboard() {
                             itemBinding.itemVibeCommentLayout.setBackgroundResource(R.color.white)
                             vibeCommentRVAdapter.notifyItemChanged(position)

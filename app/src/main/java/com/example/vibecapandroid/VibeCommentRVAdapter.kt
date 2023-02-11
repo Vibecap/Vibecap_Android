@@ -1,7 +1,6 @@
 package com.example.vibecapandroid
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.ItemVibeCommentBinding
-import com.example.vibecapandroid.utils.getRetrofit
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 
 class VibeCommentRVAdapter(
@@ -103,8 +98,3 @@ class VibeCommentRVAdapter(
 
     }
 }
-
-
-//interface OnItemClickValue {
-//    fun onValueChange(value: Boolean)
-//}

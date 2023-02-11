@@ -5,15 +5,15 @@ import retrofit2.http.*
 
 
 // 게시물 전체 조회(태그별)
-interface VibePostTagInterface{
+interface VibePostTagInterface {
     @GET("app/posts")
     fun postAllCheck(
-        @Query("tagName") tagName:String
+        @Query("tagName") tagName: String
     ): Call<PostTagResponse>
 }
 
 // 게시물 전체 조회(weekly)
-interface VibePostWeeklyInterface{
+interface VibePostWeeklyInterface {
     @GET("app/posts/weekly")
     fun postWeeklyCheck(
     ): Call<PostWeeklyResponse>
@@ -21,11 +21,11 @@ interface VibePostWeeklyInterface{
 
 
 interface VibePostApiInterface {
-    // 게시물 전체 조회 (태그별) - 검색
+    // 게시물 전체 조회 (태그별) - 검색, 태그별 더보기
     @GET("app/posts")
     fun postAllCheckWithTag(
         @Header("X-AUTH-TOKEN") jwt: String,
-        @Query("tagName") tagName:String,
+        @Query("tagName") tagName: String,
         @Query("page") page: Int
     ): Call<PostTagResponse>
 
@@ -41,7 +41,7 @@ interface VibePostApiInterface {
     fun postDetailCheck(
         @Header("X-AUTH-TOKEN") jwt: String,
         @Path("post_id") postId: Int,
-        @Query("memberId") memberId : Long
+        @Query("memberId") memberId: Long
     ): Call<PostDetailResponse>
 
     // 게시물 작성
