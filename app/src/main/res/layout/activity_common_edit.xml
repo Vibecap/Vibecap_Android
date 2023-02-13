@@ -114,10 +114,10 @@
             android:layout_marginBottom="8dp"
             android:text="0/32" />
 
-        <FrameLayout
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
             android:id="@+id/common_post_youtube_player"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/common_post_title"
             android:layout_marginTop="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

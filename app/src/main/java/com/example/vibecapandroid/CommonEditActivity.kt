@@ -15,6 +15,9 @@ import com.bumptech.glide.Glide
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.ActivityCommonEditBinding
 import com.example.vibecapandroid.utils.getRetrofit
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -238,15 +241,14 @@ class CommonEditActivity : AppCompatActivity() {
         }
     }
     private fun setYoutube(){
+        val youTubePlayerView: YouTubePlayerView =viewBinding.commonPostYoutubePlayer
+        lifecycle.addObserver(youTubePlayerView)
 
-
-        var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
-        var bundle = Bundle()
-        bundle.putString("VIDEO_ID", video_id)
-        YoutubePlayerFragment.arguments = bundle
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.common_post_youtube_player, YoutubePlayerFragment)
-            .commitNow()
+        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.loadVideo((video_id!!)!!, 0F)
+            }
+        })
     }
 
     private fun getOneVibeInfo(){

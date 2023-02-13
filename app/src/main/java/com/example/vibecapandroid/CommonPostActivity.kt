@@ -17,6 +17,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import com.example.vibecapandroid.databinding.ActivityCommonPostBinding
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import java.util.regex.Pattern
 
 
@@ -132,13 +135,14 @@ class CommonPostActivity  : AppCompatActivity() {
     }
     private fun setYoutube(){
 
-        var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
-        var bundle = Bundle()
-        bundle.putString("VIDEO_ID", video_id)
-        YoutubePlayerFragment.arguments = bundle
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.common_post_youtube_player, YoutubePlayerFragment)
-            .commitNow()
+        val youTubePlayerView: YouTubePlayerView =viewBinding.commonPostYoutubePlayer
+        lifecycle.addObserver(youTubePlayerView)
+
+        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.loadVideo((video_id!!)!!, 0F)
+            }
+        })
     }
     private fun setProfileData(){
         val apiService = retrofit.create(MypageApiInterface::class.java)
@@ -201,8 +205,11 @@ class CommonPostActivity  : AppCompatActivity() {
 
         Log.d("tagname ",feeling_tag.toString())
         Log.d("tagname",viewBinding.commonPostTagOwntype.text.toString())
-        val owntag=viewBinding.commonPostTagOwntype.text.toString()
+        var owntag=viewBinding.commonPostTagOwntype.text.toString()
         val apiService = retrofit.create(PostApiInterface::class.java)
+        if(owntag==null || owntag=="" || owntag==" " || owntag==" #"){
+            owntag="#"
+        }
         apiService.posting(
             userToken,  PostRequest(member,title,body,vibe, "$owntag")
         ).enqueue(object : Callback<PostResponse> {

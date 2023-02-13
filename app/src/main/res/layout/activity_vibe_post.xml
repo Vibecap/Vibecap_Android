@@ -126,7 +126,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <FrameLayout
+            <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
                 android:id="@+id/vibe_post_youtube_player_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

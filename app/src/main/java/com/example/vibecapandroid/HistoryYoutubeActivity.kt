@@ -1,30 +1,23 @@
 package com.example.vibecapandroid
 
-import android.app.DownloadManager
-import android.content.BroadcastReceiver
-import android.content.Context
+import android.R
 import android.content.Intent
-import android.content.IntentFilter
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
-import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import com.example.vibecapandroid.coms.DeleteResponse
 import com.example.vibecapandroid.coms.HomeApiInterface
 import com.example.vibecapandroid.databinding.ActivityHistoryYoutubeBinding
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 import java.util.regex.Pattern
 
 
@@ -117,11 +110,11 @@ class HistoryYoutubeActivity:AppCompatActivity() {
     }*/
 
 
-    override fun onRestart() {
+   /* override fun onRestart() {
         super.onRestart()
-        YoutubePlayAgain()
+     //   YoutubePlayAgain()
     }
-
+*/
     private fun deletePhoto() {
         //base url 설정
         val apiService = retrofit.create(HomeApiInterface::class.java)
@@ -177,7 +170,7 @@ class HistoryYoutubeActivity:AppCompatActivity() {
     }
 
 
-    private fun YoutubePlayAgain(){
+   /* private fun YoutubePlayAgain(){
         var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
         var bundle = Bundle()
         bundle.putString("VIDEO_ID", getYouTubeId(videoID!!))
@@ -186,15 +179,16 @@ class HistoryYoutubeActivity:AppCompatActivity() {
             .replace(R.id.history_youtube_you_tube_player_view, YoutubePlayerFragment)
             .commitAllowingStateLoss()
     }
-
+*/
     private fun Youtubeplay(){
-        var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
-        var bundle = Bundle()
-        bundle.putString("VIDEO_ID", getYouTubeId(videoID!!))
-        YoutubePlayerFragment.arguments = bundle
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.history_youtube_you_tube_player_view, YoutubePlayerFragment)
-            .commitNow()
+        val youTubePlayerView: YouTubePlayerView =viewBinding.historyYoutubeYouTubePlayerView
+        lifecycle.addObserver(youTubePlayerView)
+
+        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.loadVideo(getYouTubeId(videoID!!)!!, 0F)
+            }
+        })
     }
     override fun onBackPressed() {
         val nextIntent = Intent(this, MainActivity::class.java)
