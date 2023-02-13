@@ -64,7 +64,7 @@
         android:id="@+id/vibe_detail_rv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="28dp"
+        android:paddingTop="28dp"
         android:clipToPadding="false"
         android:layoutAnimation="@anim/item_layout_animation"
         android:paddingHorizontal="15dp"
@@ -75,6 +75,5 @@
         app:layout_constraintTop_toBottomOf="@+id/vibe_detail_top_bar_layout"
         app:spanCount="2"
         tools:listitem="@layout/item_vibe_main_all_posts" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,7 +27,6 @@ class VibeSearchActivity : AppCompatActivity() {
 
     private lateinit var vibeSearchLayoutManager: StaggeredGridLayoutManager
     private lateinit var vibeSearchRVAdapter: VibeMainAllPostsRVAdapter
-    private lateinit var mRecyclerView: RecyclerView
 
     private var totalCount = 0 // 전체 아이템 개수
     private var isNext = false // 다음 페이지 유무
@@ -48,6 +47,7 @@ class VibeSearchActivity : AppCompatActivity() {
         vibeSearchLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding.vibeSearchRv.adapter = vibeSearchRVAdapter
 
+        // 게시물 클릭 시, 특정 게시물 조회 페이지로 이동
         vibeSearchRVAdapter.setMyItemClickListener(object :
             VibeMainAllPostsRVAdapter.MyItemClickListener {
             override fun onItemClick(postContentData: PostContentData) {
@@ -57,7 +57,6 @@ class VibeSearchActivity : AppCompatActivity() {
             }
         })
 
-
         // 검색 (tag별)
         binding.vibeSearchBtn.setOnClickListener {
             binding.vibeSearchEt.clearFocus()
@@ -66,7 +65,7 @@ class VibeSearchActivity : AppCompatActivity() {
 
             page = -1
             searchPosts(binding.vibeSearchEt.text.toString())
-            initScrollListener()
+            initScrollListener(binding.vibeSearchEt.text.toString())
         }
 
         binding.vibeSearchEt.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
@@ -77,7 +76,7 @@ class VibeSearchActivity : AppCompatActivity() {
 
                 page = -1
                 searchPosts(binding.vibeSearchEt.text.toString())
-                initScrollListener()
+                initScrollListener(binding.vibeSearchEt.text.toString())
 
                 return@OnEditorActionListener true
             }
@@ -92,7 +91,7 @@ class VibeSearchActivity : AppCompatActivity() {
     }
 
     /**
-     * 게시물 전체 조회 (태그별)
+     * 전체 게시물 조회 (태그별)
      */
     private fun searchPosts(tagName: String) {
         val vibePostService = getRetrofit().create(VibePostApiInterface::class.java)
@@ -100,7 +99,7 @@ class VibeSearchActivity : AppCompatActivity() {
             .enqueue(object : Callback<PostTagResponse> {
                 override fun onResponse(
                     call: Call<PostTagResponse>,
-                    response: Response<PostTagResponse>
+                    response: Response<PostTagResponse>,
                 ) {
                     Log.d("[VIBE] SEARCH_POSTS/SUCCESS", response.toString())
                     val resp: PostTagResponse = response.body()!!
@@ -133,8 +132,33 @@ class VibeSearchActivity : AppCompatActivity() {
             })
     }
 
-    // RecyclerView에 더 보여줄 데이터를 로드하는 경우
-    private fun loadMorePosts() {
+    // 전체 게시물 조회 (태그별) (2번) - Scroll이 끝에 닿으면 loadMore 호출
+    private fun initScrollListener(tagName: String) {
+        binding.vibeSearchRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                // Scroll이 최하단이면
+                if (!recyclerView.canScrollVertically(1)) {
+                    val layoutManager = binding.vibeSearchRv.layoutManager
+                    if (hasNextPage()) {
+                        val lastVisibleItem = (layoutManager as StaggeredGridLayoutManager)
+                            .findLastCompletelyVisibleItemPositions(null)[0]
+
+                        // 마지막으로 보여진 아이템 position 이
+                        // 전체 아이템 개수보다 8개 모자란 경우, 데이터를 loadMore 한다
+                        if (layoutManager.itemCount <= lastVisibleItem + limit) {
+                            loadMorePosts(tagName)
+                            setHasNextPage(false)
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    // 전체 게시물 조회 (태그별) (3번) - RecyclerView에 더 보여줄 데이터를 로드하는 경우
+    private fun loadMorePosts(tagName: String) {
+        // 데이터에 null 추가 및 Adapter에 알림
         vibeSearchRVAdapter.setLoadingView(true)
 
         // 너무 빨리 데이터가 로드되면 스크롤 되는 Ui 를 확인하기 어려우므로,
@@ -149,11 +173,11 @@ class VibeSearchActivity : AppCompatActivity() {
         }
         handler.postDelayed({
             val vibePostService = getRetrofit().create(VibePostApiInterface::class.java)
-            vibePostService.postAllCheck(userToken, getPage())
+            vibePostService.postAllCheckWithTag(userToken, tagName, getPage())
                 .enqueue(object : Callback<PostTagResponse> {
                     override fun onResponse(
                         call: Call<PostTagResponse>,
-                        response: Response<PostTagResponse>
+                        response: Response<PostTagResponse>,
                     ) {
                         val resp: PostTagResponse = response.body()!!
 
@@ -163,7 +187,9 @@ class VibeSearchActivity : AppCompatActivity() {
                                 totalCount = resp.result.totalElements
                                 isNext = !(resp.result.last)
                                 vibeSearchRVAdapter.run {
+                                    // 데이터에 null 제거 및 Adapter에 알림
                                     setLoadingView(false)
+                                    // 새 데이터 추가
                                     addPosts(resp.result.content as ArrayList<PostContentData>)
                                 }
                             }
@@ -192,30 +218,5 @@ class VibeSearchActivity : AppCompatActivity() {
 
     private fun setHasNextPage(b: Boolean) {
         isNext = b
-    }
-
-    // scroll이 끝에 닿으면 데이터에 null 추가 및 Adapter에 알림
-    private fun initScrollListener() {
-        binding.vibeSearchRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-
-                if (!recyclerView.canScrollVertically(1)) {
-
-                    val layoutManager = binding.vibeSearchRv.layoutManager
-                    if (hasNextPage()) {
-                        val lastVisibleItem = (layoutManager as StaggeredGridLayoutManager)
-                            .findLastCompletelyVisibleItemPositions(null)[0]
-
-                        // 마지막으로 보여진 아이템 position 이
-                        // 전체 아이템 개수보다 8개 모자란 경우, 데이터를 loadMore 한다
-                        if (layoutManager.itemCount <= lastVisibleItem + 8) {
-                            loadMorePosts()
-                            setHasNextPage(false)
-                        }
-                    }
-                }
-            }
-        })
     }
 }

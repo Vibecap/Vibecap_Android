@@ -125,14 +125,18 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
                     response: Response<PostDetailResponse>
                 ) {
                     Log.d("[VIBE] GET_POST/SUCCESS", response.toString())
-                    val resp: PostDetailResponse = response.body()!!
-                    // 서버 response 중 code 값에 따른 결과
-                    when (resp.code) {
-                        1010, 1011, 1012, 1013 -> getPostView.onGetPostSuccess(
-                            resp.code,
-                            resp.result
-                        )
-                        else -> getPostView.onGetPostFailure(resp.code, resp.message)
+
+                    val resp: PostDetailResponse? = response.body()
+
+                    if (resp !== null) {
+                        // 서버 response 중 code 값에 따른 결과
+                        when (resp.code) {
+                            1010, 1011, 1012, 1013 -> getPostView.onGetPostSuccess(
+                                resp.code,
+                                resp.result
+                            )
+                            else -> getPostView.onGetPostFailure(resp.code, resp.message)
+                        }
                     }
                 }
 
@@ -163,15 +167,14 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
         if (result.tagName.isNullOrEmpty()) {
             binding.vibePostTagLayout.visibility = View.GONE
         } else {
-            Log.d("Tag set","${result.tagName}")
             // tag name 을 공백으로 구분
             val tagList = result.tagName.split(buildString {
                 append("\\s")
             }.toRegex()).toTypedArray()
-            Log.d("Tag List","${tagList}")
             // tag name 앞에 # 붙여주기
-            tagList[1] = "#" + tagList[1]
-            tagList[1]=tagList[1].substring(0,tagList[1].length-1)
+            for (i in tagList.indices) {
+                tagList[i] = "#" + tagList[i]
+            }
             // tag name 최대 6개라고 가정하고 View visibility 설정
             binding.vibePostTagLayout.visibility = View.VISIBLE
             when (tagList.size) {

@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -20,7 +19,6 @@ import com.example.vibecapandroid.R.id.*
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.FragmentVibeMainBinding
 import com.example.vibecapandroid.utils.getRetrofit
-import com.google.android.youtube.player.internal.v
 import kotlinx.coroutines.*
 import me.relex.circleindicator.CircleIndicator3
 import retrofit2.*
@@ -33,7 +31,6 @@ class VibeMainFragment : Fragment() {
 
     private lateinit var mMapLayoutManager: StaggeredGridLayoutManager
     private lateinit var mListAdapter: VibeMainAllPostsRVAdapter
-    private lateinit var mRecyclerView: RecyclerView
 
     private var totalCount = 0 // 전체 아이템 개수
     private var isNext = false // 다음 페이지 유무
@@ -100,7 +97,6 @@ class VibeMainFragment : Fragment() {
 
 
         val search = viewBinding.imageButtonSearch
-
         search.setOnClickListener {
             val intent = Intent(context, VibeSearchActivity::class.java)
             startActivity(intent)
@@ -130,7 +126,6 @@ class VibeMainFragment : Fragment() {
         }
 
         defaultTag()
-        val addview = viewBinding.btnAddview
         tag1.setOnClickListener {
             tag1.setTextColor(Color.BLACK)
             tag2.setTextColor(Color.GRAY)
@@ -144,11 +139,6 @@ class VibeMainFragment : Fragment() {
             addView.text = "#신나는 더보기"
             //api
             callTagAPI("신나는")
-            addview.setOnClickListener {
-                val intent = Intent(context, VibeDetailActivity::class.java)
-                intent.putExtra("tagname", "신나는")
-                startActivity(intent)
-            }
         }
 
         tag2.setOnClickListener {
@@ -164,11 +154,6 @@ class VibeMainFragment : Fragment() {
             addView.text = "#포근한 더보기"
             //api
             callTagAPI("포근한")
-            addview.setOnClickListener {
-                val intent = Intent(context, VibeDetailActivity::class.java)
-                intent.putExtra("tagname", "포근한")
-                startActivity(intent)
-            }
         }
 
         tag3.setOnClickListener {
@@ -184,11 +169,6 @@ class VibeMainFragment : Fragment() {
             addView.text = "#선선한 더보기"
             //api
             callTagAPI("선선한")
-            addview.setOnClickListener {
-                val intent = Intent(context, VibeDetailActivity::class.java)
-                intent.putExtra("tagname", "선선한")
-                startActivity(intent)
-            }
         }
 
         tag4.setOnClickListener {
@@ -204,11 +184,6 @@ class VibeMainFragment : Fragment() {
             addView.text = "#낭만적인 더보기"
             //api
             callTagAPI("낭만적인")
-            addview.setOnClickListener {
-                val intent = Intent(context, VibeDetailActivity::class.java)
-                intent.putExtra("tagname", "낭만적인")
-                startActivity(intent)
-            }
         }
 
         tag5.setOnClickListener {
@@ -224,11 +199,6 @@ class VibeMainFragment : Fragment() {
             addView.text = "#잔잔한 더보기"
             //api
             callTagAPI("잔잔한")
-            addview.setOnClickListener {
-                val intent = Intent(context, VibeDetailActivity::class.java)
-                intent.putExtra("tagname", "잔잔한")
-                startActivity(intent)
-            }
         }
 
         tag6.setOnClickListener {
@@ -244,11 +214,6 @@ class VibeMainFragment : Fragment() {
             addView.text = "#우울한 더보기"
             //api
             callTagAPI("우울한")
-            addview.setOnClickListener {
-                val intent = Intent(context, VibeDetailActivity::class.java)
-                intent.putExtra("tagname", "우울한")
-                startActivity(intent)
-            }
         }
 
         tag7.setOnClickListener {
@@ -264,11 +229,6 @@ class VibeMainFragment : Fragment() {
             addView.text = "#공허한 더보기"
             //api
             callTagAPI("공허한")
-            addview.setOnClickListener {
-                val intent = Intent(context, VibeDetailActivity::class.java)
-                intent.putExtra("tagname", "공허한")
-                startActivity(intent)
-            }
         }
 
         tag8.setOnClickListener {
@@ -284,12 +244,6 @@ class VibeMainFragment : Fragment() {
             addView.text = "#심심한 더보기"
             //api
             callTagAPI("심심한")
-
-            addview.setOnClickListener {
-                val intent = Intent(context, VibeDetailActivity::class.java)
-                intent.putExtra("tagname", "심심한")
-                startActivity(intent)
-            }
         }
         requestWeeklyAPI()
         return viewBinding.root
@@ -327,11 +281,6 @@ class VibeMainFragment : Fragment() {
         addView.text = "#신나는 더보기"
         //api
         callTagAPI("신나는")
-        addView.setOnClickListener {
-            val intent = Intent(context, VibeDetailActivity::class.java)
-            intent.putExtra("tagname", "신나는")
-            startActivity(intent)
-        }
     }
 
     // baseUrl api
@@ -1090,12 +1039,9 @@ class VibeMainFragment : Fragment() {
     }
 
 
-
-
-
-
-
-    // 전체 게시물 조회 API
+    /**
+     * 전체 게시물 조회
+     */
     private fun getAllPosts() {
         val vibePostService = getRetrofit().create(VibePostApiInterface::class.java)
         vibePostService.postAllCheck(userToken, getPage())
@@ -1109,7 +1055,7 @@ class VibeMainFragment : Fragment() {
 
                     // 서버 response 중 code 값에 따른 결과
                     when (resp.code) {
-                        1000 -> {
+                        1000, 200 -> {
                             totalCount = resp.result.totalElements
                             isNext = !(resp.result.last)
                             mListAdapter.setPosts(resp.result.content as ArrayList<PostContentData>)
@@ -1129,8 +1075,30 @@ class VibeMainFragment : Fragment() {
         Log.d("[VIBE] GET_ALL_POSTS", "HELLO")
     }
 
-    // RecyclerView에 더 보여줄 데이터를 로드하는 경우
+    // 전체 게시물 조회 (2번) - Scroll이 끝에 닿으면 loadMore 호출
+    private fun initScrollListener() {
+        viewBinding.vibeMainNsv.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+            // Scroll이 최하단이면
+            if (!v.canScrollVertically(1)) {
+                val layoutManager = viewBinding.vibeMainAllPostsRv.layoutManager
+                if (hasNextPage()) {
+                    val lastVisibleItem = (layoutManager as StaggeredGridLayoutManager)
+                        .findLastCompletelyVisibleItemPositions(null)[0]
+
+                    // 마지막으로 보여진 아이템 position 이
+                    // 전체 아이템 개수보다 8개 모자란 경우, 데이터를 loadMore 한다
+                    if (layoutManager.itemCount <= lastVisibleItem + limit) {
+                        loadMorePosts()
+                        setHasNextPage(false)
+                    }
+                }
+            }
+        }
+    }
+
+    // 전체 게시물 조회 (3번) - RecyclerView에 더 보여줄 데이터를 로드하는 경우
     private fun loadMorePosts() {
+        // 데이터에 null 추가 및 Adapter에 알림
         mListAdapter.setLoadingView(true)
 
         // 너무 빨리 데이터가 로드되면 스크롤 되는 Ui 를 확인하기 어려우므로,
@@ -1155,7 +1123,9 @@ class VibeMainFragment : Fragment() {
                                 totalCount = resp.result.totalElements
                                 isNext = !(resp.result.last)
                                 mListAdapter.run {
+                                    // 데이터에 null 제거 및 Adapter에 알림
                                     setLoadingView(false)
+                                    // 새 데이터 추가
                                     addPosts(resp.result.content as ArrayList<PostContentData>)
                                 }
                             }
@@ -1187,31 +1157,9 @@ class VibeMainFragment : Fragment() {
 
     }
 
-    // scroll이 끝에 닿으면 데이터에 null 추가 및 Adapter에 알림
-    private fun initScrollListener() {
-        viewBinding.vibeMainNsv.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-
-            if (!v.canScrollVertically(1)) {
-
-                val layoutManager = viewBinding.vibeMainAllPostsRv.layoutManager
-                if (hasNextPage()) {
-                    val lastVisibleItem = (layoutManager as StaggeredGridLayoutManager)
-                        .findLastCompletelyVisibleItemPositions(null)[0]
-
-                    // 마지막으로 보여진 아이템 position 이
-                    // 전체 아이템 개수보다 8개 모자란 경우, 데이터를 loadMore 한다
-                    if (layoutManager.itemCount <= lastVisibleItem + 8) {
-                        loadMorePosts()
-                        setHasNextPage(false)
-                    }
-                }
-            }
-        }
-    }
-
 
     // 상태바 높이 구하기
-    fun Context.statusBarHeight(): Int {
+    private fun Context.statusBarHeight(): Int {
         val resourceId = resources.getIdentifier("status_bar_height", "dimen", "android")
 
         return if (resourceId > 0) resources.getDimensionPixelSize(resourceId)

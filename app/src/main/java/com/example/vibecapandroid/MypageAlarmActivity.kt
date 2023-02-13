@@ -1,101 +1,129 @@
 package com.example.vibecapandroid
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.ImageView
-import com.example.vibecapandroid.coms.MypageApiInterface
-import com.example.vibecapandroid.coms.getAlarmHistoryResponse
-import com.example.vibecapandroid.databinding.ActivityCommonPostBinding
+import android.widget.Toast
+import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.ActivityMypageAlarmBinding
+import com.example.vibecapandroid.utils.getRetrofit
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class MypageAlarmActivity : AppCompatActivity() {
 
-    private val viewBinding: ActivityMypageAlarmBinding by lazy{
-        ActivityMypageAlarmBinding.inflate(layoutInflater)
-    }
+    lateinit var binding: ActivityMypageAlarmBinding
+    private lateinit var mypageAlarmRVAdapter: MypageAlarmRVAdapter
 
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_mypage_alarm)
+        binding = ActivityMypageAlarmBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        val mypage_back = findViewById<ImageView>(R.id.activity_mypage_alarm_back)
-        mypage_back.setOnClickListener(View.OnClickListener {
-            finish()
+        overridePendingTransition(R.anim.slide_in, R.anim.fade_out)
+
+        binding.mypageAlarmBackBtn.setOnClickListener { finish() }
+
+        // 활동 내역 RecyclerView adapter 연결
+        mypageAlarmRVAdapter = MypageAlarmRVAdapter(this)
+        binding.mypageAlarmRv.adapter = mypageAlarmRVAdapter
+
+        // 활동 내역 조회
+        getAlarmList()
+
+        // 알림 클릭 시
+        mypageAlarmRVAdapter.setMyItemClickListener(object :
+            MypageAlarmRVAdapter.MyItemClickListener {
+            override fun onItemClick(alarmList: Notice) {
+                // 알림 읽음 처리
+                deleteAlarm(alarmList.event, alarmList.noticeId)
+
+                // 해당 게시물로 이동
+                val intent = Intent(this@MypageAlarmActivity, VibePostActivity::class.java)
+                intent.putExtra("post_id", alarmList.postId.toInt())
+                startActivity(intent)
+            }
         })
 
-     /*   val alarmList = arrayListOf(
-            MypageAlarmClass(R.drawable.ic_activity_mypage_alarm_like,"내가 작성한 게시물을 좋아요 했습니다","user123","님이 좋아요"),
-            MypageAlarmClass(R.drawable.ic_activity_mypage_alarm_comment,"내가 작성한 게시물에 댓글이 달렸습니다","user123","노래가.좋네요.우리.임영웅..."),
-            MypageAlarmClass(R.drawable.ic_activity_mypage_alarm_comment,"내가 작성한 게시물에 댓글이 달렸습니다","user456","노래 분위기가 너무 좋아요"),
-            MypageAlarmClass(R.drawable.ic_activity_mypage_alarm_like,"내가 작성한 게시물을 좋아요 했습니다","user123","님이 좋아요"),
-            MypageAlarmClass(R.drawable.ic_activity_mypage_alarm_comment,"내가 작성한 게시물에 댓글이 달렸습니다","user123","노래가.좋네요.우리.임영웅..."),
-            MypageAlarmClass(R.drawable.ic_activity_mypage_alarm_comment,"내가 작성한 게시물에 댓글이 달렸습니다","user456","노래 분위기가 너무 좋아요"),
-
-            )*/
-
-        val apiService = retrofit.create(MypageApiInterface::class.java)
-        //입력한 주소중 하나로 연결 시도
-        apiService.getAlarmHistory(userToken, MEMBER_ID).enqueue(object :
-            Callback<getAlarmHistoryResponse> {
-            @SuppressLint("ResourceType")
-            override fun onResponse(
-                call: Call<getAlarmHistoryResponse>,
-                response: Response<getAlarmHistoryResponse>
-            ) {
-
-                if (response.isSuccessful) {
-                    val responseData = response.body()
-                    if (responseData !== null) {
-                        Log.d(
-                            "Retrofit",
-                            "MypageResponse\n"+
-                                    "isSuccess:${responseData.is_success}" +
-                                    "Code:${responseData.code}"+
-                                    "Message:${responseData.message}"+
-                                    "Result:${responseData.result}"
-                        )
-                        if(responseData.is_success){
-                            if(responseData.result.isEmpty()){
-                                Log.d("활동내역 없음","활동내역 없음")
-                            }
-                            else{
-
-                            }
-                        }
-
-                    }
-                    else{
-                        Log.d("Retrofit","Null data") }
-
-                } else {
-                    Log.w("Retrofit", "Response Not Successful${response.code()}")
-                }
-            }
-
-            override fun onFailure(call: Call<getAlarmHistoryResponse>, t: Throwable) {
-                Log.e("Retrofit","Error",t)
-            }
-
-        })
-
-       /* val activity_mypage_alarm_recyclerview = findViewById<RecyclerView>(R.id.activity_mypage_alarm_recyclerview)
-        activity_mypage_alarm_recyclerview.layoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-        activity_mypage_alarm_recyclerview.setHasFixedSize(true)
-
-        activity_mypage_alarm_recyclerview.adapter = MypageAlarmadaptersClass(alarmList)*/
-/*
-        activity_mypage_alarm_recyclerview.addItemDecoration(
-            DividerItemDecoration(this,DividerItemDecoration.VERTICAL)
-        )
-*/
     }
 
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.slide_out)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getAlarmList()
+    }
+
+    /**
+     * 활동 내역 (알림) 조회
+     */
+    private fun getAlarmList() {
+        val mypageService = getRetrofit().create(MypageApiInterface::class.java)
+        mypageService.getAlarmHistory(userToken, MEMBER_ID)
+            .enqueue(object : Callback<GetAlarmHistoryResponse> {
+                override fun onResponse(
+                    call: Call<GetAlarmHistoryResponse>,
+                    response: Response<GetAlarmHistoryResponse>,
+                ) {
+                    Log.d("[MYPAGE] GET_ALARM_LIST/SUCCESS", response.toString())
+                    val resp: GetAlarmHistoryResponse = response.body()!!
+
+                    // 서버 response 중 code 값에 따른 결과
+                    when (resp.code) {
+                        1000 -> {
+                                mypageAlarmRVAdapter.setPosts(resp.result)
+                        }
+                        else -> Log.d(
+                            "[MYPAGE] GET_ALARM_LIST/FAILURE",
+                            "${resp.code} / ${resp.message}"
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<GetAlarmHistoryResponse>, t: Throwable) {
+                    Log.d("[MYPAGE] GET_ALARM_LIST/FAILURE", t.message.toString())
+                }
+            })
+    }
+
+    /**
+     * 활동 내역 (알림) 읽음 처리
+     */
+    private fun deleteAlarm(type: String, noticeId: Long) {
+        val mypageService = getRetrofit().create(MypageApiInterface::class.java)
+        mypageService.deleteAlarm(userToken, type, noticeId)
+            .enqueue(object : Callback<DeleteAlarmResponse> {
+                override fun onResponse(
+                    call: Call<DeleteAlarmResponse>,
+                    response: Response<DeleteAlarmResponse>,
+                ) {
+                    Log.d("[MYPAGE] DELETE_ALARM/SUCCESS", response.toString())
+                    val resp: DeleteAlarmResponse = response.body()!!
+
+                    // 서버 response 중 code 값에 따른 결과
+                    when (resp.code) {
+                        1000 -> {
+                            Toast.makeText(
+                                this@MypageAlarmActivity,
+                                "알림을 읽었습니다.",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        else -> Log.d(
+                            "[MYPAGE] DELETE_ALARM/FAILURE",
+                            "${resp.code} / ${resp.message}"
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<DeleteAlarmResponse>, t: Throwable) {
+                    Log.d("[MYPAGE] DELETE_ALARM/FAILURE", t.message.toString())
+                }
+            })
+    }
 }

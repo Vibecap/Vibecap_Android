@@ -1,7 +1,6 @@
 package com.example.vibecapandroid.coms
 
 import com.google.gson.annotations.SerializedName
-import okhttp3.MultipartBody
 import java.time.LocalDateTime
 
 data class CheckMypageResponse(
@@ -246,18 +245,27 @@ data class deleteMypagePostInput(
     val member_id: Int
 )
 
-data class getAlarmHistoryResponse(
-    val is_success: Boolean,
-    val code: Int,
-    val message: String,
-    val result: List<notice>
+// 활동 내역(알림) 조회
+data class GetAlarmHistoryResponse(
+    @SerializedName("is_success") val isSuccess: Boolean,
+    @SerializedName("code") val code: Int,
+    @SerializedName("message") val message: String,
+    @SerializedName("result") val result: ArrayList<Notice>
 )
 
-data class notice(
-    val notice_id:Long,
-    val event:String,
-    val time:String,
-    val sender:String,
-    val summary:String //이벤트가 like인 경우 null 반환
+data class Notice(
+    @SerializedName("notice_id") val noticeId: Long,
+    @SerializedName("event") val event: String,
+    @SerializedName("post_id") val postId: Long,
+    @SerializedName("time") val time: String,
+    @SerializedName("sender") val sender: String,
+    @SerializedName("summary") val summary: String  // 이벤트가 like인 경우 null 반환
 )
 
+// 활동 내역(알림) 읽음 처리
+data class DeleteAlarmResponse(
+    @SerializedName("is_success") val isSuccess: Boolean,
+    @SerializedName("code") val code: Int,
+    @SerializedName("message") val message: String,
+    @SerializedName("result") val result: Long
+)

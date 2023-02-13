@@ -108,7 +108,6 @@ class VibeMainAllPostsRVAdapter(val context: Context) :
         }
 
         holder.itemView.setOnClickListener { mItemClickListener.onItemClick(this.posts[position]!!) }
-
     }
 
 
@@ -127,7 +126,7 @@ class VibeMainAllPostsRVAdapter(val context: Context) :
         }
     }
 
-    // ItemView에 프로그레스바가 들어가는 경우
+    // ItemView에 ProgressBar가 들어가는 경우
     inner class LoadingViewHolder(val binding: ItemVibeMainAllPostsLoadingBinding) :
         RecyclerView.ViewHolder(binding.root)
 
