@@ -205,8 +205,11 @@ class CommonPostActivity  : AppCompatActivity() {
 
         Log.d("tagname ",feeling_tag.toString())
         Log.d("tagname",viewBinding.commonPostTagOwntype.text.toString())
-        val owntag=viewBinding.commonPostTagOwntype.text.toString()
+        var owntag=viewBinding.commonPostTagOwntype.text.toString()
         val apiService = retrofit.create(PostApiInterface::class.java)
+        if(owntag==null || owntag=="" || owntag==" " || owntag==" #"){
+            owntag="#"
+        }
         apiService.posting(
             userToken,  PostRequest(member,title,body,vibe, "$owntag")
         ).enqueue(object : Callback<PostResponse> {
