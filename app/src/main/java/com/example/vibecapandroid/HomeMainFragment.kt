@@ -28,11 +28,12 @@ import com.example.vibecapandroid.databinding.FragmentHomeMainBinding
 import java.lang.Math.abs
 
 
-public lateinit var feeling : String
+public lateinit var feeling: String
 
 class HomeMainFragment : Fragment() {
     private var wheelView: WheelView? = null
     private lateinit var viewBinding: FragmentHomeMainBinding
+
     //size 설정
     var size = 8
 
@@ -42,48 +43,45 @@ class HomeMainFragment : Fragment() {
 
     @SuppressLint("ResourceType")
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         viewBinding = FragmentHomeMainBinding.inflate(layoutInflater)
 
 
         // 상태바 설정
         WindowCompat.setDecorFitsSystemWindows(requireActivity().window, true)
-        val windowController = WindowInsetsControllerCompat(requireActivity().window, requireActivity().window.decorView)
+        val windowController = WindowInsetsControllerCompat(
+            requireActivity().window, requireActivity().window.decorView
+        )
         windowController.isAppearanceLightStatusBars = false
 
         requireActivity().window.apply {
             requireActivity().window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or
-                        View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
             statusBarColor = Color.TRANSPARENT
         }
 
 
 
-        viewBinding.imageButtonAlarm.setOnClickListener{
+        viewBinding.imageButtonAlarm.setOnClickListener {
             val intent = Intent(context, MypageAlarmActivity::class.java)
             startActivity(intent)
         }
-        viewBinding.imageButtonProfile.setOnClickListener{
+        viewBinding.imageButtonProfile.setOnClickListener {
             val intent = Intent(context, MypageProfileActivity::class.java)
             startActivity(intent)
         }
-
-
 
 
         val vibrator = requireContext().getSystemService(VIBRATOR_SERVICE) as Vibrator
         val layout: ConstraintLayout = viewBinding.wheelMain
         layout.setBackgroundResource(R.raw.bg_img_sinna)
 
-        
+
         wheelView = viewBinding.wheelview
         wheelView!!.setWheelItemCount(size)
         val textView = viewBinding.fragmentHomeMainFeeling
-        
+
         textView.text = "신나는"
 
         val shapeDrawables = arrayOfNulls<ShapeDrawable>(size)
@@ -98,7 +96,7 @@ class HomeMainFragment : Fragment() {
         //wheelView 초기화
         wheelView!!.adapter = object : WheelAdapter {
             override fun getDrawable(position: Int): Drawable {
-                var drawable:Drawable = resources.getDrawable(R.drawable.wheel_not_selected)
+                var drawable: Drawable = resources.getDrawable(R.drawable.wheel_not_selected)
                 return drawable
             }
 
@@ -119,78 +117,69 @@ class HomeMainFragment : Fragment() {
 //        wheelView!!.setWheelDrawable(drawable)
 
 
-
-        wheelView!!.onWheelAngleChangeListener =
-            WheelView.OnWheelAngleChangeListener { angle->
-                var angler = angle % 360
-               // Log.d("angler",angler.toString())
-                if((angler>=0 && angler < 40)||(angler>=-360 && angler <-320 )){
-                        layout.setBackgroundResource(R.raw.bg_img_sinna)
-                        textView.text = "신나는"
-                        feeling = textView.text as String
-                        wheelView!!.setWheelDrawable(R.drawable.wheel_sinna)
+        wheelView!!.onWheelAngleChangeListener = WheelView.OnWheelAngleChangeListener { angle ->
+            var angler = angle % 360
+            if (angler != 0F) {
+                viewBinding.fragmentHomeMainTitle.visibility = View.INVISIBLE
+            }
+        }
 
 
+        wheelView!!.setOnWheelItemSelectedListener { parent, itemDrawable, position ->
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(50, 10))
+            }
+            when (position) {
+                0 -> {
+                    layout.setBackgroundResource(R.raw.bg_img_sinna)
+                    textView.text = "신나는"
+                    feeling = textView.text as String
+                    wheelView!!.setWheelDrawable(R.drawable.wheel_sinna)
                 }
-                else if((angler>=40 && angler<80)||(angler>=-320 && angler <-280 )){
+                1 -> {
                     layout.setBackgroundResource(R.raw.bg_img_pogen)
                     textView.text = "포근한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_pogen)
-
                 }
-                else if((angler>=80 && angler<120)||(angler>=-280 && angler <-240 )){
+                2 -> {
                     layout.setBackgroundResource(R.raw.bg_img_nangman)
                     textView.text = "낭만적인"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_nangman)
-                    //Log.d("angle", angle.toString())
-                }
-                else if((angler>=120 && angler<160)||(angler>=-240 && angler <-200 )){
 
+                }
+                3 -> {
                     layout.setBackgroundResource(R.raw.bg_img_simsim)
                     textView.text = "심심한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_simsim)
                     //Log.d("angle", angle.toString())
                 }
-                else if((angler>=160 && angler<200)||(angler>=-200 && angler <-160 )){
+                4 -> {
                     layout.setBackgroundResource(R.raw.bg_img_zanzan)
                     textView.text = "잔잔한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_zanzan)
 
                 }
-                else if((angler>=200 && angler<240)||(angler>=-160 && angler <-120 )){
+                5 -> {
                     layout.setBackgroundResource(R.raw.bg_img_woowool)
                     textView.text = "우울한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_woowool)
                 }
-                else if((angler>=240 && angler<280)||(angler>=-120  && angler <-80 )){
+                6 -> {
                     layout.setBackgroundResource(R.raw.bg_img_gonghe)
                     textView.text = "공허한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_gonghe)
                 }
-                else if((angler>=280 && angler<320)||(angler>=-80 && angler <-40 )){
+                7 -> {
                     layout.setBackgroundResource(R.raw.bg_img_sunsun)
                     textView.text = "선선한"
                     feeling = textView.text as String
                     wheelView!!.setWheelDrawable(R.drawable.wheel_sunsun)
-                }
-            }
-
-       // wheelView!!.setOnWheelAngleChangeListener (wheelView!!.onWheelAngleChangeListener)
-
-
-        wheelView!!.setOnWheelItemSelectedListener { parent, itemDrawable, position ->
-            if (position!=null) {
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    vibrator.vibrate(VibrationEffect.createOneShot(50, 10))
-
-
                 }
             }
         }

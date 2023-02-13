@@ -107,11 +107,10 @@
         android:text="당신의 현재 느낌을 선택해주세요"
         android:textColor="@color/white"
         android:textSize="20dp"
-
+        android:textAlignment="center"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/wheelview"
         app:layout_constraintVertical_bias="0.0" />
