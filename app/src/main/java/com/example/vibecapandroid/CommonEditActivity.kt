@@ -246,7 +246,7 @@ class CommonEditActivity : AppCompatActivity() {
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                youTubePlayer.loadVideo(getYouTubeId(video_id!!)!!, 0F)
+                youTubePlayer.loadVideo((video_id!!)!!, 0F)
             }
         })
     }
