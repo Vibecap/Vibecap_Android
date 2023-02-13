@@ -7,27 +7,35 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.media.Image
 import android.util.Base64
 import android.util.Log
 
 import android.view.View
 import android.view.WindowManager
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.example.vibecapandroid.coms.*
 
-import com.example.vibecapandroid.coms.HistoryAllResponse
-import com.example.vibecapandroid.coms.HistoryApiInterface
 import com.example.vibecapandroid.databinding.ActivityMainBinding
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.ByteArrayOutputStream
 import java.time.LocalDateTime
 
 
@@ -70,6 +78,85 @@ class MainActivity : AppCompatActivity() {
     private var waitTime = 0L
     private val viewBinding: ActivityMainBinding by lazy{
         ActivityMainBinding.inflate(layoutInflater)
+    }
+
+    private fun setProfileImage(){
+
+        val resources: Resources = this.resources
+        val bitmap = BitmapFactory.decodeResource(resources, R.drawable.ic_default_profile_image)
+        val fileName = "VibeCap_Photo" + ".jpg"
+        val stream = ByteArrayOutputStream()
+        bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+        val byteArray = stream.toByteArray()
+        val body = RequestBody.create(MediaType.parse("image/*"), byteArray, 0, byteArray.size)
+        val image: MultipartBody.Part = MultipartBody.Part.createFormData("profile_image", fileName ,body)
+            val apiService=retrofit.create(MypageApiInterface::class.java)
+            apiService.patchMypageImgChange(userToken, MEMBER_ID, image).enqueue(object :
+                Callback<patchMypageImgResponse> {
+                @SuppressLint("ResourceType")
+                override fun onResponse(
+                    call: Call<patchMypageImgResponse>,
+                    response: Response<patchMypageImgResponse>
+
+                ) {
+                    val responseData = response.body()
+                    Log.d(
+                        "Retrofit",
+                        "MypageResponseImgChange\n"+
+                                "isSuccess:${responseData?.is_success}" +
+                                "Code:${responseData?.code}"+
+                                "Message:${responseData?.message}"+
+                                "Result:${responseData?.result}"
+                    )
+                    if (response.isSuccessful) {
+                        Log.d("SetProfileImg","Img set Completed")
+                    } else {
+                        Log.w("Retrofit_notsuccess", "Response Not Successful${response.code()}")
+                    }
+                }
+                override fun onFailure(call: Call<patchMypageImgResponse>, t: Throwable) {
+                    Log.e("Retrofitfail","Error",t)
+                }
+        })
+    }
+    private fun getProfileImage(){
+        val apiService=retrofit.create(MypageApiInterface::class.java)
+        apiService.getMypageCheck(userToken, MEMBER_ID).enqueue(object :Callback<CheckMypageResponse> {
+            override fun onResponse(
+                call: Call<CheckMypageResponse>,
+                response: Response<CheckMypageResponse>
+            ) {
+                if (response.isSuccessful) {
+                    val responseData = response.body()
+                    if (responseData !== null) {
+                        Log.d(
+                            "Retrofit",
+                            "MypageResponseSetProfileData\n"+
+                                    "isSuccess:${responseData.is_success}" +
+                                    "Code:${responseData.code}"+
+                                    "Message:${responseData.message}"+
+                                    "Result:${responseData.result.email}"+
+                                    "Result:${responseData.result.profile_image}"+
+                                    "Result:${responseData.result.nickname}"
+                        )
+                        if(responseData.result.profile_image==null){
+                           setProfileImage()
+                        }
+                        else {
+                        }
+                    }
+                    else{
+                        Log.d("Retrofit","Null data") }
+
+                } else {
+                    Log.w("Retrofit", "Response Not Successful${response.code()}")
+                }
+            }
+            override fun onFailure(call: Call<CheckMypageResponse>, t: Throwable) {
+                Log.e("Retrofit","Error",t)
+            }
+
+        })
     }
 
 
@@ -134,6 +221,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("Token","$userToken")
             Log.d("Member_ID","${MEMBER_ID}")
             setDataInList()
+            getProfileImage()
         }
         setTheme(R.style.Theme_VibecapAndroid)
         setContentView(viewBinding.root)

@@ -27,6 +27,7 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
     private lateinit var setScrapView: SetScrapView
     var postId = 0
     var writerMemberId = 0
+    private var vibeId:Int?=0
 
     var postMenuBottomSheetDialog: BottomSheetDialog? = null
 
@@ -407,8 +408,9 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
             val postBlockBtn =
                 bottomSheetView.findViewById<ConstraintLayout>(R.id.bottom_sheet_vibe_post_block_layout)
             postBlockBtn.setOnClickListener {
-                val intent = Intent(this, MypagePosteditActivity::class.java)
+                val intent = Intent(this, CommonEditActivity::class.java)
                 intent.putExtra("post_id", postId)
+                intent.putExtra("vibe_id",vibeId)
                 startActivity(intent)
             }
 
@@ -519,6 +521,7 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
     override fun onGetPostSuccess(code: Int, result: PostDetailData) {
         setPost(code, result)
         writerMemberId = result.memberId
+        vibeId=result.vibeId
 
         // 게시물 메뉴 BottomSheet 설정
         val postMenuBottomSheetView =
