@@ -14,6 +14,9 @@ import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.ActivityVibePostBinding
 import com.example.vibecapandroid.utils.getRetrofit
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import retrofit2.*
 
 
@@ -259,13 +262,15 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         val beginIdx = result.youtubeLink.indexOf("watch?v=")
         val endIdx = result.youtubeLink.length
         val videoId = result.youtubeLink.substring(beginIdx + 8, endIdx)
-        val youtubePlayerFragment = YoutubePlayerFragment.newInstance()
-        val bundle = Bundle()
-        bundle.putString("VIDEO_ID", videoId)
-        youtubePlayerFragment.arguments = bundle
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.vibe_post_youtube_player_view, youtubePlayerFragment)
-            .commitNow()
+
+        val youTubePlayerView: YouTubePlayerView =binding.vibePostYoutubePlayerView
+        lifecycle.addObserver(youTubePlayerView)
+
+        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                youTubePlayer.loadVideo((videoId), 0F)
+            }
+        })
 
         binding.vibePostLikeCountTv.text = result.likeNumber.toString()
         binding.vibePostCommentCountTv.text = result.commentNumber.toString()

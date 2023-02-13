@@ -235,10 +235,8 @@ class MypageSetupActivity : AppCompatActivity() {
                     }
                     if (position == 2) {
 
-                        val selectItem = parent.getItemAtPosition(position) as MypageSetupClass
-                        val intent = Intent(this,HistoryPostActivity::class.java)
-                        startActivity(intent)}
                     }
+                }
 
 
                 val mypage_back = findViewById<ImageView>(R.id.activity_mypage_nickname_close)
