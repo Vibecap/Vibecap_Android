@@ -20,6 +20,7 @@ import com.example.vibecapandroid.R.id.*
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.FragmentVibeMainBinding
 import com.example.vibecapandroid.utils.getRetrofit
+import com.google.android.youtube.player.internal.v
 import kotlinx.coroutines.*
 import me.relex.circleindicator.CircleIndicator3
 import retrofit2.*
@@ -73,7 +74,6 @@ class VibeMainFragment : Fragment() {
 
         getAllPosts()
         initScrollListener()
-        ///////////////////////////////////
 
 
         val view = inflater.inflate(R.layout.fragment_vibe_main, container, false)
@@ -105,7 +105,6 @@ class VibeMainFragment : Fragment() {
             val intent = Intent(context, VibeSearchActivity::class.java)
             startActivity(intent)
         }
-
 
         val mypage_alarm2 = viewBinding.imageButtonAlarm
         mypage_alarm2.setOnClickListener {
@@ -293,9 +292,6 @@ class VibeMainFragment : Fragment() {
             }
         }
         requestWeeklyAPI()
-
-
-
         return viewBinding.root
     }
 
@@ -388,27 +384,23 @@ class VibeMainFragment : Fragment() {
                         if (responseData.is_success) {
                             when (response.body()?.code) {
                                 1000 -> {
-                                    // 데이터 저장하기
-                                    //weeklySaveData(0,responseData)
-                                    //weeklySaveData(1,responseData)
-                                    //weeklySaveData(2,responseData)
 
-                                    val weeklyarray=responseData.result
+                                    // viewPager
+                                    val weeklyarray = responseData.result
                                     viewBinding.ViewPagerBanner.adapter = ViewPagerAdapter(requireContext(),weeklyarray.toTypedArray()) // 어댑터 생성
                                     viewBinding.ViewPagerBanner.orientation = ViewPager2.ORIENTATION_HORIZONTAL // 방향을 가로로
 
                                     // 인디케이터 적용
-                                    val viewpager: ViewPager2 = view!!.findViewById(R.id.ViewPager_banner)
+                                    val viewpager: ViewPager2 = view!!.findViewById(ViewPager_banner)
                                     viewpager.adapter = ViewPagerAdapter(requireContext(),weeklyarray.toTypedArray())
-
-                                    val indicator: CircleIndicator3 =
-                                        view!!.findViewById(R.id.dots_indicator)
+                                    val indicator: CircleIndicator3 = view!!.findViewById(dots_indicator)
                                     indicator.setViewPager(viewpager)
                                 }
                             }
                         } else {
                             if (responseData.code == 3011) {
                                 //Toast.makeText(this@VibeMainFragment,"해당 태그를 가진 게시물이 없습니다.", Toast.LENGTH_SHORT).show()
+                                Log.d("WeeklyResult","WeeklyResult 실패")
                             }
                         }
                     }
@@ -474,6 +466,7 @@ class VibeMainFragment : Fragment() {
         })
     }
 
+
     // 태그별 저장
     private fun TagsaveData(tagName: String, responseData: PostTagResponse) {
         viewBinding.imageButton1.visibility = View.VISIBLE
@@ -482,6 +475,7 @@ class VibeMainFragment : Fragment() {
         viewBinding.imageButton4.visibility = View.VISIBLE
         viewBinding.imageButton5.visibility = View.VISIBLE
         viewBinding.imageButton6.visibility = View.VISIBLE
+
         if (tagName.isNullOrEmpty()) {
             Log.d("tagEmpty", "태그 이름 없음")
         } else {
@@ -492,7 +486,7 @@ class VibeMainFragment : Fragment() {
                 }
                 1 -> {
                     // 1번째 post
-                    //val post_id_1 = responseData.result.content[0].post_id
+                    val post_id_1 = responseData.result.content[0].post_id
                     //val member_id_1 = responseData.result.content[0].member_id
                     //val vibe_id_1 = responseData.result.content[0].vibe_id
                     val vibe_image_1 = responseData.result.content[0].vibe_image
@@ -507,6 +501,13 @@ class VibeMainFragment : Fragment() {
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_1) // 이미지를 넣을 뷰
 
+                    // post id 설정
+                    viewBinding.imageButton1.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_1)
+                        startActivity(intent)
+                    }
+
                     viewBinding.imageButton2.visibility = View.GONE
                     viewBinding.imageButton3.visibility = View.GONE
                     viewBinding.imageButton4.visibility = View.GONE
@@ -515,7 +516,7 @@ class VibeMainFragment : Fragment() {
                 }
                 2 -> {
                     // 1번째 post
-                    //val post_id_1 = responseData.result.content[0].post_id
+                    val post_id_1 = responseData.result.content[0].post_id
                     //val member_id_1 = responseData.result.content[0].member_id
                     //val vibe_id_1 = responseData.result.content[0].vibe_id
                     val vibe_image_1 = responseData.result.content[0].vibe_image
@@ -531,7 +532,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_1) // 이미지를 넣을 뷰
 
                     // 2번째 post
-                    //val post_id_2 = responseData.result.content[1].post_id
+                    val post_id_2 = responseData.result.content[1].post_id
                     //val member_id_2 = responseData.result.content[1].member_id
                     //val vibe_id_2 = responseData.result.content[1].vibe_id
                     val vibe_image_2 = responseData.result.content[1].vibe_image
@@ -550,10 +551,22 @@ class VibeMainFragment : Fragment() {
                     viewBinding.imageButton4.visibility = View.GONE
                     viewBinding.imageButton5.visibility = View.GONE
                     viewBinding.imageButton6.visibility = View.GONE
+
+                    // post id 설정
+                    viewBinding.imageButton1.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_1)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton2.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_2)
+                        startActivity(intent)
+                    }
                 }
                 3 -> {
                     // 1번째 post
-                    //val post_id_1 = responseData.result.content[0].post_id
+                    val post_id_1 = responseData.result.content[0].post_id
                     //val member_id_1 = responseData.result.content[0].member_id
                     //val vibe_id_1 = responseData.result.content[0].vibe_id
                     val vibe_image_1 = responseData.result.content[0].vibe_image
@@ -569,7 +582,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_1) // 이미지를 넣을 뷰
 
                     // 2번째 post
-                    //val post_id_2 = responseData.result.content[1].post_id
+                    val post_id_2 = responseData.result.content[1].post_id
                     //val member_id_2 = responseData.result.content[1].member_id
                     //val vibe_id_2 = responseData.result.content[1].vibe_id
                     val vibe_image_2 = responseData.result.content[1].vibe_image
@@ -585,7 +598,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_2) // 이미지를 넣을 뷰
 
                     // 3번째 post
-                    //val post_id_3 = responseData.result.content[2].post_id
+                    val post_id_3 = responseData.result.content[2].post_id
                     //val member_id_3 = responseData.result.content[2].member_id
                     //val vibe_id_3 = responseData.result.content[2].vibe_id
                     val vibe_image_3 = responseData.result.content[2].vibe_image
@@ -603,10 +616,27 @@ class VibeMainFragment : Fragment() {
                     viewBinding.imageButton4.visibility = View.GONE
                     viewBinding.imageButton5.visibility = View.GONE
                     viewBinding.imageButton6.visibility = View.GONE
+
+                    // post id 설정
+                    viewBinding.imageButton1.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_1)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton2.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_2)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton3.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_3)
+                        startActivity(intent)
+                    }
                 }
                 4 -> {
                     // 1번째 post
-                    //val post_id_1 = responseData.result.content[0].post_id
+                    val post_id_1 = responseData.result.content[0].post_id
                     //val member_id_1 = responseData.result.content[0].member_id
                     //val vibe_id_1 = responseData.result.content[0].vibe_id
                     val vibe_image_1 = responseData.result.content[0].vibe_image
@@ -622,7 +652,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_1) // 이미지를 넣을 뷰
 
                     // 2번째 post
-                    //val post_id_2 = responseData.result.content[1].post_id
+                    val post_id_2 = responseData.result.content[1].post_id
                     //val member_id_2 = responseData.result.content[1].member_id
                     //val vibe_id_2 = responseData.result.content[1].vibe_id
                     val vibe_image_2 = responseData.result.content[1].vibe_image
@@ -638,7 +668,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_2) // 이미지를 넣을 뷰
 
                     // 3번째 post
-                    //val post_id_3 = responseData.result.content[2].post_id
+                    val post_id_3 = responseData.result.content[2].post_id
                     //val member_id_3 = responseData.result.content[2].member_id
                     //val vibe_id_3 = responseData.result.content[2].vibe_id
                     val vibe_image_3 = responseData.result.content[2].vibe_image
@@ -654,7 +684,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_3) // 이미지를 넣을 뷰
 
                     // 4번째 post
-                    //val post_id_4 = responseData.result.content[3].post_id
+                    val post_id_4 = responseData.result.content[3].post_id
                     // val member_id_4 = responseData.result.content[3].member_id
                     //val vibe_id_4 = responseData.result.content[3].vibe_id
                     val vibe_image_4 = responseData.result.content[3].vibe_image
@@ -670,10 +700,32 @@ class VibeMainFragment : Fragment() {
 
                     viewBinding.imageButton5.visibility = View.GONE
                     viewBinding.imageButton6.visibility = View.GONE
+
+                    // post id 설정
+                    viewBinding.imageButton1.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_1)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton2.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_2)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton3.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_3)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton4.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_4)
+                        startActivity(intent)
+                    }
                 }
                 5 -> {
                     // 1번째 post
-                    //val post_id_1 = responseData.result.content[0].post_id
+                    val post_id_1 = responseData.result.content[0].post_id
                     //val member_id_1 = responseData.result.content[0].member_id
                     //val vibe_id_1 = responseData.result.content[0].vibe_id
                     val vibe_image_1 = responseData.result.content[0].vibe_image
@@ -689,7 +741,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_1) // 이미지를 넣을 뷰
 
                     // 2번째 post
-                    //val post_id_2 = responseData.result.content[1].post_id
+                    val post_id_2 = responseData.result.content[1].post_id
                     //val member_id_2 = responseData.result.content[1].member_id
                     //val vibe_id_2 = responseData.result.content[1].vibe_id
                     val vibe_image_2 = responseData.result.content[1].vibe_image
@@ -705,7 +757,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_2) // 이미지를 넣을 뷰
 
                     // 3번째 post
-                    //val post_id_3 = responseData.result.content[2].post_id
+                    val post_id_3 = responseData.result.content[2].post_id
                     //val member_id_3 = responseData.result.content[2].member_id
                     //val vibe_id_3 = responseData.result.content[2].vibe_id
                     val vibe_image_3 = responseData.result.content[2].vibe_image
@@ -721,7 +773,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_3) // 이미지를 넣을 뷰
 
                     // 4번째 post
-                    //val post_id_4 = responseData.result.content[3].post_id
+                    val post_id_4 = responseData.result.content[3].post_id
                     // val member_id_4 = responseData.result.content[3].member_id
                     //val vibe_id_4 = responseData.result.content[3].vibe_id
                     val vibe_image_4 = responseData.result.content[3].vibe_image
@@ -736,7 +788,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_4) // 이미지를 넣을 뷰
 
                     // 5번째 post
-                    //val post_id_5 = responseData.result.content[4].post_id
+                    val post_id_5 = responseData.result.content[4].post_id
                     //val member_id_5 = responseData.result.content[4].member_id
                     // val vibe_id_5 = responseData.result.content[4].vibe_id
                     val vibe_image_5 = responseData.result.content[4].vibe_image
@@ -751,10 +803,37 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_5) // 이미지를 넣을 뷰
 
                     viewBinding.imageButton6.visibility = View.GONE
+
+                    // post id 설정
+                    viewBinding.imageButton1.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_1)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton2.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_2)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton3.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_3)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton4.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_4)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton5.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_5)
+                        startActivity(intent)
+                    }
                 }
                 6 -> {
                     // 1번째 post
-                    //val post_id_1 = responseData.result.content[0].post_id
+                    val post_id_1 = responseData.result.content[0].post_id
                     //val member_id_1 = responseData.result.content[0].member_id
                     //val vibe_id_1 = responseData.result.content[0].vibe_id
                     val vibe_image_1 = responseData.result.content[0].vibe_image
@@ -770,7 +849,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_1) // 이미지를 넣을 뷰
 
                     // 2번째 post
-                    //val post_id_2 = responseData.result.content[1].post_id
+                    val post_id_2 = responseData.result.content[1].post_id
                     //val member_id_2 = responseData.result.content[1].member_id
                     //val vibe_id_2 = responseData.result.content[1].vibe_id
                     val vibe_image_2 = responseData.result.content[1].vibe_image
@@ -786,7 +865,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_2) // 이미지를 넣을 뷰
 
                     // 3번째 post
-                    //val post_id_3 = responseData.result.content[2].post_id
+                    val post_id_3 = responseData.result.content[2].post_id
                     //val member_id_3 = responseData.result.content[2].member_id
                     //val vibe_id_3 = responseData.result.content[2].vibe_id
                     val vibe_image_3 = responseData.result.content[2].vibe_image
@@ -802,7 +881,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_3) // 이미지를 넣을 뷰
 
                     // 4번째 post
-                    //val post_id_4 = responseData.result.content[3].post_id
+                    val post_id_4 = responseData.result.content[3].post_id
                     // val member_id_4 = responseData.result.content[3].member_id
                     //val vibe_id_4 = responseData.result.content[3].vibe_id
                     val vibe_image_4 = responseData.result.content[3].vibe_image
@@ -817,7 +896,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_4) // 이미지를 넣을 뷰
 
                     // 5번째 post
-                    //val post_id_5 = responseData.result.content[4].post_id
+                    val post_id_5 = responseData.result.content[4].post_id
                     //val member_id_5 = responseData.result.content[4].member_id
                     // val vibe_id_5 = responseData.result.content[4].vibe_id
                     val vibe_image_5 = responseData.result.content[4].vibe_image
@@ -832,7 +911,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_5) // 이미지를 넣을 뷰
 
                     // 6번째 post
-                    // val post_id_6 = responseData.result.content[5].post_id
+                    val post_id_6 = responseData.result.content[5].post_id
                     //val member_id_6 = responseData.result.content[5].member_id
                     //val vibe_id_6 = responseData.result.content[5].vibe_id
                     val vibe_image_6 = responseData.result.content[5].vibe_image
@@ -845,10 +924,42 @@ class VibeMainFragment : Fragment() {
                      //   .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_6) // 이미지를 넣을 뷰
+
+                    // post id 설정
+                    viewBinding.imageButton1.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_1)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton2.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_2)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton3.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_3)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton4.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_4)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton5.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_5)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton6.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_6)
+                        startActivity(intent)
+                    }
                 }
                 else -> {
                     // 1번째 post
-                    //val post_id_1 = responseData.result.content[0].post_id
+                    val post_id_1 = responseData.result.content[0].post_id
                     //val member_id_1 = responseData.result.content[0].member_id
                     //val vibe_id_1 = responseData.result.content[0].vibe_id
                     val vibe_image_1 = responseData.result.content[0].vibe_image
@@ -864,7 +975,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_1) // 이미지를 넣을 뷰
 
                     // 2번째 post
-                    //val post_id_2 = responseData.result.content[1].post_id
+                    val post_id_2 = responseData.result.content[1].post_id
                     //val member_id_2 = responseData.result.content[1].member_id
                     //val vibe_id_2 = responseData.result.content[1].vibe_id
                     val vibe_image_2 = responseData.result.content[1].vibe_image
@@ -880,7 +991,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_2) // 이미지를 넣을 뷰
 
                     // 3번째 post
-                    //val post_id_3 = responseData.result.content[2].post_id
+                    val post_id_3 = responseData.result.content[2].post_id
                     //val member_id_3 = responseData.result.content[2].member_id
                     //val vibe_id_3 = responseData.result.content[2].vibe_id
                     val vibe_image_3 = responseData.result.content[2].vibe_image
@@ -896,7 +1007,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_3) // 이미지를 넣을 뷰
 
                     // 4번째 post
-                    //val post_id_4 = responseData.result.content[3].post_id
+                    val post_id_4 = responseData.result.content[3].post_id
                     // val member_id_4 = responseData.result.content[3].member_id
                     //val vibe_id_4 = responseData.result.content[3].vibe_id
                     val vibe_image_4 = responseData.result.content[3].vibe_image
@@ -911,7 +1022,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_4) // 이미지를 넣을 뷰
 
                     // 5번째 post
-                    //val post_id_5 = responseData.result.content[4].post_id
+                    val post_id_5 = responseData.result.content[4].post_id
                     //val member_id_5 = responseData.result.content[4].member_id
                     // val vibe_id_5 = responseData.result.content[4].vibe_id
                     val vibe_image_5 = responseData.result.content[4].vibe_image
@@ -926,7 +1037,7 @@ class VibeMainFragment : Fragment() {
                         .into(imageView_5) // 이미지를 넣을 뷰
 
                     // 6번째 post
-                    // val post_id_6 = responseData.result.content[5].post_id
+                    val post_id_6 = responseData.result.content[5].post_id
                     //val member_id_6 = responseData.result.content[5].member_id
                     //val vibe_id_6 = responseData.result.content[5].vibe_id
                     val vibe_image_6 = responseData.result.content[5].vibe_image
@@ -939,6 +1050,38 @@ class VibeMainFragment : Fragment() {
                     //    .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
                         .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
                         .into(imageView_6) // 이미지를 넣을 뷰
+
+                    // post id 설정
+                    viewBinding.imageButton1.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_1)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton2.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_2)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton3.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_3)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton4.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_4)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton5.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_5)
+                        startActivity(intent)
+                    }
+                    viewBinding.imageButton6.setOnClickListener{
+                        val intent = Intent(context, VibePostActivity::class.java)
+                        intent.putExtra("post_id", post_id_6)
+                        startActivity(intent)
+                    }
                 }
             }
         }
@@ -946,114 +1089,10 @@ class VibeMainFragment : Fragment() {
 
     }
 
-    // Weekly 저장
-    private fun weeklySaveData(id:Int,responseData: PostWeeklyResponse) {
-
-        val post_id = responseData.result[id].post_id
-        val tag_name = responseData.result[id].tag_name
-        val vibe_image = responseData.result[id].vibe_image
-
-        // post id 설정
-        viewBinding.ViewPagerBanner
-
-        // tag name 설정
-        if (tag_name.isNullOrEmpty()) {
-            //  requireView().findViewById<TextView>(R.id.weeklyTagLinear).visibility = View.GONE
-        } else {
-            // tag name 을 공백으로 구분
-            val tagList = tag_name.split(buildString {
-                append("\\s")
-            }.toRegex()).toTypedArray()
-            // tag name 앞에 # 붙여주기
-            for (i in tagList.indices) {
-                tagList[i] = "#" + tagList[i]
-            }
-            // tag name 최대 3개
-            when (tagList.size) {
-                1 -> {
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility =
-                        View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text =
-                        tagList[1]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv).visibility =
-                        View.GONE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv).visibility =
-                        View.GONE
 
 
-                }
-                2 -> {
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility =
-                        View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text =
-                        tagList[0]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.visibility =
-                        View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.text =
-                        tagList[1]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv).visibility =
-                        View.GONE
-                }
-                3 -> {
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.visibility =
-                        View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_first_tv)!!.text =
-                        tagList[0]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.visibility =
-                        View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_second_tv)!!.text =
-                        tagList[1]
-                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv)!!.visibility =
-                        View.VISIBLE
-                    requireView().findViewById<TextView>(R.id.weekly_tag_third_tv)!!.text =
-                        tagList[2]
-                }
-            }
-
-            // 이미지 설정
-            when (id) {
-                0 -> {
-                    val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
-                    imageView.clipToOutline = true
-                    val defaultImage = R.drawable.ic_activity_vibe_main_banner
-                    val url = vibe_image
-                    Glide.with(this@VibeMainFragment)
-                        .load(url) // 불러올 이미지 url
-                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                        .into(imageView) // 이미지를 넣을 뷰
-                }
-                1 -> {
-                    val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
-                    imageView.clipToOutline = true
-                    val defaultImage = R.drawable.ic_activity_vibe_main_banner
-                    val url = vibe_image
-                    Glide.with(this@VibeMainFragment)
-                        .load(url) // 불러올 이미지 url
-                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                        .into(imageView) // 이미지를 넣을 뷰
-                }
-                2 -> {
-                    val imageView = requireView().findViewById<ImageView>(imageView_weekly_item1)
-                    imageView.clipToOutline = true
-                    val defaultImage = R.drawable.ic_activity_vibe_main_banner
-                    val url = vibe_image
-                    Glide.with(this@VibeMainFragment)
-                        .load(url) // 불러올 이미지 url
-                        .placeholder(defaultImage) // 이미지 로딩 시작하기 전 표시할 이미지
-                        .error(defaultImage) // 로딩 에러 발생 시 표시할 이미지
-                        .fallback(defaultImage) // 로드할 url 이 비어있을(null 등) 경우 표시할 이미지
-                        .into(imageView) // 이미지를 넣을 뷰
-                }
-            }
 
 
-        }
-
-    }
 
 
     // 전체 게시물 조회 API
@@ -1145,6 +1184,7 @@ class VibeMainFragment : Fragment() {
 
     private fun setHasNextPage(b: Boolean) {
         isNext = b
+
     }
 
     // scroll이 끝에 닿으면 데이터에 null 추가 및 Adapter에 알림
