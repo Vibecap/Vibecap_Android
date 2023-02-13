@@ -1,6 +1,5 @@
 package com.example.vibecapandroid.coms
 
-import okhttp3.Call
 import okhttp3.MultipartBody
 import retrofit2.http.*
 
@@ -92,9 +91,18 @@ interface MypageApiInterface {
         @Body JsonBody: deleteMypagePostInput
     ):retrofit2.Call<deleteMypageResponse>
 
+    // 활동 내역(알림) 조회
     @GET("app/notice/{member_id}")
     fun getAlarmHistory(
-        @Header("X-AUTH-TOKEN") jwt:String,
-        @Path("member_id") member_id:Long
-    ):retrofit2.Call<getAlarmHistoryResponse>
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Path("member_id") memberId: Long
+    ): retrofit2.Call<GetAlarmHistoryResponse>
+
+    // 활동 내역(알림) 읽음 처리
+    @PATCH("app/notice")
+    fun deleteAlarm(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Query("type") type: String,
+        @Query("noticeId") noticeId: Long
+    ): retrofit2.Call<DeleteAlarmResponse>
 }
