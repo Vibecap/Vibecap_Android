@@ -44,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
-            app:srcCompat="@drawable/ic_activity_vibe_main_alarm" />
+            app:srcCompat="@drawable/ic_activity_vibe_main_alarm"
+            app:tint="@color/black" />
 
         <ImageButton
             android:id="@+id/imageButton_profile"
@@ -53,7 +54,8 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:backgroundTint="@android:color/transparent"
-            app:srcCompat="@drawable/ic_activity_vibe_main_profile" />
+            app:srcCompat="@drawable/ic_activity_vibe_main_profile"
+            app:tint="@color/black" />
     </LinearLayout>
 
     <LinearLayout

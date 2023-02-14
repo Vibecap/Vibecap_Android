@@ -3,7 +3,9 @@ package com.example.vibecapandroid
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -31,7 +33,7 @@ class MypageSetupActivity : AppCompatActivity() {
     var setupList1 = arrayListOf<MypageSetupClass>(
         MypageSetupClass(R.drawable.ic_activity_mypage_setup_profile,"프로필 이미지 변경",R.drawable.ic_activity_mypage_profile_next),
         MypageSetupClass(R.drawable.ic_activity_mypage_setup_edit,"닉네임 변경",R.drawable.ic_activity_mypage_profile_next),
-        MypageSetupClass(R.drawable.ic_activity_mypage_setup_alarm,"알림 설정",R.drawable.ic_activity_mypage_profile_next)
+        MypageSetupClass(R.drawable.ic_activity_mypage_setup_alarm,"알림 및 기타 설정",R.drawable.ic_activity_mypage_profile_next)
     )
     var setupList2 = arrayListOf<MypageSetupClass>(
         MypageSetupClass(R.drawable.ic_activity_mypage_profile_act,"구글 계정 연동하기",R.drawable.ic_activity_mypage_profile_next),
@@ -55,7 +57,10 @@ class MypageSetupActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mypage_setuplist)
-
+        val editor = getSharedPreferences(
+            "sharedprefs",
+            Context.MODE_PRIVATE
+        ).edit()
         val Adapter1 = MypageSetupadaptersClass(this, setupList1)
         val activity_mypage_setuplist1 = findViewById<ListView>(R.id.activity_mypage_setuplist1)
         activity_mypage_setuplist1.adapter = Adapter1
@@ -111,14 +116,18 @@ class MypageSetupActivity : AppCompatActivity() {
 
                     val cancelBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_logout_cancel)
                     cancelBtn.setOnClickListener{
-                        val intent = Intent(this, MypageSetupActivity::class.java)
-                        startActivity(intent)
+                        logoutDialog.hide()
                     }
 
                     val logoutBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_logout_logout)
                     logoutBtn.setOnClickListener{
                         val intent = Intent(this, LoginActivity::class.java)
                         startActivity(intent)
+                        editor.clear()
+                        editor.apply()
+                        Toast.makeText(this@MypageSetupActivity,"로그아웃이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                        super.finish()
+
                     }
 
                 }
@@ -134,8 +143,7 @@ class MypageSetupActivity : AppCompatActivity() {
 
                     val cancelBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_quit_cancel)
                     cancelBtn.setOnClickListener{
-                        val intent = Intent(this, MypageSetupActivity::class.java)
-                        startActivity(intent)
+                        quitDialog.hide()
                     }
 
                     val quitBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_quit_quit)
@@ -151,8 +159,7 @@ class MypageSetupActivity : AppCompatActivity() {
 
                         val cancelBtn =dialogBinding.findViewById<Button>(R.id.dialog_mypage_quitreal_cancel)
                         cancelBtn.setOnClickListener{
-                            val intent = Intent(this, MypageSetupActivity::class.java)
-                            startActivity(intent)
+                            quitRealDialog.hide()
                         }
 
                         val quitrealBtn = dialogBinding.findViewById<Button>(R.id.dialog_mypage_quitreal_quit)
@@ -160,8 +167,8 @@ class MypageSetupActivity : AppCompatActivity() {
                             val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
 
-
-
+                            editor.clear()
+                            editor.apply()
                             //웹 브라우저 창 열기
                             val retrofit = Retrofit.Builder()
                                 .baseUrl("http://ec2-175-41-230-93.ap-northeast-1.compute.amazonaws.com:8080/")
@@ -190,9 +197,9 @@ class MypageSetupActivity : AppCompatActivity() {
                                                         "Code:${responseData.code}"+
                                                         "Message:${responseData.message}"+
                                                         "Result:${responseData.result.nickname}"
-
                                             )
-
+                                            Toast.makeText(this@MypageSetupActivity,"회원탈퇴가 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                                            finish()
                                         }
                                         else{
                                             Log.d("Retrofit","Null data") }

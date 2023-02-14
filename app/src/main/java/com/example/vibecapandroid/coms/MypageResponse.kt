@@ -91,8 +91,7 @@ data class patchMypageImgInput(
     val profile_image:MultipartBody.Part
 )*/
 data class patchMypageQuitInput(
-    @SerializedName("memberID")
-    val memberID : Long
+    val member_id : Long
 )
 data class patchMypageQuitResponse(
     val is_success: Boolean,

@@ -182,13 +182,14 @@ class HistoryYoutubeActivity:AppCompatActivity() {
 */
     private fun Youtubeplay(){
         val youTubePlayerView: YouTubePlayerView =viewBinding.historyYoutubeYouTubePlayerView
-        lifecycle.addObserver(youTubePlayerView)
+        //lifecycle.addObserver(youTubePlayerView)
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youTubePlayer.loadVideo(getYouTubeId(videoID!!)!!, 0F)
             }
         })
+       youTubePlayerView.enableBackgroundPlayback(true)
     }
     override fun onBackPressed() {
         val nextIntent = Intent(this, MainActivity::class.java)

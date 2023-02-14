@@ -55,10 +55,8 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
 
     fun checkPermission(permissions: Array<out String>, type: Int): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            for (permission in permissions) {
-                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, permissions[0]) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, permissions, type)
-                    Log.d("권한","권한없음")
                     return false
                 }
                 else{
@@ -66,7 +64,6 @@ class HistoryPhoneGalleryActivity : AppCompatActivity() {
                     return true
                 }
             }
-        }
         GetAlbum()
         return true
     }

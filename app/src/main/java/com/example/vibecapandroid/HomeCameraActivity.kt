@@ -47,7 +47,6 @@ class HomeCameraActivity: AppCompatActivity() {
 
     }
 
-
     // 카메라 권한, 저장소 권한
     // 요청 권한
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -67,8 +66,7 @@ class HomeCameraActivity: AppCompatActivity() {
     // 다른 권한등도 확인이 가능하도록
     fun checkPermission(permissions: Array<out String>, type: Int): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            for (permission in permissions) {
-                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                if (ContextCompat.checkSelfPermission(this, permissions[0]) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(this, permissions, type)
                     return false
                 }
@@ -77,7 +75,6 @@ class HomeCameraActivity: AppCompatActivity() {
                     return true
                 }
             }
-        }
         CallCamera()
         return true
     }
