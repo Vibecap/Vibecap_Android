@@ -139,7 +139,7 @@ class HomeCapturedActivity : AppCompatActivity() {
         else {
             viewBinding.progressBar.visibility = View.GONE
             viewBinding.btDelete.visibility = View.VISIBLE
-            viewBinding.btYoutube.visibility = View.VISIBLE
+           // viewBinding.btYoutube.visibility = View.VISIBLE
             viewBinding.btShare.visibility = View.VISIBLE
             viewBinding.btWrite.visibility = View.VISIBLE
 
@@ -376,7 +376,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                                 //progresss bar 종료
                                 runOnUiThread {
                                     showProgressbar(false)
-                                    viewBinding.btYoutube.visibility = View.VISIBLE
+                                   // viewBinding.btYoutube.visibility = View.VISIBLE
                                 }
                             }
 
@@ -405,11 +405,11 @@ class HomeCapturedActivity : AppCompatActivity() {
             })
         } else {
           //  Log.d("따음표", time + " " + feeling)
-            Toast.makeText(
+            /*Toast.makeText(
                 getApplicationContext(),
                 "사진 및 바이브 인식 모드 입니다.",
                 Toast.LENGTH_SHORT
-            ).show();
+            ).show();*/
             apiService.postCapture(
                 userToken, MEMBER_ID, time + " " + feeling, // 계절 +시간 날씨 기분 -> api 통해서 가져와야함
                 image
