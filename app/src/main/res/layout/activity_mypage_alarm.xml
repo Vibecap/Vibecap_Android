@@ -42,6 +42,25 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/mypage_alarm_empty_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="16dp"
+        android:text="@string/mypage_alarm_no_alarms"
+        android:textColor="@color/gray_300"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:drawableTint="@color/gray_200"
+        app:drawableTopCompat="@drawable/ic_activity_vibe_search_question_mark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/mypage_alarm_top_bar_layout" />
+
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mypage_alarm_rv"
         android:layout_width="match_parent"
