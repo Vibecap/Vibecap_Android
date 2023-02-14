@@ -277,13 +277,14 @@ class MypagePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScr
         val videoId = result.youtubeLink.substring(beginIdx + 8, endIdx)
 
         val youTubePlayerView: YouTubePlayerView =binding.vibePostYoutubePlayerView
-        lifecycle.addObserver(youTubePlayerView)
+       // lifecycle.addObserver(youTubePlayerView)
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
                 youTubePlayer.loadVideo((videoId), 0F)
             }
         })
+        youTubePlayerView.enableBackgroundPlayback(true)
 
         binding.vibePostLikeCountTv.text = result.likeNumber.toString()
         binding.vibePostCommentCountTv.text = result.commentNumber.toString()

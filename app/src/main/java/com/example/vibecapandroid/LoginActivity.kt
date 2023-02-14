@@ -13,8 +13,10 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayoutStates.TAG
+import androidx.core.app.ActivityCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.vibecapandroid.coms.LoginApiInterface
 import com.example.vibecapandroid.coms.SignInMember
@@ -122,6 +124,17 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, RegisterEmailActivity::class.java)
             startActivity(intent)
             finish()
+        }
+    }
+    private var waitTime = 0L
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - waitTime >=1500 ) {
+            waitTime = System.currentTimeMillis()
+            Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show()
+        } else {
+            //앱종료
+            ActivityCompat.finishAffinity(this)
+            System.exit(0)
         }
     }
 }

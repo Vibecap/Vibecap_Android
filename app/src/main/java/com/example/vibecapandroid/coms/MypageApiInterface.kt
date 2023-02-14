@@ -55,7 +55,7 @@ interface MypageApiInterface {
         @Part  profile_image: MultipartBody.Part
     ): retrofit2.Call<patchMypageImgResponse>
 
-    @PATCH("/app/member/quit")
+    @PATCH("app/member/quit")
     fun patchMypageQuit(
         @Header("X-AUTH-TOKEN") jwt: String,
         @Body JsonBody : patchMypageQuitInput
