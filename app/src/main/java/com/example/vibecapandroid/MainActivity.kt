@@ -23,6 +23,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import com.bumptech.glide.Glide
 import com.example.vibecapandroid.coms.*
 
@@ -294,7 +295,9 @@ class MainActivity : AppCompatActivity() {
             waitTime = System.currentTimeMillis()
             Toast.makeText(this,"뒤로가기 버튼을 한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
         } else {
-            finish() // 액티비티 종료
+            //앱종료
+            ActivityCompat.finishAffinity(this)
+            System.exit(0)
         }
     }
 
