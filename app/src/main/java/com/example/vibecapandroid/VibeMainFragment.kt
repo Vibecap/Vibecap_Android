@@ -37,6 +37,8 @@ class VibeMainFragment : Fragment() {
     private var page = -1      // 현재 페이지
     private var limit = 8     // 한 번에 가져올 아이템 수
 
+    private var alarmListSize = 0
+
     @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -72,6 +74,8 @@ class VibeMainFragment : Fragment() {
         getAllPosts()
         initScrollListener()
 
+        // 새로운 알림 유무 표시
+        setNewAlarm()
 
         val view = inflater.inflate(R.layout.fragment_vibe_main, container, false)
 
@@ -255,6 +259,8 @@ class VibeMainFragment : Fragment() {
         page = -1
         getAllPosts()
         initScrollListener()
+
+        setNewAlarm()
     }
 
 
@@ -1155,6 +1161,42 @@ class VibeMainFragment : Fragment() {
     private fun setHasNextPage(b: Boolean) {
         isNext = b
 
+    }
+
+
+    // 새로운 알림 유무 표시
+    private fun setNewAlarm() {
+        val mypageService = getRetrofit().create(MypageApiInterface::class.java)
+        mypageService.getAlarmHistory(userToken, MEMBER_ID)
+            .enqueue(object : Callback<GetAlarmHistoryResponse> {
+                override fun onResponse(
+                    call: Call<GetAlarmHistoryResponse>,
+                    response: Response<GetAlarmHistoryResponse>,
+                ) {
+                    Log.d("[VIBE] GET_ALARM_LIST/SUCCESS", response.toString())
+                    val resp: GetAlarmHistoryResponse = response.body()!!
+
+                    // 서버 response 중 code 값에 따른 결과
+                    when (resp.code) {
+                        1000 -> {
+                            // 알림 0개인 경우
+                            if(resp.result.size == 0) {
+                                viewBinding.imageButtonAlarm.setImageResource(R.drawable.ic_activity_vibe_main_alarm)
+                            } else {
+                                viewBinding.imageButtonAlarm.setImageResource(R.drawable.ic_activity_vibe_main_alarm_new)
+                            }
+                        }
+                        else -> Log.d(
+                            "[VIBE] GET_ALARM_LIST/FAILURE",
+                            "${resp.code} / ${resp.message}"
+                        )
+                    }
+                }
+
+                override fun onFailure(call: Call<GetAlarmHistoryResponse>, t: Throwable) {
+                    Log.d("[VIBE] GET_ALARM_LIST/FAILURE", t.message.toString())
+                }
+            })
     }
 
 

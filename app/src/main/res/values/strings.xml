@@ -48,7 +48,10 @@
     <string name="vibe_search_hashtag">#해시태그 검색</string>
 
     <!-- [VIBE] 태그별 더보기 -->
-    <string name="vibe_detail_no_posts">게시물이 없습니다.</string>
+    <string name="vibe_detail_no_posts">게시물이 없습니다</string>
+
+    <!-- [VIBE] 활동 내역 -->
+    <string name="mypage_alarm_no_alarms">활동 내역이 없습니다</string>
 
     <!--[마이페이지] 메뉴-->
     <string name="mypage_post_menu_edit">수정하기</string>
