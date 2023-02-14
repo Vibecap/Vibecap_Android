@@ -99,6 +99,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
+            android:textSize="14dp"
+            android:background="@color/transparent"
             android:hint="제목을 입력해보세요"
             android:textStyle="bold" />
 
@@ -110,8 +112,9 @@
             android:layout_alignEnd="@+id/common_post_title"
             android:layout_alignBottom="@+id/common_post_title"
             android:layout_gravity="right"
-            android:layout_marginEnd="2dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:textSize="12dp"
             android:text="0/32" />
 
         <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -145,6 +148,7 @@
             android:layout_marginEnd="10dp"
             android:background="@color/transparent"
             android:gravity="top"
+            android:textSize="14sp"
             android:hint="🎄글을 입력해보세요 "
             android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
@@ -156,9 +160,9 @@
             android:id="@+id/common_post_body_count"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
             android:textAlignment="center"
             android:text="0/140"
+            android:textSize="10dp"
             app:layout_constraintStart_toEndOf="@+id/common_post_body"
             app:layout_constraintTop_toTopOf="@+id/common_post_body" />
 

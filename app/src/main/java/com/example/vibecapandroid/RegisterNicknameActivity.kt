@@ -41,6 +41,10 @@ class RegisterNicknameActivity : AppCompatActivity() {
         var boxCheck=false
         var nicknameCheck=false
 
+        viewBinding.activityRegisterNicknameBack.setOnClickListener(){
+            finish()
+        }
+
         viewBinding.activityRegisterNicknameNext.isEnabled=false
         fun Register(){
             if(boxCheck&&nicknameCheck) {

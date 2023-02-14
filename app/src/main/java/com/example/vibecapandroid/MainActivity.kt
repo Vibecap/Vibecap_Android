@@ -66,7 +66,7 @@ import java.time.LocalDateTime
 public lateinit var userToken:String
 public var arrayList:ArrayList<com.example.vibecapandroid.coms.HistoryMainImageClass>?=null
 public var MEMBER_ID:Long=0
-
+var setOnlyUseImageOnCapture:Boolean=false
 
 
 val retrofit: Retrofit = Retrofit.Builder()
@@ -223,6 +223,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("Member_ID","${MEMBER_ID}")
             setDataInList()
             getProfileImage()
+            setOnlyUseImageOnCapture=getSharedPreferences("sharedprefs",Context.MODE_PRIVATE).getBoolean("setImageOnly",false)
         }
         setTheme(R.style.Theme_VibecapAndroid)
         setContentView(viewBinding.root)
