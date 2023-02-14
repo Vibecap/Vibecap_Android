@@ -2,7 +2,6 @@ package com.example.vibecapandroid
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -140,6 +139,9 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
                             )
                             else -> getPostView.onGetPostFailure(resp.code, resp.message)
                         }
+                    } else {
+                        Toast.makeText(this@VibePostActivity, "게시물 조회가 불가능합니다.", Toast.LENGTH_SHORT).show()
+                        finish()
                     }
                 }
 
@@ -270,6 +272,7 @@ class VibePostActivity : AppCompatActivity(), GetPostView, SetLikeView, SetScrap
         val beginIdx = result.youtubeLink.indexOf("watch?v=")
         val endIdx = result.youtubeLink.length
         val videoId = result.youtubeLink.substring(beginIdx + 8, endIdx)
+
         val youTubePlayerView: YouTubePlayerView =binding.vibePostYoutubePlayerView
         //lifecycle.addObserver(youTubePlayerView)
 

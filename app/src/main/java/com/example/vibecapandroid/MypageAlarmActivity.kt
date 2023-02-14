@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
+import android.view.View
 import com.example.vibecapandroid.coms.*
 import com.example.vibecapandroid.databinding.ActivityMypageAlarmBinding
 import com.example.vibecapandroid.utils.getRetrofit
@@ -76,7 +76,12 @@ class MypageAlarmActivity : AppCompatActivity() {
                     // 서버 response 중 code 값에 따른 결과
                     when (resp.code) {
                         1000 -> {
+                            if(resp.result.isEmpty()) {
+                                binding.mypageAlarmEmptyTv.visibility = View.VISIBLE
+                            } else {
+                                binding.mypageAlarmEmptyTv.visibility = View.GONE
                                 mypageAlarmRVAdapter.setPosts(resp.result)
+                            }
                         }
                         else -> Log.d(
                             "[MYPAGE] GET_ALARM_LIST/FAILURE",
@@ -107,13 +112,7 @@ class MypageAlarmActivity : AppCompatActivity() {
 
                     // 서버 response 중 code 값에 따른 결과
                     when (resp.code) {
-                        1000 -> {
-                            Toast.makeText(
-                                this@MypageAlarmActivity,
-                                "알림을 읽었습니다.",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                        1000 -> {}
                         else -> Log.d(
                             "[MYPAGE] DELETE_ALARM/FAILURE",
                             "${resp.code} / ${resp.message}"
