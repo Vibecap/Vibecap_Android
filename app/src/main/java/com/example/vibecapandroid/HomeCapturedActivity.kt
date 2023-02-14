@@ -1,4 +1,5 @@
 package com.example.vibecapandroid
+
 import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
@@ -31,15 +32,16 @@ import java.time.format.DateTimeFormatter
 
 
 class HomeCapturedActivity : AppCompatActivity() {
-    var vibe_id : Long?= null
-    var video_id:String? = null
-    var imagebitmap:Bitmap? = null
+    var vibe_id: Long? = null
+    var video_id: String? = null
+    var imagebitmap: Bitmap? = null
     var youtube_link: String? = null
-     var realUri:Uri?=null
+    var realUri: Uri? = null
 
-    private val viewBinding: ActivityHomeCapturedBinding by lazy{
+    private val viewBinding: ActivityHomeCapturedBinding by lazy {
         ActivityHomeCapturedBinding.inflate(layoutInflater)
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -48,7 +50,7 @@ class HomeCapturedActivity : AppCompatActivity() {
         setContentView(view)
 
         //button youtube GONE
-        viewBinding.btYoutube.visibility= View.GONE
+        //viewBinding.btYoutube.visibility = View.GONE
 
         //progress bar start
         showProgressbar(true)
@@ -58,21 +60,21 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         //button setonClickListener
         //play on youtube button
-        viewBinding.btYoutube.setOnClickListener{
-            var intent: Intent = createPlayVideoIntent(this,video_id )
-            startActivity( intent );
-        }
+        /*viewBinding.btYoutube.setOnClickListener {
+            var intent: Intent = createPlayVideoIntent(this, video_id)
+            startActivity(intent);
+        }*/
 
         //home button
-        viewBinding.btHome.setOnClickListener{
+        viewBinding.btHome.setOnClickListener {
             val nextIntent = Intent(this, MainActivity::class.java)
-            val fragcode=intent.extras?.getInt("frag_code")
+            val fragcode = intent.extras?.getInt("frag_code")
             nextIntent.putExtra("frag_code", fragcode)
             startActivity(nextIntent)
             super.finish()
         }
         //share button
-        viewBinding.btShare.setOnClickListener{
+        viewBinding.btShare.setOnClickListener {
             val intent = Intent(Intent.ACTION_SEND).apply {
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, youtube_link)
@@ -81,21 +83,21 @@ class HomeCapturedActivity : AppCompatActivity() {
 
         }
         //post button
-        viewBinding.btWrite.setOnClickListener{
-            if(vibe_id!=null){
+        viewBinding.btWrite.setOnClickListener {
+            if (vibe_id != null) {
                 val nextIntent = Intent(this, CommonPostActivity::class.java)
                 //nextIntent.putExtra("video_id",video_id)
                 nextIntent.putExtra("vibe_id", vibe_id!!.toInt())
 
                 startActivity(nextIntent)
-            }
-            else{
-                Toast.makeText(applicationContext, "서버에 저장되어있는 사진이 없습니다", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(applicationContext, "서버에 저장되어있는 사진이 없습니다", Toast.LENGTH_SHORT)
+                    .show();
             }
         }
 
         //delete button
-        viewBinding.btDelete.setOnClickListener{
+        viewBinding.btDelete.setOnClickListener {
             deletePhoto()
         }
 
@@ -110,13 +112,13 @@ class HomeCapturedActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         val nextIntent = Intent(this, MainActivity::class.java)
-        val fragcode=intent.extras?.getInt("frag_code")
+        val fragcode = intent.extras?.getInt("frag_code")
         nextIntent.putExtra("frag_code", fragcode)
         startActivity(nextIntent)
         super.finish()
     }
 
-    private fun youtubefragmentshow(){
+    private fun youtubefragmentshow() {
         var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
         var bundle = Bundle()
         bundle.putString("VIDEO_ID", video_id)
@@ -132,14 +134,14 @@ class HomeCapturedActivity : AppCompatActivity() {
     }
 
 
-    private fun showProgressbar(isShow: Boolean){
-        if(isShow) viewBinding.progressBar.visibility = View.VISIBLE
+    private fun showProgressbar(isShow: Boolean) {
+        if (isShow) viewBinding.progressBar.visibility = View.VISIBLE
         else {
             viewBinding.progressBar.visibility = View.GONE
-            viewBinding.btDelete.visibility=View.VISIBLE
-            viewBinding.btYoutube.visibility= View.VISIBLE
-            viewBinding.btShare.visibility=View.VISIBLE
-            viewBinding.btWrite.visibility =View.VISIBLE
+            viewBinding.btDelete.visibility = View.VISIBLE
+            viewBinding.btYoutube.visibility = View.VISIBLE
+            viewBinding.btShare.visibility = View.VISIBLE
+            viewBinding.btWrite.visibility = View.VISIBLE
 
         }
 
@@ -147,15 +149,15 @@ class HomeCapturedActivity : AppCompatActivity() {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun timing():String{
-        var result :String
+    private fun timing(): String {
+        var result: String
         val current = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("MM")
         val formatted = current.format(formatter)
-        Log.d("파일",formatted.toString())
-        when(formatted.toInt()) {
+        Log.d("파일", formatted.toString())
+        when (formatted.toInt()) {
             in 1..2 -> result = "겨울 "
-            12 -> result = "겨울"
+            12 -> result = "겨울 "
             in 3..5 -> result = "봄 "
             in 6..8 -> result = "여름 "
             in 9..11 -> result = "가을 "
@@ -165,18 +167,17 @@ class HomeCapturedActivity : AppCompatActivity() {
         val formatter2 = DateTimeFormatter.ofPattern("HH")
         val formatted2 = current.format(formatter2)
 
-
-        when(formatted2.toInt()){
+        when (formatted2.toInt()) {
             in 6..12 -> result = result + "아침"
-            in 12..14 -> result = result +"낮"
+            in 12..14 -> result = result + "낮"
             in 14..18 -> result = result + "오후"
-            in 18 .. 21 -> result = result +"저녁"
-            in 21.. 24-> result = result +"밤"
-            in 0.. 2-> result = result +"밤"
-            in 2..6 -> result = result +"새벽"
-            else -> result = result +""
+            in 18..21 -> result = result + "저녁"
+            in 21..24 -> result = result + "밤"
+            in 0..2 -> result = result + "밤"
+            in 2..6 -> result = result + "새벽"
+            else -> result = result + ""
         }
-        Log.d("resulttime",result)
+        Log.d("resulttime", result)
         return result
     }
 
@@ -191,48 +192,57 @@ class HomeCapturedActivity : AppCompatActivity() {
 //        return result!!
 //    }
 
-  /*  private fun downloadPhoto(){
-        //imagebitmap = intent.getParcelableExtra<Bitmap>("imagebitmap")
-        saveFile(RandomFileName(), "image/jpeg", imagebitmap!!) // 휴대폰 local db 에 저장
-        Log.d("파일", "파일저장 완료")
-        Toast.makeText(applicationContext, "사진 다운로드 성공", Toast.LENGTH_SHORT).show();
-    }*/
+    /*  private fun downloadPhoto(){
+          //imagebitmap = intent.getParcelableExtra<Bitmap>("imagebitmap")
+          saveFile(RandomFileName(), "image/jpeg", imagebitmap!!) // 휴대폰 local db 에 저장
+          Log.d("파일", "파일저장 완료")
+          Toast.makeText(applicationContext, "사진 다운로드 성공", Toast.LENGTH_SHORT).show();
+      }*/
 
-    private fun deletePhoto(){
+    private fun deletePhoto() {
         //base url 설정
         val apiService = retrofit.create(HomeApiInterface::class.java)
         apiService.deletephoto(
             userToken, vibe_id
 
         ).enqueue(object : Callback<DeleteResponse> {
-            override fun onResponse(call: Call<DeleteResponse>, response: Response<DeleteResponse>) {
+            override fun onResponse(
+                call: Call<DeleteResponse>,
+                response: Response<DeleteResponse>
+            ) {
                 val responseData = response.body()
                 Log.d(
                     "deletephoto",
-                    "deletephoto\n"+
+                    "deletephoto\n" +
                             "isSuccess:${responseData?.is_success}\n " +
                             "Code: ${responseData?.code} \n" +
-                            "Message:${responseData?.message} \n" )
-                if (responseData?.is_success==true) {
-                    when(response.body()?.code){
-                        1000 ->{
-                            vibe_id =null
-                            Log.d("레트로핏",responseData.result)
-                            Toast.makeText(applicationContext, "사진 삭제 성공", Toast.LENGTH_SHORT).show();
+                            "Message:${responseData?.message} \n"
+                )
+                if (responseData?.is_success == true) {
+                    when (response.body()?.code) {
+                        1000 -> {
+                            vibe_id = null
+                            Log.d("레트로핏", responseData.result)
+                            Toast.makeText(applicationContext, "사진 삭제 성공", Toast.LENGTH_SHORT)
+                                .show();
                         }
                         2100 -> {
-                            Log.d ("레트로핏","해당 바이브에 대한 접근 권한이 없습니다" )
+                            Log.d("레트로핏", "해당 바이브에 대한 접근 권한이 없습니다")
                         }
                     }
-                }
-                else {
-                    Toast.makeText(applicationContext, "해당 사진이 이미 서버에서 삭제 되었습니다", Toast.LENGTH_SHORT).show()
-                    Log.d("레트로핏","Response Not Success ${response.code()}")
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "해당 사진이 이미 서버에서 삭제 되었습니다",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    Log.d("레트로핏", "Response Not Success ${response.code()}")
                 }
 
             }
+
             override fun onFailure(call: Call<DeleteResponse>, t: Throwable) {
-                Log.d("레트로핏","레트로핏 호출 실패" +t.message.toString())
+                Log.d("레트로핏", "레트로핏 호출 실패" + t.message.toString())
             }
         })
 
@@ -278,76 +288,91 @@ class HomeCapturedActivity : AppCompatActivity() {
         return uri
     }*/
     //원본 이미지를 불러오는 메소드
-    fun loadBitmap(photoUri:Uri):Bitmap?{
-        var image:Bitmap?=null
-        try{
-            if(Build.VERSION.SDK_INT>Build.VERSION_CODES.O_MR1){
-                val source= ImageDecoder.createSource(contentResolver,photoUri)
-                image=  ImageDecoder.decodeBitmap(source)
-            }else{
-                image= MediaStore.Images.Media.getBitmap(contentResolver,photoUri)
+    fun loadBitmap(photoUri: Uri): Bitmap? {
+        var image: Bitmap? = null
+        try {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O_MR1) {
+                val source = ImageDecoder.createSource(contentResolver, photoUri)
+                image = ImageDecoder.decodeBitmap(source)
+            } else {
+                image = MediaStore.Images.Media.getBitmap(contentResolver, photoUri)
             }
-        }catch (e:Exception){
+        } catch (e: Exception) {
             e.printStackTrace()
         }
-        Log.d("imageload","$image")
+        Log.d("imageload", "$image")
         return image
     }
 
 
-
     //유튜브 출력
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun Youtubeplay(){
-        realUri=intent.getParcelableExtra("image_uri")
-        Log.d("RealURI","$realUri")
-        imagebitmap=loadBitmap(realUri!!)
+    private fun Youtubeplay() {
+        realUri = intent.getParcelableExtra("image_uri")
+        //Log.d("RealURI", "$realUri")
+        imagebitmap = loadBitmap(realUri!!)
 
-        Log.d("imageBitMAP","$imagebitmap")
+        val apiService = retrofit.create(HomeApiInterface::class.java)
+
+       // Log.d("imageBitMAP", "$imagebitmap")
         val fileName = "VibeCap_Photo" + ".jpg"
-        Log.d("imagebitmap",imagebitmap.toString())
+       // Log.d("imagebitmap", imagebitmap.toString())
         val stream = ByteArrayOutputStream()
         imagebitmap?.compress(Bitmap.CompressFormat.JPEG, 100, stream)
 
         val byteArray = stream.toByteArray()
         val body = RequestBody.create(MediaType.parse("image/*"), byteArray, 0, byteArray.size)
-        var image: MultipartBody.Part = MultipartBody.Part.createFormData("image_file", fileName ,body)
-        Log.d("파일",image.toString())
+        var image: MultipartBody.Part =
+            MultipartBody.Part.createFormData("image_file", fileName, body)
+        //Log.d("파일", image.toString())
         var time: String = timing() //계절 및 시간
-        Log.d("키워드", time+ " "+ feeling)
+        //Log.d("키워드", time + " " + feeling)
 
         //base url 설정
-        val apiService = retrofit.create(HomeApiInterface::class.java)
-        Log.d("따음표",time +" "+ feeling)
-        apiService.postCapture(
-            userToken, MEMBER_ID, time +" "+ feeling, // 계절 +시간 날씨 기분 -> api 통해서 가져와야함
-            image
-        )
-            .enqueue(object : Callback<CaptureResponse> {
-                override fun onResponse(call: Call<CaptureResponse>, response: Response<CaptureResponse>) {
+
+        if (setOnlyUseImageOnCapture) {
+            Toast.makeText(
+                getApplicationContext(),
+                "사진 우선 인식 모드 입니다.",
+                Toast.LENGTH_SHORT
+            ).show();
+            apiService.postCapture(
+                userToken, MEMBER_ID, " "+" "+" "+feeling, // 계절 +시간  기분 -> api 통해서 가져와야함
+                image
+            ).enqueue(object : Callback<CaptureResponse> {
+                override fun onResponse(
+                    call: Call<CaptureResponse>,
+                    response: Response<CaptureResponse>
+                ) {
                     val responseData = response.body()
                     Log.d(
                         "postCapture",
-                        "postCapture\n"+
+                        "postCapture\n" +
                                 "isSuccess:${responseData?.is_success}\n " +
                                 "Code: ${responseData?.code} \n" +
-                                "Message:${responseData?.message} \n" )
-                    if (responseData?.is_success==true) {
-                        when(response.body()?.code){
-                            1000 ->{
-                                Toast.makeText(getApplicationContext(), "File Uploaded Successfully...", Toast.LENGTH_SHORT).show();
-                                Log.d("레트로핏","이미지 전송 성공")
+                                "Message:${responseData?.message} \n"
+                    )
+                    if (responseData?.is_success == true) {
+                        when (response.body()?.code) {
+                            1000 -> {
+
+                                //Log.d("레트로핏", "이미지 전송 성공")
                                 video_id = response.body()!!.result.video_id
                                 vibe_id = response.body()!!.result.vibe_id
                                 youtube_link = response.body()!!.result.youtube_link
-                                Log.d("레트로핏",video_id+" "+ youtube_link)
+                                //  Log.d("레트로핏", video_id + " " + youtube_link)
+
                                 var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
                                 var bundle = Bundle()
                                 bundle.putString("VIDEO_ID", video_id)
                                 YoutubePlayerFragment.arguments = bundle
                                 supportFragmentManager.beginTransaction()
-                                    .replace(R.id.home_captured_you_tube_player_view, YoutubePlayerFragment)
+                                    .replace(
+                                        R.id.home_captured_you_tube_player_view,
+                                        YoutubePlayerFragment
+                                    )
                                     .commitNow()
+
                                 //progresss bar 종료
                                 runOnUiThread {
                                     showProgressbar(false)
@@ -356,7 +381,7 @@ class HomeCapturedActivity : AppCompatActivity() {
                             }
 
                             3500 -> {
-                                Log.d ("레트로핏","이미지 전송 실패 -> 사진 용량 제한 : 7MB" )
+                                Log.d("레트로핏", "이미지 전송 실패 -> 사진 용량 제한 : 7MB")
                             }
                             3502 -> {
                                 Log.d("레트로핏", "외부 API 호출 실패 -> youtube,vision api 관련 에러 ")
@@ -364,17 +389,94 @@ class HomeCapturedActivity : AppCompatActivity() {
                         }
 
                     } else {
-                        Log.d("레트로핏",response.body().toString())
-                        Toast.makeText(getApplicationContext(), "예기치 못한 오류가 일어났습니다..", Toast.LENGTH_LONG).show();
-                        Log.d("레트로핏","Response Not Success ${response.code()}")
+                        Log.d("레트로핏", response.body().toString())
+                        Toast.makeText(
+                            getApplicationContext(),
+                            "예기치 못한 오류가 일어났습니다..",
+                            Toast.LENGTH_LONG
+                        ).show();
+                        Log.d("레트로핏", "Response Not Success ${response.code()}")
                     }
                 }
+
                 override fun onFailure(call: Call<CaptureResponse>, t: Throwable) {
-                    Log.d("레트로핏","레트로핏 호출 실패" +t.message.toString())
+                    Log.d("레트로핏", "레트로핏 호출 실패" + t.message.toString())
                 }
             })
+        } else {
+          //  Log.d("따음표", time + " " + feeling)
+            Toast.makeText(
+                getApplicationContext(),
+                "사진 및 바이브 인식 모드 입니다.",
+                Toast.LENGTH_SHORT
+            ).show();
+            apiService.postCapture(
+                userToken, MEMBER_ID, time + " " + feeling, // 계절 +시간 날씨 기분 -> api 통해서 가져와야함
+                image
+            ).enqueue(object : Callback<CaptureResponse> {
+                    override fun onResponse(
+                        call: Call<CaptureResponse>,
+                        response: Response<CaptureResponse>
+                    ) {
+                        val responseData = response.body()
+                        Log.d(
+                            "postCapture",
+                            "postCapture\n" +
+                                    "isSuccess:${responseData?.is_success}\n " +
+                                    "Code: ${responseData?.code} \n" +
+                                    "Message:${responseData?.message} \n"
+                        )
+                        if (responseData?.is_success == true) {
+                            when (response.body()?.code) {
+                                1000 -> {
+
+                                    //Log.d("레트로핏", "이미지 전송 성공")
+                                    video_id = response.body()!!.result.video_id
+                                    vibe_id = response.body()!!.result.vibe_id
+                                    youtube_link = response.body()!!.result.youtube_link
+                                  //  Log.d("레트로핏", video_id + " " + youtube_link)
+
+                                    var YoutubePlayerFragment = YoutubePlayerFragment.newInstance()
+                                    var bundle = Bundle()
+                                    bundle.putString("VIDEO_ID", video_id)
+                                    YoutubePlayerFragment.arguments = bundle
+                                    supportFragmentManager.beginTransaction()
+                                        .replace(
+                                            R.id.home_captured_you_tube_player_view,
+                                            YoutubePlayerFragment
+                                        )
+                                        .commitNow()
+
+                                    //progresss bar 종료
+                                    runOnUiThread {
+                                        showProgressbar(false)
+                                      //  viewBinding.btYoutube.visibility = View.VISIBLE
+                                    }
+                                }
+
+                                3500 -> {
+                                    Log.d("레트로핏", "이미지 전송 실패 -> 사진 용량 제한 : 7MB")
+                                }
+                                3502 -> {
+                                    Log.d("레트로핏", "외부 API 호출 실패 -> youtube,vision api 관련 에러 ")
+                                }
+                            }
+
+                        } else {
+                            Log.d("레트로핏", response.body().toString())
+                            Toast.makeText(
+                                getApplicationContext(),
+                                "예기치 못한 오류가 일어났습니다..",
+                                Toast.LENGTH_LONG
+                            ).show();
+                            Log.d("레트로핏", "Response Not Success ${response.code()}")
+                        }
+                    }
+
+                    override fun onFailure(call: Call<CaptureResponse>, t: Throwable) {
+                        Log.d("레트로핏", "레트로핏 호출 실패" + t.message.toString())
+                    }
+                })
+        }
     }
-
-
-
 }

@@ -26,7 +26,9 @@ class RegisterPasswordActivity:AppCompatActivity() {
         val email = intent.extras!!.getString("Email") /*String형*/
         var check =false
         var patterncheck=false
-
+        viewBinding.activityRegisterPasswordBack.setOnClickListener(){
+            finish()
+        }
 
         viewBinding.activityRegisterPasswordSet.addTextChangedListener(object :TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

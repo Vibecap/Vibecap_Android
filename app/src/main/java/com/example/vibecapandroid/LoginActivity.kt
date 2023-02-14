@@ -123,7 +123,6 @@ class LoginActivity : AppCompatActivity() {
         viewBinding.activityLoginRegisterbtn.setOnClickListener() {
             val intent = Intent(this@LoginActivity, RegisterEmailActivity::class.java)
             startActivity(intent)
-            finish()
         }
     }
     private var waitTime = 0L

@@ -13,6 +13,13 @@ interface HomeApiInterface {
         @Part image_file : MultipartBody.Part
     ): Call<CaptureResponse>
 
+    @Multipart
+    @POST("app/vibe/capture-from-gallery")
+    fun postOnlyImageCapture(
+        @Header("X-AUTH-TOKEN") jwt: String,
+        @Part("member_id") member_id : Long,
+        @Part image_file : MultipartBody.Part
+    ): Call<CaptureResponse>
 
     @POST("app/vibe/capture-without-image")
     fun postWithoutImage(

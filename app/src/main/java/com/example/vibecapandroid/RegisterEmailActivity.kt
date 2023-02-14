@@ -37,6 +37,10 @@ class RegisterEmailActivity:AppCompatActivity() {
         val apiService=retrofit.create(LoginApiInterface::class.java)
         val pattern: Pattern = Patterns.EMAIL_ADDRESS
 
+        viewBinding.activityRegisterEmailBack.setOnClickListener(){
+            finish()
+        }
+
         viewBinding.activityRegisterEmailSet.addTextChangedListener() {
             if (pattern.matcher(viewBinding.activityRegisterEmailSet.text.toString()).matches()) {
                 apiService.getEmailSameCheck(viewBinding.activityRegisterEmailSet.text.toString())
